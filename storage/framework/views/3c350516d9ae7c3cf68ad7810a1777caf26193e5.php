@@ -14,6 +14,12 @@
                             <div class="row">
                                 <div class="col-md-6 col-lg-6">
                                     <h4> Departamentos </h4>
+                                    <?php if(Session::has('message')): ?>
+                                        <div class="alert alert-success alert-dismissable">
+                                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                                            <strong><?php echo e(Session::get('message')); ?></strong>
+                                        </div>
+                                    <?php endif; ?>                                    
                                 </div>
                                 <div class="col-md-6 col-lg-6">
                                     <?php echo Form::open(['route' => 'departamento.create', 'method' => 'GET']); ?>
@@ -21,7 +27,7 @@
                                         <button type="submit" class="btn btn-success" style="float: right">Ingresar  <i class="fa fa-plus"></i></button>
                                     <?php echo Form::close(); ?>
 
-                               </div>
+                                </div>
                            </div>
                         </div>
                         <!-- /.panel-heading -->
@@ -33,15 +39,24 @@
                                         <th>Nombre</th>
                                         <th>Descripción</th>
                                         <th>Facultad</th>
+                                        <th>Editar</th>
+                                        <th>Eliminar</th>                                           
                                     </tr>
                                 </thead>
                                 <tbody>
                                 <?php foreach($departamentos as $departamento): ?>
-                                    <tr class="text-center">
+                                    <tr class="text-center" data-id="<?php echo e($departamento->id); ?>">
                                         <td class="center"><?php echo e($departamento->id); ?></td>
                                         <td class="center"><?php echo e($departamento->nombre); ?></td>
                                         <td class="center"><?php echo e($departamento->descripcion); ?></td>
                                         <td class="center"><?php echo e($departamento->facultad); ?></td>
+                                        <td class="center"><a href="<?php echo e(route('departamento.edit',$departamento->id)); ?>"><i class="fa fa-edit"></i></a></td>
+                                        <td class="center"><a href="#!" class="btn-delete"><i class="fa fa-trash"></i></a>
+                                        <?php echo Form::open(['route' => ['departamento.destroy', ':DEPARTAMENTO_ID'], 'method' => 'DELETE', 'id' => 'form-delete']); ?>
+
+                                        <?php echo Form::close(); ?>
+
+                                        </td>                                         
                                     </tr>
                                 <?php endforeach; ?>
                                 </tbody>
@@ -69,6 +84,27 @@ $(document).ready(function() {
     $('#dataTables-example').DataTable({
         responsive: true
     });
+
+    $('.btn-delete').click(function(e){
+        // e.preventDefault(); para evitar que recargue la pagina
+        var row = $(this).parents('tr');
+        var id = row.data('id');
+        var form = $('#form-delete');
+        var url = form.attr('action').replace(':DEPARTAMENTO_ID', id);
+        var data = form.serialize();
+
+        $.post(url, data, function(result){
+        // alert(result.message);
+          if(result == 'ok')
+            row.fadeOut();
+          if(result == 'fail')
+           console.log('El registro no fue eliminado');
+        }).fail(function(){
+           console("fail: El registro no fue eliminado");
+           row.show();
+        });
+
+    });    
 });
 </script>
 

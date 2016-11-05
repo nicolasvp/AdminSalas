@@ -4,15 +4,15 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use Illuminate\Support\Facades\Session;
-
 use App\Http\Requests;
 
-use App\Departamento;
+use Illuminate\Support\Facades\Session;
 
-use App\Facultad;
+use App\Carrera;
 
-class DepartamentoController extends Controller
+use App\Escuela;
+
+class CarreraController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -21,11 +21,11 @@ class DepartamentoController extends Controller
      */
     public function index()
     {
-        $departamentos = Departamento::join('facultades','facultades.id','=','departamentos.facultad_id')
-                        ->select('departamentos.*','facultades.nombre as facultad')
-                        ->get();
+        $carreras = Carrera::join('escuelas','escuelas.id','=','carreras.escuela_id')
+                            ->select('carreras.*','escuelas.nombre as escuela')
+                            ->get();
 
-        return view('departamento/index',compact('departamentos'));
+        return view('carrera/index',compact('carreras'));
     }
 
     /**
@@ -35,9 +35,9 @@ class DepartamentoController extends Controller
      */
     public function create()
     {
-        $facultades = Facultad::all('id','nombre');
+        $escuelas = Escuela::all('id','nombre');
 
-        return view('departamento/create',compact('facultades'));
+        return view('carrera/create',compact('escuelas'));
     }
 
     /**
@@ -48,13 +48,14 @@ class DepartamentoController extends Controller
      */
     public function store(Request $request)
     {
-        Departamento::create([
-            'nombre' => $request->get('nombre'),
-            'facultad_id' => $request->get('facultad'),
-            'descripcion' => $request->get('descripcion')
+        Carrera::create([
+                'escuela_id' => $request->get('escuela'),
+                'codigo' => $request->get('codigo'),
+                'nombre' => $request->get('nombre'),
+                'descripcion' => $request->get('descripcion')
             ]);
 
-        return redirect()->route('departamento.index');
+        return redirect()->route('carrera.index');
     }
 
     /**
@@ -76,11 +77,11 @@ class DepartamentoController extends Controller
      */
     public function edit($id)
     {
-        $departamento = Departamento::find($id);
+        $carrera = Carrera::find($id);
 
-        $facultades = Facultad::all('id','nombre');
+        $escuelas = Escuela::all('id','nombre');
 
-        return view('departamento/edit',compact('facultades','departamento'));
+        return view('carrera/edit',compact('carrera','escuelas'));
     }
 
     /**
@@ -92,17 +93,18 @@ class DepartamentoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $departamento = Departamento::find($id);
+        $carrera = Carrera::find($id);
 
-        $departamento->nombre = $request->get('nombre');
-        $departamento->facultad_id = $request->get('facultad');
-        $departamento->descripcion = $request->get('descripcion');
+        $carrera->escuela_id = $request->get('escuela');
+        $carrera->codigo = $request->get('codigo');
+        $carrera->nombre = $request->get('nombre');
+        $carrera->descripcion = $request->get('descripcion');
 
-        $departamento->save();
+        $carrera->save();
 
-        Session::flash('message', 'El Departamento ' .$departamento->nombre.' ha sido actualizado');
+        Session::flash('message', 'La Carrera ' .$carrera->nombre.' ha sido actualizada');
 
-        return redirect()->route('departamento.index');
+        return redirect()->route('carrera.index');
     }
 
     /**
@@ -111,15 +113,15 @@ class DepartamentoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request, $id)
+    public function destroy(Request $request,$id)
     {
         if($request->ajax()){
 
-            $departamento = Departamento::find($id);
+            $carrera = Carrera::find($id);
        
-            if($departamento)// Si está el registro
+            if($carrera)// Si está el registro
             {
-                $departamento->delete();
+                $carrera->delete();
                 return response()->json('ok');
             }
             else

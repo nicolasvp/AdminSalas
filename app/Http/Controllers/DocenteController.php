@@ -8,9 +8,11 @@ use Illuminate\Support\Facades\Session;
 
 use App\Http\Requests;
 
-use App\Usuario;
+use App\Docente;
 
-class UsuarioController extends Controller
+use App\Departamento;
+
+class DocenteController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,9 +21,11 @@ class UsuarioController extends Controller
      */
     public function index()
     {
-        $usuarios = Usuario::all();
+        $docentes = Docente::join('departamentos','departamentos.id','=','docentes.departamento_id')
+                                ->select('docentes.*','departamentos.nombre as departamento')
+                                ->get();
 
-        return view('usuario/index',compact('usuarios'));
+        return view('docente/index',compact('docentes'));        
     }
 
     /**
@@ -31,7 +35,9 @@ class UsuarioController extends Controller
      */
     public function create()
     {
-        return view('usuario/create');
+        $departamentos = Departamento::all('id','nombre');
+
+        return view('docente/create',compact('departamentos'));
     }
 
     /**
@@ -42,14 +48,15 @@ class UsuarioController extends Controller
      */
     public function store(Request $request)
     {
-        Usuario::create([
-            'rut' => $request->get('rut'),
-            'email' => $request->get('email'),
-            'nombres' => $request->get('nombres'),
-            'apellidos' => $request->get('apellidos')
+        Docente::create([
+                'departamento_id' => $request->get('departamento'),
+                'rut' => $request->get('rut'),
+                'nombres' => $request->get('nombres'),
+                'apellidos' => $request->get('apellidos'),
+                'email' => $request->get('email')
             ]);
 
-        return redirect()->route('usuario.index');
+        return redirect()->route('docente.index');
     }
 
     /**
@@ -71,9 +78,11 @@ class UsuarioController extends Controller
      */
     public function edit($id)
     {
-        $usuario = Usuario::find($id);
+        $docente = Docente::find($id);
 
-        return view('usuario/edit',compact('usuario'));
+        $departamentos = Departamento::all('id','nombre');
+
+        return view('docente/edit',compact('docente','departamentos'));
     }
 
     /**
@@ -85,18 +94,19 @@ class UsuarioController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $usuario = Usuario::find($id);
+        $docente = Docente::find($id);
 
-        $usuario->rut = $request->get('rut');
-        $usuario->email = $request->get('email');
-        $usuario->nombres = $request->get('nombres');
-        $usuario->apellidos = $request->get('apellidos');
+        $docente->departamento_id = $request->get('departamento');
+        $docente->rut = $request->get('rut');
+        $docente->nombres = $request->get('nombres');
+        $docente->apellidos = $request->get('apellidos');
+        $docente->email = $request->get('email');
 
-        $usuario->save();
+        $docente->save();
 
-        Session::flash('message', 'El usuario ' .$usuario->nombres.' '.$usuario->apellidos.' ha sido actualizado');
+        Session::flash('message', 'El Docente ' .$docente->nombres.' '.$docente->apellidos.' ha sido actualizado');
 
-        return redirect()->route('usuario.index');
+        return redirect()->route('docente.index');
     }
 
     /**
@@ -109,12 +119,11 @@ class UsuarioController extends Controller
     {
         if($request->ajax()){
 
-            $usuario = Usuario::find($id);
+            $docente = Docente::find($id);
        
-            if($usuario)// Si está el registro
+            if($docente)// Si está el registro
             {
-                $usuario->delete();
-              
+                $docente->delete();
                 return response()->json('ok');
             }
             else
@@ -123,6 +132,5 @@ class UsuarioController extends Controller
             }
 
         }
-
     }
 }

@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Session;
 use App\Http\Requests;
 
 use App\Campus;
+use App\Rol_usuario;
+use App\Roles;
 
 class CampusController extends Controller
 {
@@ -69,7 +71,10 @@ class CampusController extends Controller
      */
     public function edit($id)
     {
-        //
+        $campus = Campus::find($id);
+
+        return view('campus/edit',compact('campus'));
+       
     }
 
     /**
@@ -81,7 +86,18 @@ class CampusController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $campus = Campus::find($id);
+
+        $campus->nombre = $request->get('nombre');
+        $campus->direccion = $request->get('direccion');
+        $campus->descripcion = $request->get('descripcion');
+        $campus->rut_encargado = $request->get('rut_encargado');
+
+        $campus->save();
+
+        Session::flash('message', 'El Campus ' .$campus->nombre.' ha sido actualizado');
+
+        return redirect()->route('campus.index');
     }
 
     /**
@@ -90,8 +106,22 @@ class CampusController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
-        //
+        if($request->ajax()){
+
+            $campus = Campus::find($id);
+       
+            if($campus)// Si está el registro
+            {
+                $campus->delete();
+                return response()->json('ok');
+            }
+            else{
+                return response()->json('fail');       
+            }
+
+        }
+
     }
 }

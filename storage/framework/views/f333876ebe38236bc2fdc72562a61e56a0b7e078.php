@@ -166,6 +166,27 @@ a {
                             <a href="<?php echo e(route('escuela.index')); ?>"><i class="fa fa-cog"></i> Escuelas</a>
                         </li>
                         <li>
+                            <a href="<?php echo e(route('carrera.index')); ?>"><i class="fa fa-cog"></i> Carreras</a>
+                        </li>
+                        <li>
+                            <a href="<?php echo e(route('asignatura.index')); ?>"><i class="fa fa-cog"></i> Asignaturas</a>
+                        </li>
+                        <li>
+                            <a href="<?php echo e(route('docente.index')); ?>"><i class="fa fa-cog"></i> Docentes</a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-cog"></i> Cursos</a>
+                        </li>     
+                        <li>
+                            <a href="<?php echo e(route('rol.index')); ?>"><i class="fa fa-cog"></i> Roles</a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-cog"></i> Salas</a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-cog"></i> Horarios</a>
+                        </li>                                                                                            
+                        <li>
                             <a href="<?php echo e(route('usuario.index')); ?>"><i class="fa fa-cog"></i> Usuarios</a>
                         </li> 
                     </ul>

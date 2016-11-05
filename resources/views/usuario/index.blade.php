@@ -16,6 +16,12 @@
                             <div class="row">
                                 <div class="col-md-6 col-lg-6">
                                     <h4> Usuarios </h4>
+                                    @if(Session::has('message'))
+                                        <div class="alert alert-success alert-dismissable">
+                                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                                            <strong>{{ Session::get('message') }}</strong>
+                                        </div>
+                                    @endif                                    
                                 </div>
                                 <div class="col-md-6 col-lg-6">
                                     {!! Form::open(['route' => 'usuario.create', 'method' => 'GET']) !!}
@@ -33,15 +39,22 @@
                                         <th>Apellidos</th>
                                         <th>Nombres</th>
                                         <th>Email</th>
+                                        <th>Editar</th>
+                                        <th>Eliminar</th>                                           
                                     </tr>
                                 </thead>
                                 <tbody>
                                 @foreach($usuarios as $usuario)
-                                    <tr class="text-center">
+                                    <tr class="text-center" data-id="{{ $usuario->rut }}">
                                         <td class="center">{{ $usuario->rut }}</td>
                                         <td class="center">{{ $usuario->apellidos }}</td>
                                         <td class="center">{{ $usuario->nombres }}</td>
                                         <td class="center">{{ $usuario->email }}</td>
+                                        <td class="center"><a href="{{ route('usuario.edit',$usuario->rut)}}"><i class="fa fa-edit"></i></a></td>
+                                        <td class="center"><a href="#!" class="btn-delete"><i class="fa fa-trash"></i></a>
+                                        {!! Form::open(['route' => ['usuario.destroy', ':USUARIO_RUT'], 'method' => 'DELETE', 'id' => 'form-delete']) !!}
+                                        {!! Form::close() !!}
+                                        </td>                                         
                                     </tr>
                                 @endforeach
                                 </tbody>
@@ -69,6 +82,27 @@ $(document).ready(function() {
     $('#dataTables-example').DataTable({
         responsive: true
     });
+    $('.btn-delete').click(function(e){
+        // e.preventDefault(); para evitar que recargue la pagina
+        var row = $(this).parents('tr');
+        var id = row.data('id');
+        var form = $('#form-delete');
+        var url = form.attr('action').replace(':USUARIO_RUT', id);
+        var data = form.serialize();
+
+        $.post(url, data, function(result){
+        // alert(result.message);
+          if(result == 'ok')
+            row.fadeOut();
+          if(result == 'fail')
+           console.log('El registro no fue eliminado');
+        }).fail(function(){
+           console("fail: El registro no fue eliminado");
+           row.show();
+        });
+
+    });  
+
 });
 </script>
 

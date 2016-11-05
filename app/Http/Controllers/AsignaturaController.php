@@ -4,13 +4,15 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use Illuminate\Support\Facades\Session;
-
 use App\Http\Requests;
 
-use App\Usuario;
+use Illuminate\Support\Facades\Session;
 
-class UsuarioController extends Controller
+use App\Asignatura;
+
+use App\Departamento;
+
+class AsignaturaController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,9 +21,11 @@ class UsuarioController extends Controller
      */
     public function index()
     {
-        $usuarios = Usuario::all();
+        $asignaturas = Asignatura::join('departamentos','departamentos.id','=','asignaturas.departamento_id')
+                                ->select('asignaturas.*','departamentos.nombre as departamento')
+                                ->get();
 
-        return view('usuario/index',compact('usuarios'));
+        return view('asignatura/index',compact('asignaturas'));
     }
 
     /**
@@ -31,7 +35,9 @@ class UsuarioController extends Controller
      */
     public function create()
     {
-        return view('usuario/create');
+        $departamentos = Departamento::all('id','nombre');
+
+        return view('asignatura/create',compact('departamentos'));
     }
 
     /**
@@ -42,14 +48,14 @@ class UsuarioController extends Controller
      */
     public function store(Request $request)
     {
-        Usuario::create([
-            'rut' => $request->get('rut'),
-            'email' => $request->get('email'),
-            'nombres' => $request->get('nombres'),
-            'apellidos' => $request->get('apellidos')
+        Asignatura::create([
+                'departamento_id' => $request->get('departamento'),
+                'codigo' => $request->get('codigo'),
+                'nombre' => $request->get('nombre'),
+                'descripcion' => $request->get('descripcion')
             ]);
 
-        return redirect()->route('usuario.index');
+        return redirect()->route('asignatura.index');
     }
 
     /**
@@ -71,9 +77,11 @@ class UsuarioController extends Controller
      */
     public function edit($id)
     {
-        $usuario = Usuario::find($id);
+        $asignatura = Asignatura::find($id);
 
-        return view('usuario/edit',compact('usuario'));
+        $departamentos = Departamento::all('id','nombre');
+
+        return view('asignatura/edit',compact('asignatura','departamentos'));
     }
 
     /**
@@ -85,18 +93,18 @@ class UsuarioController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $usuario = Usuario::find($id);
+        $asignatura = Asignatura::find($id);
 
-        $usuario->rut = $request->get('rut');
-        $usuario->email = $request->get('email');
-        $usuario->nombres = $request->get('nombres');
-        $usuario->apellidos = $request->get('apellidos');
+        $asignatura->departamento_id = $request->get('departamento');
+        $asignatura->codigo = $request->get('codigo');
+        $asignatura->nombre = $request->get('nombre');
+        $asignatura->descripcion = $request->get('descripcion');
 
-        $usuario->save();
+        $asignatura->save();
 
-        Session::flash('message', 'El usuario ' .$usuario->nombres.' '.$usuario->apellidos.' ha sido actualizado');
+        Session::flash('message', 'La Asignatura ' .$asignatura->nombre.' ha sido actualizada');
 
-        return redirect()->route('usuario.index');
+        return redirect()->route('asignatura.index');
     }
 
     /**
@@ -109,12 +117,11 @@ class UsuarioController extends Controller
     {
         if($request->ajax()){
 
-            $usuario = Usuario::find($id);
+            $asignatura = Asignatura::find($id);
        
-            if($usuario)// Si está el registro
+            if($asignatura)// Si está el registro
             {
-                $usuario->delete();
-              
+                $asignatura->delete();
                 return response()->json('ok');
             }
             else
@@ -123,6 +130,5 @@ class UsuarioController extends Controller
             }
 
         }
-
     }
 }

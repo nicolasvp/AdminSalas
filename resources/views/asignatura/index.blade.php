@@ -15,16 +15,16 @@
                         <div class="panel-heading">
                             <div class="row">
                                 <div class="col-md-6 col-lg-6">
-                                    <h4> Campus </h4>
+                                    <h4> Asignaturas </h4>
                                     @if(Session::has('message'))
                                         <div class="alert alert-success alert-dismissable">
                                             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                                             <strong>{{ Session::get('message') }}</strong>
                                         </div>
-                                    @endif
+                                    @endif                                    
                                 </div>
                                 <div class="col-md-6 col-lg-6">
-                                    {!! Form::open(['route' => 'campus.create', 'method' => 'GET']) !!}
+                                    {!! Form::open(['route' => 'asignatura.create', 'method' => 'GET']) !!}
                                         <button type="submit" class="btn btn-success" style="float: right">Ingresar  <i class="fa fa-plus"></i></button>
                                     {!! Form::close() !!}
                                </div>
@@ -37,26 +37,26 @@
                                     <tr>
                                         <th>#</th>
                                         <th>Nombre</th>
-                                        <th>Dirección</th>
+                                        <th>Codigo</th>
                                         <th>Descripción</th>
-                                        <th>Encargado</th>
+                                        <th>Departamento</th>
                                         <th>Editar</th>
-                                        <th>Eliminar</th>
+                                        <th>Eliminar</th>                                       
                                     </tr>
                                 </thead>
                                 <tbody>
-                                @foreach($campus as $c)
-                                    <tr class="text-center" data-id="{{ $c->id }}">
-                                        <td class="center">{{ $c->id }}</td>
-                                        <td class="center">{{ $c->nombre }}</td>
-                                        <td class="center">{{ $c->direccion }}</td>
-                                        <td class="center">{{ $c->descripcion }}</td>
-                                        <td class="center">{{ $c->rut_encargado }}</td>
-                                        <td class="center"><a href="{{ route('campus.edit',$c->id)}}"><i class="fa fa-edit"></i></a></td>
+                                @foreach($asignaturas as $asignatura)
+                                    <tr class="text-center" data-id="{{ $asignatura->id }}">
+                                        <td class="center">{{ $asignatura->id }}</td>
+                                        <td class="center">{{ $asignatura->nombre }}</td>
+                                        <td class="center">{{ $asignatura->codigo }}</td>
+                                        <td class="center">{{ $asignatura->descripcion }}</td>
+                                        <td class="center">{{ $asignatura->departamento }}</td>
+                                        <td class="center"><a href="{{ route('asignatura.edit',$asignatura->id)}}"><i class="fa fa-edit"></i></a></td>
                                         <td class="center"><a href="#!" class="btn-delete"><i class="fa fa-trash"></i></a>
-                                        {!! Form::open(['route' => ['campus.destroy', ':CAMPUS_ID'], 'method' => 'DELETE', 'id' => 'form-delete'])!!}
+                                        {!! Form::open(['route' => ['asignatura.destroy', ':ASIGNATURA_ID'], 'method' => 'DELETE', 'id' => 'form-delete']) !!}
                                         {!! Form::close() !!}
-                                        </td>                                        
+                                        </td>                                         
                                     </tr>
                                 @endforeach
                                 </tbody>
@@ -84,13 +84,13 @@ $(document).ready(function() {
     $('#dataTables-example').DataTable({
         responsive: true
     });
-
+    
     $('.btn-delete').click(function(e){
-        //  e.preventDefault(); para evitar que recargue la pagina
+        // e.preventDefault(); para evitar que recargue la pagina
         var row = $(this).parents('tr');
         var id = row.data('id');
         var form = $('#form-delete');
-        var url = form.attr('action').replace(':CAMPUS_ID', id);
+        var url = form.attr('action').replace(':ASIGNATURA_ID', id);
         var data = form.serialize();
 
         $.post(url, data, function(result){
@@ -98,14 +98,13 @@ $(document).ready(function() {
           if(result == 'ok')
             row.fadeOut();
           if(result == 'fail')
-            console.log('El registro no fue eliminado');
+           console.log('El registro no fue eliminado');
         }).fail(function(){
-          console("fail: El registro no fue eliminado");
-          row.show();
+           console("fail: El registro no fue eliminado");
+           row.show();
         });
 
-    });
-
+    });      
 });
 </script>
 

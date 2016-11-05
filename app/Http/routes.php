@@ -19,11 +19,7 @@ Route::get('/login',function() {
 	return view('login');
 });
 
-Route::resource('/campus','CampusController');
-Route::resource('/facultad','FacultadController');
-Route::resource('/departamento','DepartamentoController');
-Route::resource('/escuela','EscuelaController');
-Route::resource('/usuario','UsuarioController');
+
 
 
 /*
@@ -37,6 +33,15 @@ Route::resource('/usuario','UsuarioController');
 |
 */
 
-Route::group(['middleware' => ['web']], function () {
-    //
+Route::group(['middleware' => ['web']], function () { 
+	Route::resource('/campus','CampusController');
+	Route::resource('/campus','CampusController');
+	Route::resource('/facultad','FacultadController');
+	Route::resource('/departamento','DepartamentoController');
+	Route::resource('/escuela','EscuelaController');
+	Route::resource('/carrera','CarreraController');
+	Route::resource('/asignatura','AsignaturaController');
+	Route::resource('/rol','RolController');
+	Route::resource('/docente','DocenteController');
+	Route::resource('/usuario','UsuarioController');
 });

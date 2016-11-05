@@ -8,11 +8,9 @@ use Illuminate\Support\Facades\Session;
 
 use App\Http\Requests;
 
-use App\Departamento;
+use App\Roles;
 
-use App\Facultad;
-
-class DepartamentoController extends Controller
+class RolController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -21,11 +19,9 @@ class DepartamentoController extends Controller
      */
     public function index()
     {
-        $departamentos = Departamento::join('facultades','facultades.id','=','departamentos.facultad_id')
-                        ->select('departamentos.*','facultades.nombre as facultad')
-                        ->get();
+        $roles = Roles::all();
 
-        return view('departamento/index',compact('departamentos'));
+        return view('rol/index',compact('roles'));
     }
 
     /**
@@ -35,9 +31,7 @@ class DepartamentoController extends Controller
      */
     public function create()
     {
-        $facultades = Facultad::all('id','nombre');
-
-        return view('departamento/create',compact('facultades'));
+        return view('rol/create');
     }
 
     /**
@@ -48,13 +42,12 @@ class DepartamentoController extends Controller
      */
     public function store(Request $request)
     {
-        Departamento::create([
-            'nombre' => $request->get('nombre'),
-            'facultad_id' => $request->get('facultad'),
-            'descripcion' => $request->get('descripcion')
+        Roles::create([
+                'nombre' => $request->get('nombre'),
+                'descripcion' => $request->get('descripcion')
             ]);
 
-        return redirect()->route('departamento.index');
+        return redirect()->route('rol.index');
     }
 
     /**
@@ -76,11 +69,9 @@ class DepartamentoController extends Controller
      */
     public function edit($id)
     {
-        $departamento = Departamento::find($id);
+        $rol = Roles::find($id);
 
-        $facultades = Facultad::all('id','nombre');
-
-        return view('departamento/edit',compact('facultades','departamento'));
+        return view('rol/edit',compact('rol'));
     }
 
     /**
@@ -92,17 +83,16 @@ class DepartamentoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $departamento = Departamento::find($id);
+        $rol = Roles::find($id);
 
-        $departamento->nombre = $request->get('nombre');
-        $departamento->facultad_id = $request->get('facultad');
-        $departamento->descripcion = $request->get('descripcion');
+        $rol->nombre = $request->get('nombre');
+        $rol->descripcion = $request->get('descripcion');
 
-        $departamento->save();
+        $rol->save();
 
-        Session::flash('message', 'El Departamento ' .$departamento->nombre.' ha sido actualizado');
+        Session::flash('message', 'El Rol ' .$rol->nombre.' ha sido actualizado');
 
-        return redirect()->route('departamento.index');
+        return redirect()->route('rol.index');
     }
 
     /**
@@ -111,15 +101,15 @@ class DepartamentoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request, $id)
+    public function destroy(Request $request,$id)
     {
         if($request->ajax()){
 
-            $departamento = Departamento::find($id);
+            $rol = Roles::find($id);
        
-            if($departamento)// Si está el registro
+            if($rol)// Si está el registro
             {
-                $departamento->delete();
+                $rol->delete();
                 return response()->json('ok');
             }
             else

@@ -16,6 +16,12 @@
                             <div class="row">
                                 <div class="col-md-6 col-lg-6">
                                     <h4> Escuelas </h4>
+                                    @if(Session::has('message'))
+                                        <div class="alert alert-success alert-dismissable">
+                                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                                            <strong>{{ Session::get('message') }}</strong>
+                                        </div>
+                                    @endif                                    
                                 </div>
                                 <div class="col-md-6 col-lg-6">
                                     {!! Form::open(['route' => 'escuela.create', 'method' => 'GET']) !!}
@@ -33,15 +39,22 @@
                                         <th>Nombre</th>
                                         <th>Descripción</th>
                                         <th>Departamento</th>
+                                        <th>Editar</th>
+                                        <th>Eliminar</th>                                       
                                     </tr>
                                 </thead>
                                 <tbody>
                                 @foreach($escuelas as $escuela)
-                                    <tr class="text-center">
+                                    <tr class="text-center" data-id="{{ $escuela->id }}">
                                         <td class="center">{{ $escuela->id }}</td>
                                         <td class="center">{{ $escuela->nombre }}</td>
                                         <td class="center">{{ $escuela->descripcion }}</td>
                                         <td class="center">{{ $escuela->departamento }}</td>
+                                        <td class="center"><a href="{{ route('escuela.edit',$escuela->id)}}"><i class="fa fa-edit"></i></a></td>
+                                        <td class="center"><a href="#!" class="btn-delete"><i class="fa fa-trash"></i></a>
+                                        {!! Form::open(['route' => ['escuela.destroy', ':ESCUELA_ID'], 'method' => 'DELETE', 'id' => 'form-delete']) !!}
+                                        {!! Form::close() !!}
+                                        </td>                                         
                                     </tr>
                                 @endforeach
                                 </tbody>
@@ -69,6 +82,27 @@ $(document).ready(function() {
     $('#dataTables-example').DataTable({
         responsive: true
     });
+    
+    $('.btn-delete').click(function(e){
+        // e.preventDefault(); para evitar que recargue la pagina
+        var row = $(this).parents('tr');
+        var id = row.data('id');
+        var form = $('#form-delete');
+        var url = form.attr('action').replace(':ESCUELA_ID', id);
+        var data = form.serialize();
+
+        $.post(url, data, function(result){
+        // alert(result.message);
+          if(result == 'ok')
+            row.fadeOut();
+          if(result == 'fail')
+           console.log('El registro no fue eliminado');
+        }).fail(function(){
+           console("fail: El registro no fue eliminado");
+           row.show();
+        });
+
+    });      
 });
 </script>
 

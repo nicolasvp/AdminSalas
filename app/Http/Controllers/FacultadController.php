@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Session;
 use App\Http\Requests;
 
 use App\Facultad;
@@ -76,7 +76,13 @@ class FacultadController extends Controller
      */
     public function edit($id)
     {
-        //
+
+        $facultad = Facultad::find($id);
+
+        $campus = Campus::all('id','nombre');
+
+        return view('facultad/edit',compact('facultad','campus'));
+       
     }
 
     /**
@@ -88,7 +94,17 @@ class FacultadController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $facultad = Facultad::find($id);
+
+        $facultad->nombre = $request->get('nombre');
+        $facultad->campus_id = $request->get('campus');
+        $facultad->descripcion = $request->get('descripcion');
+
+        $facultad->save();
+
+        Session::flash('message', 'La Facultad ' .$facultad->nombre.' ha sido actualizada');
+
+        return redirect()->route('facultad.index');
     }
 
     /**
@@ -97,8 +113,22 @@ class FacultadController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request,$id)
     {
-        //
+        if($request->ajax()){
+
+            $facultad= Facultad::find($id);
+       
+            if($facultad)// Si está el registro
+            {
+                $facultad->delete();
+                return response()->json('ok');
+            }
+            else
+            {
+                return response()->json('fail');       
+            }
+
+        }
     }
 }
