@@ -175,13 +175,17 @@ a {
                             <a href="<?php echo e(route('docente.index')); ?>"><i class="fa fa-cog"></i> Docentes</a>
                         </li>
                         <li>
-                            <a href="#"><i class="fa fa-cog"></i> Cursos</a>
+                            <a href="<?php echo e(route('curso.index')); ?>"><i class="fa fa-cog"></i> Cursos</a>
                         </li>     
                         <li>
                             <a href="<?php echo e(route('rol.index')); ?>"><i class="fa fa-cog"></i> Roles</a>
                         </li>
                         <li>
-                            <a href="#"><i class="fa fa-cog"></i> Salas</a>
+                            <a href="<?php echo e(route('tipo_sala.index')); ?>"><i class="fa fa-cog"></i> Tipos Salas</a>
+                        </li>
+
+                        <li>
+                            <a href="<?php echo e(route('sala.index')); ?>"><i class="fa fa-cog"></i> Salas</a>
                         </li>
                         <li>
                             <a href="#"><i class="fa fa-cog"></i> Horarios</a>
