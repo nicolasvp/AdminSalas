@@ -46,5 +46,8 @@ Route::group(['middleware' => ['web']], function () {
 	Route::resource('/curso','CursoController');
 	Route::resource('/tipo_sala','TipoSalaController');
 	Route::resource('/sala','SalaController');
+	Route::resource('/periodo','PeriodoController');
+	Route::resource('/horario','HorarioController');
 	Route::resource('/usuario','UsuarioController');
+
 });

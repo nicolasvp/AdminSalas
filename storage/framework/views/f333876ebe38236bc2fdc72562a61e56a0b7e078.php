@@ -183,12 +183,14 @@ a {
                         <li>
                             <a href="<?php echo e(route('tipo_sala.index')); ?>"><i class="fa fa-cog"></i> Tipos Salas</a>
                         </li>
-
                         <li>
                             <a href="<?php echo e(route('sala.index')); ?>"><i class="fa fa-cog"></i> Salas</a>
                         </li>
                         <li>
-                            <a href="#"><i class="fa fa-cog"></i> Horarios</a>
+                            <a href="<?php echo e(route('periodo.index')); ?>"><i class="fa fa-cog"></i> Periodos</a>
+                        </li>                        
+                        <li>
+                            <a href="<?php echo e(route('horario.index')); ?>"><i class="fa fa-cog"></i> Horarios</a>
                         </li>                                                                                            
                         <li>
                             <a href="<?php echo e(route('usuario.index')); ?>"><i class="fa fa-cog"></i> Usuarios</a>

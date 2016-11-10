@@ -183,12 +183,14 @@ a {
                         <li>
                             <a href="{{ route('tipo_sala.index') }}"><i class="fa fa-cog"></i> Tipos Salas</a>
                         </li>
-
                         <li>
                             <a href="{{ route('sala.index') }}"><i class="fa fa-cog"></i> Salas</a>
                         </li>
                         <li>
-                            <a href="#"><i class="fa fa-cog"></i> Horarios</a>
+                            <a href="{{ route('periodo.index') }}"><i class="fa fa-cog"></i> Periodos</a>
+                        </li>                        
+                        <li>
+                            <a href="{{ route('horario.index') }}"><i class="fa fa-cog"></i> Horarios</a>
                         </li>                                                                                            
                         <li>
                             <a href="{{ route('usuario.index') }}"><i class="fa fa-cog"></i> Usuarios</a>
