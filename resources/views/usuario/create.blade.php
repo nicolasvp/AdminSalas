@@ -34,6 +34,13 @@
                                             <label>Apellidos</label>
                                             <input class="form-control" name="apellidos" placeholder="Ej: Vera">
                                         </div>
+                                        <label>Roles</label>
+                                        <div class="form-group">
+                                            @foreach($roles as $rol)
+	                                            <input type="checkbox" id="{{ $rol->nombre }}" value="{{ $rol->id }}" name="roles[]">
+	                                                {{ $rol->nombre }}
+                                            @endforeach
+                                        </div>                                        
                                         <button type="submit" class="btn btn-success">Aceptar</button>
                                   	{!! Form::close() !!}
                                 </div>

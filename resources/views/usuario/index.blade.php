@@ -39,6 +39,7 @@
                                         <th>Apellidos</th>
                                         <th>Nombres</th>
                                         <th>Email</th>
+                                        <th>Rol</th>
                                         <th>Editar</th>
                                         <th>Eliminar</th>                                           
                                     </tr>
@@ -50,6 +51,7 @@
                                         <td class="center">{{ $usuario->apellidos }}</td>
                                         <td class="center">{{ $usuario->nombres }}</td>
                                         <td class="center">{{ $usuario->email }}</td>
+                                        <td class="center">{{ $usuario->rol }}</td>
                                         <td class="center"><a href="{{ route('usuario.edit',$usuario->rut)}}"><i class="fa fa-edit"></i></a></td>
                                         <td class="center"><a href="#!" class="btn-delete"><i class="fa fa-trash"></i></a>
                                         {!! Form::open(['route' => ['usuario.destroy', ':USUARIO_RUT'], 'method' => 'DELETE', 'id' => 'form-delete']) !!}
@@ -80,8 +82,29 @@
 <script>
 $(document).ready(function() {
     $('#dataTables-example').DataTable({
-        responsive: true
+        responsive: true,
+        "language": {
+                "decimal":        "",
+                "emptyTable":     "Sin datos disponibles",
+                "info":           "Mostrando _START_ de _END_ de _TOTAL_ entradas",
+                "infoEmpty":      "Mostrando 0 de 0 de 0 entradas",
+                "infoFiltered":   "(Filtrado de un total de _MAX_ entradas)",
+                "infoPostFix":    "",
+                "thousands":      ".",
+                "lengthMenu":     "Mostrar _MENU_ entradas",
+                "loadingRecords": "Cargando...",
+                "processing":     "Procesando...",
+                "search":         "Buscar:",
+                "zeroRecords":    "Ningún registro encontrado.",
+                "paginate": {
+                    "first":      "Primero",
+                    "last":       "Ultimo",
+                    "next":       "Siguiente",
+                    "previous":   "Anterior"
+                }
+            }
     });
+    
     $('.btn-delete').click(function(e){
         // e.preventDefault(); para evitar que recargue la pagina
         var row = $(this).parents('tr');

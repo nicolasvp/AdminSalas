@@ -3,7 +3,7 @@
 @section('container')
 
             <div class="col-lg-12">
-                <h1 class="page-header">Editar Usuario: {{ $usuario->nombre }}</h1>
+                <h1 class="page-header">Editar Usuario: {{ $usuario->nombres }} {{ $usuario->apellidos }}</h1>
             </div>
             <!-- /.row -->
             <div class="row">
@@ -37,8 +37,12 @@
                                        {!! Form::label('apellidos', 'Apellido') !!}
                                        {!! Form::text('apellidos', null,['class' => 'form-control', 'placeholder' => 'Ej: Vera']) !!}
                                       </div>
+                                     <label>Roles</label>
+                                     <div class="form-group" id="roles">
 
-                                      <button type="submit" class="btn btn-success">Aceptar</button>
+                                     </div>  
+                                      <input type="hidden" id="usuario_id" value="{{ $usuario->rut }}">
+                                     <button type="submit" class="btn btn-success">Aceptar</button>
                                   	{!! Form::close() !!}
                                 </div>
                             </div>
@@ -46,5 +50,35 @@
                     </div>
                 </div>
 
+
+@stop
+
+@section('scripts')
+<script>
+$(document).ready(function(){
+
+  var id = $("#usuario_id").val();
+
+  $.ajax({
+     
+    // con .val saco el valor del value
+        data:  {'id': id},
+        url:   '/~nvera/usuario/'+id+'/edit',
+        type:  'get',
+        dataType: 'json',
+        success:  function(respuesta) {          
+          $.each(respuesta['roles'], function(k,v){
+
+            $("#roles").append("<input id='"+v.id+"' type='checkbox' value='"+v.id+"' name='roles[]'>"+v.nombre);
+            $.each(respuesta['roles_usuario'], function(key,value){
+              if(value.rol_id == v.id)
+                $("#"+v.id).prop("checked",true);
+            });
+          });
+        }
+    });
+
+});
+</script>
 
 @stop

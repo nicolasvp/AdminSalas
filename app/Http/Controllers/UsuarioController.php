@@ -10,6 +10,10 @@ use App\Http\Requests;
 
 use App\Usuario;
 
+use App\Roles;
+
+use App\Rol_usuario;
+
 class UsuarioController extends Controller
 {
     /**
@@ -19,7 +23,10 @@ class UsuarioController extends Controller
      */
     public function index()
     {
-        $usuarios = Usuario::all();
+        $usuarios = Usuario::join('roles_usuarios','roles_usuarios.rut','=','usuarios.rut')
+                            ->join('roles','roles.id','=','roles_usuarios.rol_id')
+                            ->select('usuarios.*','roles.nombre as rol')
+                            ->get();
 
         return view('usuario/index',compact('usuarios'));
     }
@@ -31,7 +38,9 @@ class UsuarioController extends Controller
      */
     public function create()
     {
-        return view('usuario/create');
+        $roles = Roles::all();
+
+        return view('usuario/create',compact('roles'));
     }
 
     /**
@@ -42,12 +51,21 @@ class UsuarioController extends Controller
      */
     public function store(Request $request)
     {
+        
         Usuario::create([
             'rut' => $request->get('rut'),
             'email' => $request->get('email'),
             'nombres' => $request->get('nombres'),
             'apellidos' => $request->get('apellidos')
             ]);
+
+        foreach($request->get('roles') as $rol)
+        {
+            Rol_usuario::create([
+                'rut' => $request->get('rut'),
+                'rol_id' => $rol
+                ]);
+        }
 
         return redirect()->route('usuario.index');
     }
@@ -69,11 +87,25 @@ class UsuarioController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request,$id)
     {
-        $usuario = Usuario::find($id);
+        if($request->ajax()){
 
-        return view('usuario/edit',compact('usuario'));
+            $usuario = Usuario::find($request->get('id'));
+            $roles = Rol_usuario::where('rut',$usuario->rut)->select('rut','rol_id')->get();
+            $rolesTotales = Roles::select('id','nombre')->get();
+            $respuesta = ['roles' => $rolesTotales, 'roles_usuario' => $roles];
+     
+            return response()->json($respuesta);
+        }
+        else
+        {
+            
+            $usuario = Usuario::find($id);
+
+            return view('usuario/edit',compact('usuario','roles'));
+        }
+
     }
 
     /**
@@ -85,6 +117,8 @@ class UsuarioController extends Controller
      */
     public function update(Request $request, $id)
     {
+
+
         $usuario = Usuario::find($id);
 
         $usuario->rut = $request->get('rut');
@@ -93,6 +127,21 @@ class UsuarioController extends Controller
         $usuario->apellidos = $request->get('apellidos');
 
         $usuario->save();
+
+        //Busca en la tabla rol_usuario el rut que sea igual al rut que viene de la vista(request->get('rutUsuario')) y con el get lo toma
+        $roles_usuario = Rol_usuario::where('rut',$request->get('rut'))->get();
+
+        foreach($roles_usuario as $ru)
+        {
+            $ru->delete();
+        }
+        foreach($request->get('roles') as $rol)
+        {
+            Rol_usuario::create([
+                'rut' =>$request->get('rut'),
+                'rol_id' => $rol
+                ]);
+        }   
 
         Session::flash('message', 'El usuario ' .$usuario->nombres.' '.$usuario->apellidos.' ha sido actualizado');
 
@@ -114,6 +163,7 @@ class UsuarioController extends Controller
             if($usuario)// Si está el registro
             {
                 $usuario->delete();
+
               
                 return response()->json('ok');
             }

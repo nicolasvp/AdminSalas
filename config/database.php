@@ -67,9 +67,9 @@ return [
         'pgsql' => [
             'driver'   => 'pgsql',
             'host'     => env('DB_HOST', 'localhost'),
-            'database' => env('DB_DATABASE', 'admin_salas'),
-            'username' => env('DB_USERNAME', 'nicolas'),
-            'password' => env('DB_PASSWORD', 'niko123'),
+            'database' => env('DB_DATABASE', 'nveradb'),
+            'username' => env('DB_USERNAME', 'nvera'),
+            'password' => env('DB_PASSWORD', 'FlSQXM'),
             'charset'  => 'utf8',
             'prefix'   => '',
             'schema'   => 'public',
