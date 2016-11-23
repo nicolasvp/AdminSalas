@@ -21,12 +21,51 @@
                         </div>
                         <div class="panel-body">
                             <div class="row">
-                                <div class="col-lg-4">
+                                <div class="col-lg-6">
                                     {!! Form::open(['route' => ['horario.store'], 'method' => 'POST']) !!}
+                                     <input type="hidden" name="_token" value="{{ csrf_token() }}" id="token">
                                         <div class="form-group">
+                                            <label>Duración</label>
+                                            <select name="duracion" id="duracion" class="form-control">
+                                                <option name="duracion" value="0">Seleccione</option>
+                                                <option name="duracion" value="semestral">Semestral</option>
+                                                <option name="duracion" value="dia">Día</option>
+                                            </select>
+                                        </div>                                        
+                                        <div class="form-group" id="form-fecha" style="display:none;">
                                             <label>Fecha</label>
                                             <input type="text" class="form-control" id="fecha" name="fecha">
                                         </div>
+                                        <div class="form-group" id="form-fecha-ini" style="display:none;">
+                                            <label>Fecha Inicio</label>
+                                            <input type="text" class="form-control" id="fecha_inicio" name="fecha_inicio">
+                                        </div>
+                                        <div class="form-group" id="form-fecha-term" style="display:none;">
+                                            <label>Fecha Término</label>
+                                            <input type="text" class="form-control" id="fecha_termino" name="fecha_termino">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Día</label>
+                                            <br>
+                                            <label class="radio-inline">
+                                                <input type="radio" name="dia" id="lunes" value="lunes">Lunes
+                                            </label>
+                                            <label class="radio-inline">
+                                                <input type="radio" name="dia" id="martes" value="martes">Martes
+                                            </label>
+                                            <label class="radio-inline">
+                                                <input type="radio" name="dia" id="miercoles" value="miercoles">Miércoles
+                                            </label>
+                                            <label class="radio-inline">
+                                                <input type="radio" name="dia" id="jueves" value="jueves">Jueves
+                                            </label>
+                                            <label class="radio-inline">
+                                                <input type="radio" name="dia" id="viernes" value="viernes">Viernes
+                                            </label>
+                                            <label class="radio-inline">
+                                                <input type="radio" name="dia" id="sabado" value="sabado">Sábado
+                                            </label>                                            
+                                        </div>                                                                                                                     
                                         <div class="form-group">
                                             <label>Curso - Sección</label>
                                             <select name="curso" class="form-control">
@@ -74,6 +113,35 @@
 $(document).ready(function(){
     $("#fecha").datepicker();
     $("#fecha").datepicker('option', {dateFormat: 'dd-mm-yy'});
+    $("#fecha_inicio").datepicker();
+    $("#fecha_inicio").datepicker('option', {dateFormat: 'dd-mm-yy'});
+    $("#fecha_termino").datepicker();
+    $("#fecha_termino").datepicker('option', {dateFormat: 'dd-mm-yy'});
+
+    $("#duracion").change(function(){
+
+        var opcion = $(this).val();
+
+        if(opcion == 'semestral'){
+            $("#form-fecha").css('display','none'); 
+            $("#form-fecha-ini").css('display','block'); 
+            $("#form-fecha-term").css('display','block'); 
+            return;
+        }
+        if(opcion == 'dia'){
+            $("#form-fecha-ini").css('display','none'); 
+            $("#form-fecha-term").css('display','none');
+            $("#form-fecha").css('display','block');
+            return; 
+        }
+
+            $("#form-fecha").css('display','none'); 
+            $("#form-fecha-ini").css('display','none'); 
+            $("#form-fecha-term").css('display','none'); 
+
+    });
+
+
 });
 </script>
 @stop

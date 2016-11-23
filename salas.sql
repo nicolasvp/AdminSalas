@@ -200,6 +200,8 @@ CREATE TABLE horarios (
         sala_id bigint NOT NULL REFERENCES salas(id) ON UPDATE CASCADE ON DELETE CASCADE,
         periodo_id int NOT NULL REFERENCES periodos(id) ON UPDATE CASCADE ON DELETE CASCADE,
 	curso_id bigint NOT NULL REFERENCES cursos(id) ON UPDATE CASCADE ON DELETE CASCADE,
+	permanencia varchar(255) NOT NULL,
+	dia varchar(10) NOT NULL,
 	created_at timestamp NOT NULL DEFAULT NOW(),
 	updated_at timestamp NOT NULL DEFAULT NOW(),
         UNIQUE (fecha, sala_id, periodo_id),

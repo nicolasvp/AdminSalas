@@ -154,47 +154,53 @@ a {
                             <a href="{{ asset('/') }}"><i class="fa fa-dashboard"></i> Dashboard</a>
                         </li>
                         <li>
-                            <a href="{{ route('campus.index') }}"><i class="fa fa-cog"></i> Campus</a>
+                            <a href="#"><i class="fa fa-cog"></i> Configuración<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+
+                                <li>
+                                    <a href="{{ route('campus.index') }}"><i class="fa fa-cog"></i> Campus</a>
+                                </li>
+                                <li>
+                                    <a href="{{ route('facultad.index') }}"><i class="fa fa-cog"></i> Facultades</a>
+                                </li>
+                                <li>
+                                    <a href="{{ route('departamento.index') }}"><i class="fa fa-cog"></i> Departamentos</a>
+                                </li>
+                                <li>
+                                    <a href="{{ route('escuela.index') }}"><i class="fa fa-cog"></i> Escuelas</a>
+                                </li>
+                                <li>
+                                    <a href="{{ route('carrera.index') }}"><i class="fa fa-cog"></i> Carreras</a>
+                                </li>
+                                <li>
+                                    <a href="{{ route('asignatura.index') }}"><i class="fa fa-cog"></i> Asignaturas</a>
+                                </li>
+                                <li>
+                                    <a href="{{ route('docente.index') }}"><i class="fa fa-cog"></i> Docentes</a>
+                                </li>
+                                <li>
+                                    <a href="{{ route('curso.index') }}"><i class="fa fa-cog"></i> Cursos</a>
+                                </li>     
+                                <li>
+                                    <a href="{{ route('rol.index') }}"><i class="fa fa-cog"></i> Roles</a>
+                                </li>
+                                <li>
+                                    <a href="{{ route('tipo_sala.index') }}"><i class="fa fa-cog"></i> Tipos Salas</a>
+                                </li>
+                                <li>
+                                    <a href="{{ route('sala.index') }}"><i class="fa fa-cog"></i> Salas</a>
+                                </li>
+                                <li>
+                                    <a href="{{ route('periodo.index') }}"><i class="fa fa-cog"></i> Periodos</a>
+                                </li>                        
+                                <li>
+                                    <a href="{{ route('horario.index') }}"><i class="fa fa-cog"></i> Horarios</a>
+                                </li>                                                                                            
+                                <li>
+                                    <a href="{{ route('usuario.index') }}"><i class="fa fa-cog"></i> Usuarios</a>
+                                </li> 
+                            </ul>
                         </li>
-                        <li>
-                            <a href="{{ route('facultad.index') }}"><i class="fa fa-cog"></i> Facultades</a>
-                        </li>
-                        <li>
-                            <a href="{{ route('departamento.index') }}"><i class="fa fa-cog"></i> Departamentos</a>
-                        </li>
-                        <li>
-                            <a href="{{ route('escuela.index') }}"><i class="fa fa-cog"></i> Escuelas</a>
-                        </li>
-                        <li>
-                            <a href="{{ route('carrera.index') }}"><i class="fa fa-cog"></i> Carreras</a>
-                        </li>
-                        <li>
-                            <a href="{{ route('asignatura.index') }}"><i class="fa fa-cog"></i> Asignaturas</a>
-                        </li>
-                        <li>
-                            <a href="{{ route('docente.index') }}"><i class="fa fa-cog"></i> Docentes</a>
-                        </li>
-                        <li>
-                            <a href="{{ route('curso.index') }}"><i class="fa fa-cog"></i> Cursos</a>
-                        </li>     
-                        <li>
-                            <a href="{{ route('rol.index') }}"><i class="fa fa-cog"></i> Roles</a>
-                        </li>
-                        <li>
-                            <a href="{{ route('tipo_sala.index') }}"><i class="fa fa-cog"></i> Tipos Salas</a>
-                        </li>
-                        <li>
-                            <a href="{{ route('sala.index') }}"><i class="fa fa-cog"></i> Salas</a>
-                        </li>
-                        <li>
-                            <a href="{{ route('periodo.index') }}"><i class="fa fa-cog"></i> Periodos</a>
-                        </li>                        
-                        <li>
-                            <a href="{{ route('horario.index') }}"><i class="fa fa-cog"></i> Horarios</a>
-                        </li>                                                                                            
-                        <li>
-                            <a href="{{ route('usuario.index') }}"><i class="fa fa-cog"></i> Usuarios</a>
-                        </li> 
                     </ul>
                 </div>
                 <!-- /.sidebar-collapse -->
@@ -204,7 +210,6 @@ a {
 
         <div id="page-wrapper">
             <div class="row">
-
                 @yield('container')
             </div>
 

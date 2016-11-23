@@ -41,6 +41,8 @@
                                         <th>Seccion</th>
                                         <th>Sala</th>
                                         <th>Bloque</th>
+                                        <th>Fecha</th>
+                                        <th>Día</th>
                                         <th>Editar</th>
                                         <th>Eliminar</th>                                           
                                     </tr>
@@ -54,6 +56,8 @@
                                         <td class="center">{{ $horario->seccion }}</td>
                                         <td class="center">{{ $horario->sala }}</td>
                                         <td class="center">{{ $horario->bloque }}</td>
+                                        <td class="center">{{ $horario->fecha }}</td>
+                                        <td class="center">{{ $horario->dia }}</td>
                                         <td class="center"><a href="{{ route('horario.edit',$horario->id)}}"><i class="fa fa-edit"></i></a></td>
                                         <td class="center"><a href="#!" class="btn-delete"><i class="fa fa-trash"></i></a>
                                         {!! Form::open(['route' => ['horario.destroy', ':HORARIO_ID'], 'method' => 'DELETE', 'id' => 'form-delete']) !!}
@@ -88,8 +92,8 @@ $(document).ready(function() {
         "language": {
                 "decimal":        "",
                 "emptyTable":     "Sin datos disponibles",
-                "info":           "Mostrando _START_ de _END_ de _TOTAL_ entradas",
-                "infoEmpty":      "Mostrando 0 de 0 de 0 entradas",
+                "info":           "Mostrando _START_ a _END_ de _TOTAL_ entradas",
+                "infoEmpty":      "Mostrando 0 a 0 de 0 entradas",
                 "infoFiltered":   "(Filtrado de un total de _MAX_ entradas)",
                 "infoPostFix":    "",
                 "thousands":      ".",

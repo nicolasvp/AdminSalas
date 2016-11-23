@@ -162,6 +162,7 @@ class UsuarioController extends Controller
        
             if($usuario)// Si está el registro
             {
+                //$rol = Rol_usuario::where('rut')
                 $usuario->delete();
 
               

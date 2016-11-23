@@ -86,8 +86,8 @@ $(document).ready(function() {
         "language": {
                 "decimal":        "",
                 "emptyTable":     "Sin datos disponibles",
-                "info":           "Mostrando _START_ de _END_ de _TOTAL_ entradas",
-                "infoEmpty":      "Mostrando 0 de 0 de 0 entradas",
+                "info":           "Mostrando _START_ a _END_ de _TOTAL_ entradas",
+                "infoEmpty":      "Mostrando 0 a 0 de 0 entradas",
                 "infoFiltered":   "(Filtrado de un total de _MAX_ entradas)",
                 "infoPostFix":    "",
                 "thousands":      ".",
