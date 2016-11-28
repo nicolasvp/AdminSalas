@@ -57,7 +57,7 @@ a {
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="/" style="color: #fff;">
+                <a class="navbar-brand" href="/~nvera" style="color: #fff;">
                <small>
                 <img src="{{ asset('img/utemcito-blanco-sintitulo.png') }}" height="27px">
                 UTEM

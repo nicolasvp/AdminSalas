@@ -36,7 +36,9 @@ class EscuelaController extends Controller
     {
         $escuelas = Escuela::all('id','nombre');
 
-        return view('escuela/create',compact('escuelas'));
+        $departamentos = Departamento::all();
+
+        return view('escuela/create',compact('escuelas','departamentos'));
     }
 
     /**
@@ -113,7 +115,7 @@ class EscuelaController extends Controller
     public function destroy(Request $request,$id)
     {
         if($request->ajax()){
-
+dd('asda');
             $escuela = Escuela::find($id);
        
             if($escuela)// Si está el registro

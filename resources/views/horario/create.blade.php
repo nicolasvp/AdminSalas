@@ -47,24 +47,17 @@
                                         <div class="form-group">
                                             <label>Día</label>
                                             <br>
-                                            <label class="radio-inline">
-                                                <input type="radio" name="dia" id="lunes" value="lunes">Lunes
-                                            </label>
-                                            <label class="radio-inline">
-                                                <input type="radio" name="dia" id="martes" value="martes">Martes
-                                            </label>
-                                            <label class="radio-inline">
-                                                <input type="radio" name="dia" id="miercoles" value="miercoles">Miércoles
-                                            </label>
-                                            <label class="radio-inline">
-                                                <input type="radio" name="dia" id="jueves" value="jueves">Jueves
-                                            </label>
-                                            <label class="radio-inline">
-                                                <input type="radio" name="dia" id="viernes" value="viernes">Viernes
-                                            </label>
-                                            <label class="radio-inline">
-                                                <input type="radio" name="dia" id="sabado" value="sabado">Sábado
-                                            </label>                                            
+                                                <input type="checkbox" name="dias[]" id="lunes" value="lunes">Lunes
+                                         
+                                                <input type="checkbox" name="dias[]" id="martes" value="martes">Martes
+                                          
+                                                <input type="checkbox" name="dias[]" id="miercoles" value="miercoles">Miércoles
+                                            
+                                                <input type="checkbox" name="dias[]" id="jueves" value="jueves">Jueves
+                                          
+                                                <input type="checkbox" name="dias[]" id="viernes" value="viernes">Viernes
+                                           
+                                                <input type="checkbox" name="dias[]" id="sabado" value="sabado">Sábado        
                                         </div>                                                                                                                     
                                         <div class="form-group">
                                             <label>Curso - Sección</label>

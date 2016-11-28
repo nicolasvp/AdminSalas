@@ -36,7 +36,7 @@ class HorarioController extends Controller
                            ->join('periodos','periodos.id','=','horarios.periodo_id')
                            ->join('asignaturas','asignaturas.id','=','cursos.asignatura_id')
                            ->join('docentes','docentes.id','=','cursos.docente_id')
-                           ->select('horarios.*','salas.nombre as sala','periodos.bloque as bloque','cursos.seccion as seccion','asignaturas.nombre as asignatura','docentes.nombres as nombre_docente','docentes.apellidos as apellidos_docente')
+                           ->select('horarios.*','salas.nombre as sala','periodos.bloque as bloque','cursos.seccion as seccion','asignaturas.nombre as asignatura','docentes.nombres as nombres_docente','docentes.apellidos as apellidos_docente')
                            ->get();
 
         return view('horario/index',compact('horarios'));
@@ -91,84 +91,85 @@ class HorarioController extends Controller
 
         if($request->get('duracion') == 'semestral')
         {
+	        foreach($request->get('dias') as $dia)
+	        {	
+	            $inicio = new Carbon($request->get('fecha_inicio'));
+	            $termino = new Carbon($request->get('fecha_termino'));
+	   
+	            while($inicio <= $termino)
+	            {
+	                Carbon::setTestNow($inicio);
 
-            $inicio = new Carbon($request->get('fecha_inicio'));
-            $termino = new Carbon($request->get('fecha_termino'));
-   
-            while($inicio <= $termino)
-            {
-                Carbon::setTestNow($inicio);
+	                if($dia == 'lunes')
+	                {
 
-                if($request->get('dia') == 'lunes')
-                {
+	                    $lunes = new Carbon('this monday');
+	                    if($lunes <= $termino)
+	                    {
+	                    $lun = new Horario();
+	                    $lun->fill(['fecha' => $lunes,
+	                        'sala_id' => $request->get('sala'),
+	                        'periodo_id' => $request->get('periodo'),
+	                        'curso_id' => $request->get('curso'),
+	                        'permanencia' => 'semestral',
+	                        'dia' => $dia]);
+	                    $lun->save();
+	                    }
 
-                    $lunes = new Carbon('this monday');
-                    if($lunes <= $termino)
-                    {
-                    $lun = new Horario();
-                    $lun->fill(['fecha' => $lunes,
-                        'sala_id' => $request->get('sala'),
-                        'periodo_id' => $request->get('periodo'),
-                        'curso_id' => $request->get('curso'),
-                        'permanencia' => 'semestral',
-                        'dia' => $request->get('dia')]);
-                    $lun->save();
-                    }
-
-                }
-                if($request->get('dia') == 'martes')
-                {
-                    $martes = new Carbon('this tuesday');
-                    if($martes <= $termino)
-                    {
-                    $mar = new Horario();
-                    $mar->fill(['fecha' => $martes,'sala_id' => $request->get('sala'),'periodo_id' => $request->get('periodo'),'curso_id' => $request->get('curso'),'permanencia' => 'semestral','dia' => $request->get('dia')]);
-                    $mar->save();
-                    }
-                }
-                if($request->get('dia') == 'miercoles')
-                {
-                    $miercoles = new Carbon('this wednesday');
-                    if($miercoles <= $termino)
-                    {
-                    $mier = new Horario();
-                    $mier->fill(['fecha' => $miercoles,'sala_id' => $request->get('sala'),'periodo_id' => $request->get('periodo'),'curso_id' => $request->get('curso'),'permanencia' => 'semestral','dia' => $request->get('dia')]);
-                    $mier->save();
-                    }
-                }
-                if($request->get('dia') == 'jueves')
-                {
-                    $jueves = new Carbon('this thursday');
-                    if($jueves <= $termino)
-                    {
-                    $jue = new Horario();
-                    $jue->fill(['fecha' => $jueves,'sala_id' => $request->get('sala'),'periodo_id' => $request->get('periodo'),'curso_id' => $request->get('curso'),'permanencia' => 'semestral','dia' => $request->get('dia')]);
-                    $jue->save();
-                    }
-                }
-                if($request->get('dia') == 'viernes')
-                {
-                    $viernes = new Carbon('this friday');
-                    if($viernes <= $termino)
-                    {
-                    $vier = new Horario();
-                    $vier->fill(['fecha' => $viernes,'sala_id' => $request->get('sala'),'periodo_id' => $request->get('periodo'),'curso_id' => $request->get('curso'),'permanencia' => 'semestral','dia' => $request->get('dia')]);
-                    $vier->save();
-                    }
-                }
-                if($request->get('dia') == 'sabado')
-                {
-                    $sabado = new Carbon('this saturday');
-                    if($sabado <= $termino)
-                    {
-                    $sab = new Horario();
-                    $sab->fill(['fecha' => $sabado,'sala_id' => $request->get('sala'),'periodo_id' => $request->get('periodo'),'curso_id' => $request->get('curso'),'permanencia' => 'semestral','dia' => $request->get('dia')]);
-                    $sab->save();
-                    }
-                }
-                $inicio->addWeek(1);
-                
-            }
+	                }
+	                if($dia == 'martes')
+	                {
+	                    $martes = new Carbon('this tuesday');
+	                    if($martes <= $termino)
+	                    {
+	                    $mar = new Horario();
+	                    $mar->fill(['fecha' => $martes,'sala_id' => $request->get('sala'),'periodo_id' => $request->get('periodo'),'curso_id' => $request->get('curso'),'permanencia' => 'semestral','dia' => $dia]);
+	                    $mar->save();
+	                    }
+	                }
+	                if($dia == 'miercoles')
+	                {
+	                    $miercoles = new Carbon('this wednesday');
+	                    if($miercoles <= $termino)
+	                    {
+	                    $mier = new Horario();
+	                    $mier->fill(['fecha' => $miercoles,'sala_id' => $request->get('sala'),'periodo_id' => $request->get('periodo'),'curso_id' => $request->get('curso'),'permanencia' => 'semestral','dia' => $dia]);
+	                    $mier->save();
+	                    }
+	                }
+	                if($dia == 'jueves')
+	                {
+	                    $jueves = new Carbon('this thursday');
+	                    if($jueves <= $termino)
+	                    {
+	                    $jue = new Horario();
+	                    $jue->fill(['fecha' => $jueves,'sala_id' => $request->get('sala'),'periodo_id' => $request->get('periodo'),'curso_id' => $request->get('curso'),'permanencia' => 'semestral','dia' => $dia]);
+	                    $jue->save();
+	                    }
+	                }
+	                if($dia == 'viernes')
+	                {
+	                    $viernes = new Carbon('this friday');
+	                    if($viernes <= $termino)
+	                    {
+	                    $vier = new Horario();
+	                    $vier->fill(['fecha' => $viernes,'sala_id' => $request->get('sala'),'periodo_id' => $request->get('periodo'),'curso_id' => $request->get('curso'),'permanencia' => 'semestral','dia' => $dia]);
+	                    $vier->save();
+	                    }
+	                }
+	                if($dia == 'sabado')
+	                {
+	                    $sabado = new Carbon('this saturday');
+	                    if($sabado <= $termino)
+	                    {
+	                    $sab = new Horario();
+	                    $sab->fill(['fecha' => $sabado,'sala_id' => $request->get('sala'),'periodo_id' => $request->get('periodo'),'curso_id' => $request->get('curso'),'permanencia' => 'semestral','dia' => $dia]);
+	                    $sab->save();
+	                    }
+	            	}
+                	$inicio->addWeek(1);    
+            	}
+        	}
             Session::flash('message', 'La horario fue asignado exitosamente!');
             
             return redirect()->route('horario.index');            
@@ -253,7 +254,6 @@ class HorarioController extends Controller
 
         if($request->get('duracion') == 'semestral')
         {
-
         
             $inicio = new Carbon($request->get('fecha_inicio'));
             $termino = new Carbon($request->get('fecha_termino'));
