@@ -32,9 +32,22 @@ Route::get('/login',function() {
 | kernel and includes session state, CSRF protection, and more.
 |
 */
-
+/*
 Route::group(['middleware' => ['web']], function () { 
-	Route::resource('/campus','CampusController');
+
+
+});
+*/
+
+Route::get('/',function(){
+	return view('login');
+});
+
+Route::group(['prefix' => 'administrador', 'namespace' => 'Administrador'], function(){
+
+	Route::get('/dashboard',function(){
+		return view('administrador/index');
+	});
 	Route::resource('/campus','CampusController');
 	Route::resource('/facultad','FacultadController');
 	Route::resource('/departamento','DepartamentoController');
@@ -50,4 +63,11 @@ Route::group(['middleware' => ['web']], function () {
 	Route::resource('/horario','HorarioController');
 	Route::resource('/usuario','UsuarioController');
 
+	Route::post('/periodo/create/upload',['uses' => 'PeriodoController@upload', 'as' => 'administrador.periodo.upload']);
+	Route::get('/horario/display/diario',['uses' => 'HorarioController@display_horario', 'as' => 'administrador.horario.display']);
+});
+
+
+Route::group(['prefix' => 'alumno', 'namespace' => 'Alumno'], function(){
+	Route::resource('/','AlumnoController');
 });
