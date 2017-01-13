@@ -38,6 +38,32 @@ Route::group(['middleware' => ['web']], function () {
 
 });
 */
+Route::get('/rest',function(){
+
+	$client = new GuzzleHttp\Client();
+
+	$res = $client->request('GET', 'https://sepa.utem.cl/rest/api/v1/sepa/autenticar/181179252/116fc7635034c3310f21d95e5ca48ea1f59d58296b074e4740b6003b8edc6182', [
+    'auth' => ['HJPD4IceDT', '4e878edc156b244dfc99e7433447de6b']
+	]);
+
+	$body = json_decode($res->getBody(true));
+	
+	if($body->ok == true)
+	{
+		$res = $client->request('GET', 'https://sepa.utem.cl/rest/api/v1/utem/estudiante/181179252', [
+	    'auth' => ['HJPD4IceDT', '4e878edc156b244dfc99e7433447de6b']
+		]);	
+
+		$info = json_decode($res->getBody(true));
+
+		dd($info);
+	}
+	else
+	{
+		dd($body->ok);
+	}
+
+});
 
 Route::get('/',function(){
 	return view('login');
@@ -70,4 +96,10 @@ Route::group(['prefix' => 'administrador', 'namespace' => 'Administrador'], func
 
 Route::group(['prefix' => 'alumno', 'namespace' => 'Alumno'], function(){
 	Route::resource('/','AlumnoController');
+	Route::get('horario',['uses' => 'AlumnoController@horario', 'as' => 'alumno.horario']);
+});
+
+Route::group(['prefix' => 'docente', 'namespace' => 'Docente'], function(){
+	Route::resource('/','DocenteController');
+	Route::get('horario',['uses' => 'DocenteController@horario', 'as' => 'docente.horario']);
 });

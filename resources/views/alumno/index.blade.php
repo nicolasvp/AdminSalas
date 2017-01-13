@@ -1,4 +1,4 @@
-@extends('docente/main')
+@extends('alumno/main')
 
 @section('container')
     
