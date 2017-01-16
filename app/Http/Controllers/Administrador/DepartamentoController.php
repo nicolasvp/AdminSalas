@@ -56,7 +56,7 @@ class DepartamentoController extends Controller
             'descripcion' => $request->get('descripcion')
             ]);
 
-        return redirect()->route('departamento.index');
+        return redirect()->route('administrador.departamento.index');
     }
 
     /**
@@ -104,7 +104,7 @@ class DepartamentoController extends Controller
 
         Session::flash('message', 'El Departamento ' .$departamento->nombre.' ha sido actualizado');
 
-        return redirect()->route('departamento.index');
+        return redirect()->route('administrador.departamento.index');
     }
 
     /**

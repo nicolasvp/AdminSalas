@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Auth;
 
 use App\Http\Requests;
 
@@ -23,6 +24,7 @@ class CampusController extends Controller
      */
     public function index()
     {
+       // dd(Auth::user());
         $campus = Campus::all();
         
         return view('administrador/campus/index',compact('campus'));
@@ -53,7 +55,7 @@ class CampusController extends Controller
             'descripcion' => $request->get('descripcion'),
             'rut_encargado' => '18117925'
             ]);
-        return redirect()->route('campus.index');
+        return redirect()->route('administrador.campus.index');
     }
 
     /**
@@ -101,7 +103,7 @@ class CampusController extends Controller
 
         Session::flash('message', 'El Campus ' .$campus->nombre.' ha sido actualizado');
 
-        return redirect()->route('campus.index');
+        return redirect()->route('administrador.campus.index');
     }
 
     /**

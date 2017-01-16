@@ -103,7 +103,7 @@ $(document).ready(function() {
             }
     });
     $('.btn-delete').click(function(e){
-    	alert('asda');
+    	//alert('asda');
         // e.preventDefault(); para evitar que recargue la pagina
         var row = $(this).parents('tr');
         var id = row.data('id');

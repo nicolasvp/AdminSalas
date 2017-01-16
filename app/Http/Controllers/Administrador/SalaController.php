@@ -63,7 +63,7 @@ class SalaController extends Controller
             'capacidad' => $request->get('capacidad')
             ]);
 
-        return redirect()->route('sala.index');
+        return redirect()->route('administrador.sala.index');
     }
 
     /**
@@ -115,7 +115,7 @@ class SalaController extends Controller
                             
         Session::flash('message', 'La sala ' .$sala->nombre.' ha sido actualizada');
 
-        return redirect()->route('sala.index');
+        return redirect()->route('administrador.sala.index');
     }
 
     /**

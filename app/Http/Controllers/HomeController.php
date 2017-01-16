@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
 
 class HomeController extends Controller
 {
@@ -12,11 +14,11 @@ class HomeController extends Controller
      *
      * @return void
      */
-   /* public function __construct()
+    public function __construct()
     {
         $this->middleware('auth');
     }
-*/
+
     /**
      * Show the application dashboard.
      *
@@ -24,6 +26,8 @@ class HomeController extends Controller
      */
     public function index()
     {   
+        //dd(Auth::user());
+        //return view('home');
         return redirect()->route('administrador.campus.index');
     }
 

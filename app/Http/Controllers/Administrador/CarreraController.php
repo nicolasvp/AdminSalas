@@ -57,7 +57,7 @@ class CarreraController extends Controller
                 'descripcion' => $request->get('descripcion')
             ]);
 
-        return redirect()->route('carrera.index');
+        return redirect()->route('administrador.carrera.index');
     }
 
     /**
@@ -106,7 +106,7 @@ class CarreraController extends Controller
 
         Session::flash('message', 'La Carrera ' .$carrera->nombre.' ha sido actualizada');
 
-        return redirect()->route('carrera.index');
+        return redirect()->route('administrador.carrera.index');
     }
 
     /**

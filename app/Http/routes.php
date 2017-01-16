@@ -27,8 +27,7 @@ Route::get('/', function () {
 | it contains. The "web" middleware group is defined in your HTTP
 | kernel and includes session state, CSRF protection, and more.
 |
-*/		
-
+*/			
 
 Route::group(['middleware' => ['web']], function () { 
 
@@ -38,10 +37,48 @@ Route::group(['middleware' => ['web']], function () {
 
 	Route::get('/','HomeController@index');
 
+	Route::group(['prefix' => 'administrador',  'middleware' => 'auth', 'namespace' => 'Administrador'], function(){
+
+		Route::get('/dashboard',function(){
+			return view('administrador/index');
+		});
+
+		Route::resource('/campus','CampusController');
+		Route::resource('/facultad','FacultadController');
+		Route::resource('/departamento','DepartamentoController');
+		Route::resource('/escuela','EscuelaController');
+		Route::resource('/carrera','CarreraController');
+		Route::resource('/asignatura','AsignaturaController');
+		Route::resource('/rol','RolController');
+		Route::resource('/docente','DocenteController');
+		Route::resource('/curso','CursoController');
+		Route::resource('/tipo_sala','TipoSalaController');
+		Route::resource('/sala','SalaController');
+		Route::resource('/periodo','PeriodoController');
+		Route::resource('/horario','HorarioController');
+		Route::resource('/usuario','UsuarioController');
+
+		Route::post('/periodo/create/upload',['uses' => 'PeriodoController@upload', 'as' => 'administrador.periodo.upload']);
+		Route::get('/horario/display/diario',['uses' => 'HorarioController@display_horario', 'as' => 'administrador.horario.display']);
+	});	
+
+	Route::group(['prefix' => 'alumno', 'namespace' => 'Alumno', 'middleware' => 'auth'], function(){
+		Route::resource('/','AlumnoController');
+		Route::get('horario',['uses' => 'AlumnoController@horario', 'as' => 'alumno.horario']);
+	});
+
+	Route::group(['prefix' => 'docente', 'namespace' => 'Docente', 'middleware' => 'auth'], function(){
+		Route::resource('/','DocenteController');
+		Route::get('horario',['uses' => 'DocenteController@horario', 'as' => 'docente.horario']);
+	});
+
 });
+
+
 
 Route::get('/rest',function(){
 
+	dd(bcrypt('123'));
 	$client = new GuzzleHttp\Client();
 
 	$res = $client->request('GET', 'https://sepa.utem.cl/rest/api/v1/sepa/autenticar/181179252/116fc7635034c3310f21d95e5ca48ea1f59d58296b074e4740b6003b8edc6182', [
@@ -68,37 +105,6 @@ Route::get('/rest',function(){
 });
 
 
-Route::group(['prefix' => 'administrador', 'namespace' => 'Administrador'], function(){
-
-	Route::get('/dashboard',function(){
-		return view('administrador/index');
-	});
-	Route::resource('/campus','CampusController');
-	Route::resource('/facultad','FacultadController');
-	Route::resource('/departamento','DepartamentoController');
-	Route::resource('/escuela','EscuelaController');
-	Route::resource('/carrera','CarreraController');
-	Route::resource('/asignatura','AsignaturaController');
-	Route::resource('/rol','RolController');
-	Route::resource('/docente','DocenteController');
-	Route::resource('/curso','CursoController');
-	Route::resource('/tipo_sala','TipoSalaController');
-	Route::resource('/sala','SalaController');
-	Route::resource('/periodo','PeriodoController');
-	Route::resource('/horario','HorarioController');
-	Route::resource('/usuario','UsuarioController');
-
-	Route::post('/periodo/create/upload',['uses' => 'PeriodoController@upload', 'as' => 'administrador.periodo.upload']);
-	Route::get('/horario/display/diario',['uses' => 'HorarioController@display_horario', 'as' => 'administrador.horario.display']);
-});
 
 
-Route::group(['prefix' => 'alumno', 'namespace' => 'Alumno'], function(){
-	Route::resource('/','AlumnoController');
-	Route::get('horario',['uses' => 'AlumnoController@horario', 'as' => 'alumno.horario']);
-});
 
-Route::group(['prefix' => 'docente', 'namespace' => 'Docente'], function(){
-	Route::resource('/','DocenteController');
-	Route::get('horario',['uses' => 'DocenteController@horario', 'as' => 'docente.horario']);
-});

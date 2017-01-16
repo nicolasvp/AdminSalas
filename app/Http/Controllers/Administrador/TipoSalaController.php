@@ -49,7 +49,7 @@ class TipoSalaController extends Controller
             'descripcion' => $request->get('descripcion')
             ]);
 
-        return redirect()->route('tipo_sala.index');
+        return redirect()->route('administrador.tipo_sala.index');
     }
 
     /**
@@ -94,7 +94,7 @@ class TipoSalaController extends Controller
 
         Session::flash('message', 'El Tipo de Sala ' .$tipo->nombre.' ha sido actualizado');
 
-        return redirect()->route('tipo_sala.index');       
+        return redirect()->route('administrador.tipo_sala.index');       
     }
 
     /**

@@ -59,7 +59,7 @@ class FacultadController extends Controller
             'descripcion' => $request->get('descripcion')
             ]);
 
-        return redirect()->route('facultad.index');
+        return redirect()->route('administrador.facultad.index');
     }
 
     /**
@@ -109,7 +109,7 @@ class FacultadController extends Controller
 
         Session::flash('message', 'La Facultad ' .$facultad->nombre.' ha sido actualizada');
 
-        return redirect()->route('facultad.index');
+        return redirect()->route('administrador.facultad.index');
     }
 
     /**

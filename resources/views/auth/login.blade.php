@@ -80,7 +80,7 @@
                 <ul class="nav navbar-nav navbar-right">
                     <!-- Authentication Links -->
                     @if (Auth::guest())
-                        <li><a href="{{ url('/register') }}">Registrar</a></li>
+                        <!--li><a href="{{ url('/register') }}">Registrar</a></li-->
                     @else
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -114,7 +114,8 @@
                          <div class="form-group{{ $errors->has('rut') ? ' has-error' : '' }}">
                             <label for="email" class="col-md-4 control-label">Rut</label>
                             <div class="col-md-6">
-                                <input id="rut" type="text" class="form-control" placeholder="18117925" name="rut" value="{{ old('rut') }}">
+                                <input id="rut" type="text" class="form-control" placeholder="Ej: 18117925" name="rut" value="{{ old('rut') }}">
+                                <p style="font-size: 12px; font-style: italic">Rut debe ser sin puntos ni digito verificador.</p>
                                 @if ($errors->has('rut'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('rut') }}</strong>

@@ -50,7 +50,7 @@ class PeriodoController extends Controller
                 'fin' => $request->get('fin')
             ]);
 
-        return redirect()->route('periodo.index');
+        return redirect()->route('administrador.periodo.index');
     }
 
     /**
@@ -96,7 +96,7 @@ class PeriodoController extends Controller
 
         Session::flash('message', 'El Periodo ' .$periodo->bloque.' ha sido actualizado');
 
-        return redirect()->route('periodo.index');
+        return redirect()->route('administrador.periodo.index');
     }
 
     /**
@@ -147,7 +147,7 @@ class PeriodoController extends Controller
 		})->get();
 		\Storage::delete($nombre);
 	
-	    return redirect()->route('periodo.index');
+	    return redirect()->route('administrador.periodo.index');
 	      	
     }
 

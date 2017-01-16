@@ -58,7 +58,7 @@ class DocenteController extends Controller
                 'email' => $request->get('email')
             ]);
 
-        return redirect()->route('docente.index');
+        return redirect()->route('administrador.docente.index');
     }
 
     /**
@@ -108,7 +108,7 @@ class DocenteController extends Controller
 
         Session::flash('message', 'El Docente ' .$docente->nombres.' '.$docente->apellidos.' ha sido actualizado');
 
-        return redirect()->route('docente.index');
+        return redirect()->route('administrador.docente.index');
     }
 
     /**

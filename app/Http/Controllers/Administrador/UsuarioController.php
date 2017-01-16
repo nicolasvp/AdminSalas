@@ -69,7 +69,7 @@ class UsuarioController extends Controller
                 ]);
         }
 
-        return redirect()->route('usuario.index');
+        return redirect()->route('administrador.usuario.index');
     }
 
     /**
@@ -147,7 +147,7 @@ class UsuarioController extends Controller
 
         Session::flash('message', 'El usuario ' .$usuario->nombres.' '.$usuario->apellidos.' ha sido actualizado');
 
-        return redirect()->route('usuario.index');
+        return redirect()->route('administrador.usuario.index');
     }
 
     /**

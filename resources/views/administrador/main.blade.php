@@ -122,12 +122,12 @@ a {
                         <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-user" >
-                        <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
+                        <li><p style="padding: 5px 30px" class="fa fa-user"> {{ Auth::user()->nombres }} {{ Auth::user()->apellidos }}</p>
                         </li>
-                        <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
-                        </li>
+                        <!--li><p style="padding: 5px 30px">{{ Auth::user()->rut }}</p>
+                        </li-->
                         <li class="divider"></li>
-                        <li><a href="{{ asset('/login') }}"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                        <li><a href="{{ url('/logout') }}"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
                         </li>
                     </ul>
                     <!-- /.dropdown-user -->

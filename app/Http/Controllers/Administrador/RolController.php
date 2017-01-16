@@ -49,7 +49,7 @@ class RolController extends Controller
                 'descripcion' => $request->get('descripcion')
             ]);
 
-        return redirect()->route('rol.index');
+        return redirect()->route('administrador.rol.index');
     }
 
     /**
@@ -94,7 +94,7 @@ class RolController extends Controller
 
         Session::flash('message', 'El Rol ' .$rol->nombre.' ha sido actualizado');
 
-        return redirect()->route('rol.index');
+        return redirect()->route('administrador.rol.index');
     }
 
     /**

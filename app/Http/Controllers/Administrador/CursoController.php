@@ -64,7 +64,7 @@ class CursoController extends Controller
             'seccion' => $request->get('seccion')
             ]);
 
-        return redirect()->route('curso.index');
+        return redirect()->route('administrador.curso.index');
     }
 
     /**
@@ -121,7 +121,7 @@ class CursoController extends Controller
                             
         Session::flash('message', 'El curso ' .$curso_nombre->first()->nombre.' ha sido actualizado');
 
-        return redirect()->route('curso.index');
+        return redirect()->route('administrador.curso.index');
     }
 
     /**

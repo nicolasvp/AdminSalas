@@ -100,7 +100,7 @@ class HorarioController extends Controller
 
 						 	if(count($v) > 0){
 						 		Session::flash('message', 'La sala se encuentra ocupada en la fecha '.$lunes);
-  					        	return redirect()->route('horario.index');
+  					        	return redirect()->route('administrador.horario.index');
 						 	}
 	                    }
 
@@ -118,7 +118,7 @@ class HorarioController extends Controller
 
 						 	if(count($v) > 0){
 						 		Session::flash('message', 'La sala se encuentra ocupada en la fecha '.$martes);
-  					        	return redirect()->route('horario.index');
+  					        	return redirect()->route('administrador.horario.index');
 						 	}
 	                    }
 	                    
@@ -135,7 +135,7 @@ class HorarioController extends Controller
 
 						 	if(count($v) > 0){
 						 		Session::flash('message', 'La sala se encuentra ocupada en la fecha '.$miercoles);
-  					        	return redirect()->route('horario.index');
+  					        	return redirect()->route('administrador.horario.index');
 						 	}
 	                    }
 	                }
@@ -151,7 +151,7 @@ class HorarioController extends Controller
 
 						 	if(count($v) > 0){
 						 		Session::flash('message', 'La sala se encuentra ocupada en la fecha '.$jueves);
-  					        	return redirect()->route('horario.index');
+  					        	return redirect()->route('administrador.horario.index');
 						 	}
 	                    }
 	                }
@@ -167,7 +167,7 @@ class HorarioController extends Controller
 
 						 	if(count($v) > 0){
 						 		Session::flash('message', 'La sala se encuentra ocupada en la fecha '.$viernes);
-  					        	return redirect()->route('horario.index');
+  					        	return redirect()->route('administrador.horario.index');
 						 	}
 	                    }
 	                }
@@ -183,7 +183,7 @@ class HorarioController extends Controller
 
 						 	if(count($v) > 0){
 						 		Session::flash('message', 'La sala se encuentra ocupada en la fecha '.$sabado);
-  					        	return redirect()->route('horario.index');
+  					        	return redirect()->route('administrador.horario.index');
 						 	}
 	                    }
 	            	}
@@ -206,7 +206,7 @@ class HorarioController extends Controller
 
       			if(count($v) > 0){
       				Session::flash('message', 'La sala se encuentra ocupada en la fecha '.$fecha_formateada);
-      				return redirect()->route('horario.index');
+      				return redirect()->route('administrador.horario.index');
       			}
 
             Horario::create([
@@ -219,7 +219,7 @@ class HorarioController extends Controller
                 'comentario' => $request->get('comentario')
                 ]);
             
-            return redirect()->route('horario.index');            
+            return redirect()->route('administrador.horario.index');            
         }
 
 
@@ -312,10 +312,10 @@ class HorarioController extends Controller
         	}
             Session::flash('message', 'El horario fue asignado exitosamente!');
             
-            return redirect()->route('horario.index');            
+            return redirect()->route('administrador.horario.index');            
         }  
             
-        return redirect()->route('horario.index'); 
+        return redirect()->route('administrador.horario.index'); 
 
     }
 
@@ -391,7 +391,7 @@ class HorarioController extends Controller
                 'cantidad_alumnos' => $request->get('cantidad_alumnos')
                 ]);
             
-            return redirect()->route('horario.index');            
+            return redirect()->route('administrador.horario.index');            
         }
 
 
@@ -480,10 +480,10 @@ class HorarioController extends Controller
             }
             Session::flash('message', 'El horario fue editado exitosamente!');
             
-            return redirect()->route('horario.index');            
+            return redirect()->route('administrador.horario.index');            
         }  
             
-        return redirect()->route('horario.index'); 
+        return redirect()->route('administrador.horario.index'); 
 
     }
 

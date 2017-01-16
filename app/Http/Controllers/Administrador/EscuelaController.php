@@ -57,7 +57,7 @@ class EscuelaController extends Controller
             'descripcion' => $request->get('descripcion')
             ]);
 
-        return redirect()->route('escuela.index');
+        return redirect()->route('administrador.escuela.index');
     }
 
     /**
@@ -105,7 +105,7 @@ class EscuelaController extends Controller
 
         Session::flash('message', 'La Escuela ' .$escuela->nombre.' ha sido actualizada');
 
-        return redirect()->route('escuela.index');
+        return redirect()->route('administrador.escuela.index');
     }
 
     /**

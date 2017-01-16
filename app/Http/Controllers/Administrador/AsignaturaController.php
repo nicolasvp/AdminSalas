@@ -57,7 +57,7 @@ class AsignaturaController extends Controller
                 'descripcion' => $request->get('descripcion')
             ]);
 
-        return redirect()->route('asignatura.index');
+        return redirect()->route('administrador.asignatura.index');
     }
 
     /**
@@ -106,7 +106,7 @@ class AsignaturaController extends Controller
 
         Session::flash('message', 'La Asignatura ' .$asignatura->nombre.' ha sido actualizada');
 
-        return redirect()->route('asignatura.index');
+        return redirect()->route('administrador.asignatura.index');
     }
 
     /**
