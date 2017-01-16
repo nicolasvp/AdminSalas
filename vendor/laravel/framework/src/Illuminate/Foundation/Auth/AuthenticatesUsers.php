@@ -28,7 +28,7 @@ trait AuthenticatesUsers
     public function showLoginForm()
     {
         $view = property_exists($this, 'loginView')
-                    ? $this->loginView : 'auth.authenticate';
+                    ? $this->loginView : 'login';
 
         if (view()->exists($view)) {
             return view($view);
@@ -175,7 +175,7 @@ trait AuthenticatesUsers
     {
         Auth::guard($this->getGuard())->logout();
 
-        return redirect(property_exists($this, 'redirectAfterLogout') ? $this->redirectAfterLogout : '/');
+        return redirect(property_exists($this, 'redirectAfterLogout') ? $this->redirectAfterLogout : '/home');
     }
 
     /**

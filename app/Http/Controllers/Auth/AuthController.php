@@ -28,8 +28,8 @@ class AuthController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
-
+    protected $redirectTo = '/';
+    protected $username = 'rut'; 
     /**
      * Create a new authentication controller instance.
      *
@@ -39,7 +39,6 @@ class AuthController extends Controller
     {
         $this->middleware('guest', ['except' => 'logout']);
     }
-
     /**
      * Get a validator for an incoming registration request.
      *
