@@ -30,7 +30,7 @@
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-lg-2">
-                            {!! Form::open(['route' => ['periodo.store'], 'method' => 'POST']) !!}
+                            {!! Form::open(['route' => ['administrador.periodo.store'], 'method' => 'POST']) !!}
                                 <div class="form-group">
                                     <label>Bloque</label>
                                     <input class="form-control" name="bloque" placeholder="Ej: I">

@@ -3,7 +3,7 @@
 @section('container')
 
             <div class="col-lg-12">
-                <h1 class="page-header">Editar Curso: {{ $curso->asignatura }}</h1>
+                <h1 class="page-header">Editar Curso: </h1>
             </div>
             <!-- /.row -->
             <div class="row">

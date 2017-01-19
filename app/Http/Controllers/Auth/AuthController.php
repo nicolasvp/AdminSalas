@@ -13,6 +13,11 @@ use App\Http\Requests;
 use Illuminate\Support\Facades\Lang;
 use Session;
 use RedirectsUsers;
+use GuzzleHttp\Exception\GuzzleException;
+use GuzzleHttp\Client;
+use GuzzleHttp\Psr7;
+use GuzzleHttp\Exception\RequestException;
+use App\RutUtils;
 
 class AuthController extends Controller
 {
@@ -138,6 +143,107 @@ class AuthController extends Controller
             return $this->handleUserWasAuthenticated($request, $throttles);
         }
 
+        /*----------------------------------- Si no está en la bdd entonces pregunta en el rest ----------------------*/
+        $client = new Client();
+
+        //Calcula el dv para preguntar en el rest
+        $dv = RutUtils::dv($credentials['rut']);
+
+        $rut_con_dv = $credentials['rut'].'-'.$dv;
+
+        $password = hash('sha256',strtoupper($credentials['password']));
+
+        $url = 'https://sepa.utem.cl/rest/api/v1/sepa/autenticar/'.$rut_con_dv.'/'.$password.'';
+        
+        $res = $client->request('GET',$url, 
+            ['auth' => ['HJPD4IceDT', '4e878edc156b244dfc99e7433447de6b']
+        ]);
+
+        $body = json_decode($res->getBody(true));
+
+
+        if($body->ok == true)
+        {
+            try
+            {
+                //Consulta si es estudiante
+                $res = $client->request('GET', 'https://sepa.utem.cl/rest/api/v1/utem/estudiante/'.$rut_con_dv, [
+                'auth' => ['HJPD4IceDT', '4e878edc156b244dfc99e7433447de6b']
+                ]); 
+
+                $info_alumno = json_decode($res->getBody(true));
+
+                //Si es estudiante
+                if($info_alumno)
+                {
+                    // dd($info_alumno);
+                    //Inserta en la base de datos al usuario
+                    User::create([
+                        'rut' => $credentials['rut'],
+                        'email' => $info_alumno->email,
+                        'nombres' => $info_alumno->nombres,
+                        'apellidos' => $info_alumno->apellidos,
+                        'password' => bcrypt($credentials['password'])
+                        ]);
+
+                    if (Auth::guard($this->getGuard())->attempt($credentials, $request->has('remember'))) {
+
+                        return $this->handleUserWasAuthenticated($request, $throttles);
+                    }
+                }
+            }
+            catch (RequestException $e)
+            {
+                $var = $e->getResponse();
+                //dd($e->getStatusCode());
+                    //Consulta si es docente
+                    try
+                    {
+                        $res = $client->request('GET', 'https://sepa.utem.cl/rest/api/v1/academia/docente/'.$rut_con_dv, [
+                        'auth' => ['HJPD4IceDT', '4e878edc156b244dfc99e7433447de6b']
+                        ]); 
+
+                        $info_docente = json_decode($res->getBody(true)); 
+
+                        //Si es docente
+                        if($info_docente)
+                        {
+                            //dd($info_docente);
+                            User::create([
+                                'rut' => $credentials['rut'],
+                                'email' => $info_docente->email,
+                                'nombres' => $info_docente->nombres,
+                                'apellidos' => $info_docente->apellidos,
+                                'password' => bcrypt($credentials['password'])
+                                ]);
+
+                            if (Auth::guard($this->getGuard())->attempt($credentials, $request->has('remember'))) {
+
+                                return $this->handleUserWasAuthenticated($request, $throttles);
+                            }
+                        }   
+                    }
+                    //Si no es docente
+                    catch(RequestException $e)
+                    {
+                        if ($throttles && ! $lockedOut) {
+                            $this->incrementLoginAttempts($request);
+                        }
+                        //Retorna a login
+                        return $this->sendFailedLoginResponse($request);
+                    }                      
+            }
+          
+        }
+        else
+        {
+            if ($throttles && ! $lockedOut) {
+                $this->incrementLoginAttempts($request);
+            }
+            //Si no hay servicio entonces devuelve a login
+            return $this->sendFailedLoginResponse($request);
+        }        
+
         // If the login attempt was unsuccessful we will increment the number of attempts
         // to login and redirect the user back to the login form. Of course, when this
         // user surpasses their maximum number of attempts they will get locked out.
@@ -157,7 +263,7 @@ class AuthController extends Controller
     protected function validateLogin(Request $request)
     {
         $this->validate($request, [
-            $this->loginUsername() => 'required|numeric', 'password' => 'required',
+            $this->loginUsername() => 'required', 'password' => 'required',
         ]);
     }
 

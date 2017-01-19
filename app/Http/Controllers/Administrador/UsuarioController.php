@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Session;
 
 use App\Http\Requests;
 
-use App\Usuario;
+use App\User;
 
 use App\Roles;
 
@@ -25,9 +25,9 @@ class UsuarioController extends Controller
      */
     public function index()
     {
-        $usuarios = Usuario::join('roles_usuarios','roles_usuarios.rut','=','usuarios.rut')
+        $usuarios = User::join('roles_usuarios','roles_usuarios.rut','=','users.rut')
                             ->join('roles','roles.id','=','roles_usuarios.rol_id')
-                            ->select('usuarios.*','roles.nombre as rol')
+                            ->select('users.*','roles.nombre as rol')
                             ->get();
 
         return view('administrador/usuario/index',compact('usuarios'));
@@ -54,11 +54,12 @@ class UsuarioController extends Controller
     public function store(Request $request)
     {
         
-        Usuario::create([
+        User::create([
             'rut' => $request->get('rut'),
             'email' => $request->get('email'),
             'nombres' => $request->get('nombres'),
-            'apellidos' => $request->get('apellidos')
+            'apellidos' => $request->get('apellidos'),
+            'password' => bcrypt($request->get('rut'))
             ]);
 
         foreach($request->get('roles') as $rol)
@@ -93,7 +94,7 @@ class UsuarioController extends Controller
     {
         if($request->ajax()){
 
-            $usuario = Usuario::find($request->get('id'));
+            $usuario = User::find($request->get('id'));
             $roles = Rol_usuario::where('rut',$usuario->rut)->select('rut','rol_id')->get();
             $rolesTotales = Roles::select('id','nombre')->get();
             $respuesta = ['roles' => $rolesTotales, 'roles_usuario' => $roles];
@@ -103,7 +104,7 @@ class UsuarioController extends Controller
         else
         {
             
-            $usuario = Usuario::find($id);
+            $usuario = User::find($id);
 
             return view('administrador/usuario/edit',compact('usuario','roles'));
         }
@@ -121,7 +122,7 @@ class UsuarioController extends Controller
     {
 
 
-        $usuario = Usuario::find($id);
+        $usuario = User::find($id);
 
         $usuario->rut = $request->get('rut');
         $usuario->email = $request->get('email');
@@ -160,7 +161,7 @@ class UsuarioController extends Controller
     {
         if($request->ajax()){
 
-            $usuario = Usuario::find($id);
+            $usuario = User::find($id);
        
             if($usuario)// Si está el registro
             {

@@ -27,7 +27,7 @@ class HomeController extends Controller
     public function index()
     {   
         //dd(Auth::user());
-        //return view('home');
+        //return view('home');  
         return redirect()->route('administrador.campus.index');
     }
 

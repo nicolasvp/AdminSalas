@@ -52,7 +52,7 @@
                                         <td class="center">{{ $usuario->nombres }}</td>
                                         <td class="center">{{ $usuario->email }}</td>
                                         <td class="center">{{ $usuario->rol }}</td>
-                                        <td class="center"><a href="{{ route('administrador.usuario.edit',$usuario->rut)}}"><i class="fa fa-edit"></i></a></td>
+                                        <td class="center"><a href="{{ route('administrador.usuario.edit',$usuario->id)}}"><i class="fa fa-edit"></i></a></td>
                                         <td class="center"><a href="#!" class="btn-delete"><i class="fa fa-trash"></i></a>
                                         {!! Form::open(['route' => ['administrador.usuario.destroy', ':USUARIO_RUT'], 'method' => 'DELETE', 'id' => 'form-delete']) !!}
                                         {!! Form::close() !!}

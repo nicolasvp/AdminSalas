@@ -78,7 +78,7 @@ Route::group(['middleware' => ['web']], function () {
 
 Route::get('/rest',function(){
 
-	dd(bcrypt('123'));
+	dd(bcrypt('1234'));
 	$client = new GuzzleHttp\Client();
 
 	$res = $client->request('GET', 'https://sepa.utem.cl/rest/api/v1/sepa/autenticar/181179252/116fc7635034c3310f21d95e5ca48ea1f59d58296b074e4740b6003b8edc6182', [
@@ -86,7 +86,7 @@ Route::get('/rest',function(){
 	]);
 
 	$body = json_decode($res->getBody(true));
-	
+
 	if($body->ok == true)
 	{
 		$res = $client->request('GET', 'https://sepa.utem.cl/rest/api/v1/utem/estudiante/181179252', [
