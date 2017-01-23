@@ -21,9 +21,11 @@ class RolController extends Controller
      */
     public function index()
     {
+        $rol = $this->getRol();
+
         $roles = Roles::all();
 
-        return view('administrador/rol/index',compact('roles'));
+        return view('administrador/rol/index',compact('roles','rol'));
     }
 
     /**
@@ -33,7 +35,9 @@ class RolController extends Controller
      */
     public function create()
     {
-        return view('administrador/rol/create');
+        $rol = $this->getRol();
+
+        return view('administrador/rol/create',compact('rol'));
     }
 
     /**
@@ -71,9 +75,11 @@ class RolController extends Controller
      */
     public function edit($id)
     {
-        $rol = Roles::find($id);
+        $rol = $this->getRol();
 
-        return view('administrador/rol/edit',compact('rol'));
+        $roles = Roles::find($id);
+
+        return view('administrador/rol/edit',compact('roles','rol'));
     }
 
     /**

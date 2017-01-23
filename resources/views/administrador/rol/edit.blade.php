@@ -3,7 +3,7 @@
 @section('container')
 
             <div class="col-lg-12">
-                <h1 class="page-header">Editar Rol: {{ $rol->nombre }}</h1>
+                <h1 class="page-header">Editar Rol: {{ $roles->nombre }}</h1>
             </div>
             <!-- /.row -->
             <div class="row">
@@ -15,7 +15,7 @@
                         <div class="panel-body">
                             <div class="row">
                                 <div class="col-lg-6">
-                                    {!! Form::model($rol, ['route' => ['administrador.rol.update', $rol], 'method' => 'PUT']) !!}
+                                    {!! Form::model($roles, ['route' => ['administrador.rol.update', $roles], 'method' => 'PUT']) !!}
                                       <input type="hidden" name="_token" value="{{ csrf_token() }}" id="token">
                                       <div class="form-group">
                                        {!! Form::label('nombre', 'Nombre') !!}

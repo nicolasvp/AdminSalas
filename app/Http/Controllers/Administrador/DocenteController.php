@@ -23,11 +23,13 @@ class DocenteController extends Controller
      */
     public function index()
     {
+        $rol = $this->getRol();
+
         $docentes = Docente::join('departamentos','departamentos.id','=','docentes.departamento_id')
                                 ->select('docentes.*','departamentos.nombre as departamento')
                                 ->get();
 
-        return view('administrador/docente/index',compact('docentes'));        
+        return view('administrador/docente/index',compact('docentes','rol'));        
     }
 
     /**
@@ -37,9 +39,11 @@ class DocenteController extends Controller
      */
     public function create()
     {
+        $rol = $this->getRol();
+
         $departamentos = Departamento::all('id','nombre');
 
-        return view('administrador/docente/create',compact('departamentos'));
+        return view('administrador/docente/create',compact('departamentos','rol'));
     }
 
     /**
@@ -80,11 +84,13 @@ class DocenteController extends Controller
      */
     public function edit($id)
     {
+        $rol = $this->getRol();
+
         $docente = Docente::find($id);
 
         $departamentos = Departamento::all('id','nombre');
 
-        return view('administrador/docente/edit',compact('docente','departamentos'));
+        return view('administrador/docente/edit',compact('docente','departamentos','rol'));
     }
 
     /**

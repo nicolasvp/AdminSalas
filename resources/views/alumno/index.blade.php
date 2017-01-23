@@ -6,10 +6,9 @@
         <div class="panel panel-default">
             <div class="panel-body">
 			    <div class="jumbotron">
-			        <h1>Bienvenido al buscador de salas</h1>
+			        <h1>Bienvenido al buscador de salas UTEM</h1>
 			        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est vitae ultrices accumsan. Aliquam ornare lacus adipiscing, posuere lectus et, fringilla augue. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est vitae ultrices accumsan. Aliquam ornare lacus adipiscing.</p>
-			        <p><a class="btn btn-primary btn-lg" role="button">Aceptar</a>
-			        </p>
+
 			    </div>
             </div>
         </div>

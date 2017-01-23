@@ -25,12 +25,14 @@ class UsuarioController extends Controller
      */
     public function index()
     {
+        $rol = $this->getRol();
+
         $usuarios = User::join('roles_usuarios','roles_usuarios.rut','=','users.rut')
                             ->join('roles','roles.id','=','roles_usuarios.rol_id')
                             ->select('users.*','roles.nombre as rol')
                             ->get();
 
-        return view('administrador/usuario/index',compact('usuarios'));
+        return view('administrador/usuario/index',compact('usuarios','rol'));
     }
 
     /**
@@ -40,9 +42,11 @@ class UsuarioController extends Controller
      */
     public function create()
     {
+        $rol = $this->getRol();
+
         $roles = Roles::all();
 
-        return view('administrador/usuario/create',compact('roles'));
+        return view('administrador/usuario/create',compact('roles','rol'));
     }
 
     /**
@@ -92,6 +96,8 @@ class UsuarioController extends Controller
      */
     public function edit(Request $request,$id)
     {
+        $rol = $this->getRol();
+
         if($request->ajax()){
 
             $usuario = User::find($request->get('id'));
@@ -106,7 +112,7 @@ class UsuarioController extends Controller
             
             $usuario = User::find($id);
 
-            return view('administrador/usuario/edit',compact('usuario','roles'));
+            return view('administrador/usuario/edit',compact('usuario','roles','rol'));
         }
 
     }
@@ -121,7 +127,7 @@ class UsuarioController extends Controller
     public function update(Request $request, $id)
     {
 
-
+        
         $usuario = User::find($id);
 
         $usuario->rut = $request->get('rut');

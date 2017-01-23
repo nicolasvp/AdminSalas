@@ -24,10 +24,12 @@ class CampusController extends Controller
      */
     public function index()
     {
-       // dd(Auth::user());
+
+        $rol = $this->getRol();
+
         $campus = Campus::all();
         
-        return view('administrador/campus/index',compact('campus'));
+        return view('administrador/campus/index',compact('campus','rol'));
     }
 
     /**
@@ -37,7 +39,9 @@ class CampusController extends Controller
      */
     public function create()
     {
-        return view('administrador/campus/create');
+        $rol = $this->getRol();
+
+        return view('administrador/campus/create',compact('rol'));
     }
 
     /**
@@ -77,9 +81,11 @@ class CampusController extends Controller
      */
     public function edit($id)
     {
+        $rol = $this->getRol();
+
         $campus = Campus::find($id);
 
-        return view('administrador/campus/edit',compact('campus'));
+        return view('administrador/campus/edit',compact('campus','rol'));
        
     }
 
@@ -92,6 +98,7 @@ class CampusController extends Controller
      */
     public function update(Request $request, $id)
     {
+
         $campus = Campus::find($id);
 
         $campus->nombre = $request->get('nombre');

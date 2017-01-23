@@ -32,49 +32,41 @@
                                                 <option name="duracion" value="dia">Día</option>
                                             </select>
                                         </div>                                        
-                                        <div class="form-group" id="form-fecha" style="display:none;">
+                                        <div class="form-group" id="form-fecha" style="display: none;">
                                             <label>Fecha</label>
                                             <input type="text" class="form-control" id="fecha" name="fecha">
                                         </div>
-                                        <div class="form-group" id="form-fecha-ini" style="display:none;">
+                                        <div class="form-group" id="form-fecha-ini" style="display: none;">
                                             <label>Fecha Inicio</label>
                                             <input type="text" class="form-control" id="fecha_inicio" name="fecha_inicio">
                                         </div>
-                                        <div class="form-group" id="form-fecha-term" style="display:none;">
+                                        <div class="form-group" id="form-fecha-term" style="display: none;">
                                             <label>Fecha Término</label>
                                             <input type="text" class="form-control" id="fecha_termino" name="fecha_termino">
                                         </div>
-                                        <div class="form-group">
+                                        <div class="form-group" id="form-dias" style="display: none;">
                                             <label>Día</label>
                                             <br>
-                                                <input type="checkbox" name="dias[]" id="lunes" value="lunes">Lunes
+                                                <input type="checkbox" name="dias[]" id="lunes" value="Lunes">Lunes
                                          
-                                                <input type="checkbox" name="dias[]" id="martes" value="martes">Martes
+                                                <input type="checkbox" name="dias[]" id="martes" value="Martes">Martes
                                           
-                                                <input type="checkbox" name="dias[]" id="miercoles" value="miercoles">Miércoles
+                                                <input type="checkbox" name="dias[]" id="miercoles" value="Miercoles">Miércoles
                                             
-                                                <input type="checkbox" name="dias[]" id="jueves" value="jueves">Jueves
+                                                <input type="checkbox" name="dias[]" id="jueves" value="Jueves">Jueves
                                           
-                                                <input type="checkbox" name="dias[]" id="viernes" value="viernes">Viernes
+                                                <input type="checkbox" name="dias[]" id="viernes" value="Viernes">Viernes
                                            
-                                                <input type="checkbox" name="dias[]" id="sabado" value="sabado">Sábado        
+                                                <input type="checkbox" name="dias[]" id="sabado" value="Sabado">Sábado        
                                         </div>                                                                                                                     
                                         <div class="form-group">
-                                            <label>Curso - Sección</label>
+                                            <label>Curso - Docente - Sección</label>
                                             <select name="curso" class="form-control">
                                             @foreach($cursos as $curso)
-                                                <option name="curso" value="{{ $curso->id }}">{{ $curso->asignatura }} - {{ $curso->seccion }}</option>
+                                                <option name="curso" value="{{ $curso->id }}">{{ $curso->asignatura }} - {{ $curso->docente_nombres }} {{ $curso->docente_apellidos }} - {{ $curso->seccion }}</option>
                                             @endforeach
                                             </select>
                                         </div>                                    
-                                        <div class="form-group">
-                                            <label>Docente</label>
-                                            <select name="docente" class="form-control">
-                                            @foreach($docentes as $docente)
-                                                <option name="docente" value="{{ $docente->id }}">{{ $docente->nombres }} {{ $docente->apellidos }}</option>
-                                            @endforeach
-                                            </select>
-                                        </div>
                                         <div class="form-group">
                                             <label>Sala</label>
                                            <select name="sala" class="form-control">
@@ -123,11 +115,13 @@ $(document).ready(function(){
             $("#form-fecha").css('display','none'); 
             $("#form-fecha-ini").css('display','block'); 
             $("#form-fecha-term").css('display','block'); 
+            $("#form-dias").css('display','block');
             return;
         }
         if(opcion == 'dia'){
             $("#form-fecha-ini").css('display','none'); 
             $("#form-fecha-term").css('display','none');
+            $("#form-dias").css('display','none');
             $("#form-fecha").css('display','block');
             return; 
         }

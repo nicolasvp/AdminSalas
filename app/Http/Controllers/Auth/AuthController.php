@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Auth;
 
 use App\User;
+use App\Rol_usuario;
+use App\Roles;
 use Validator;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
@@ -186,6 +188,14 @@ class AuthController extends Controller
                         'password' => bcrypt($credentials['password'])
                         ]);
 
+                    //Consulta por el id del rol estudiante
+                    $id_rol_estudiante = Roles::where('nombre','Estudiante')->select('id')->first();
+
+                    Rol_usuario::create([
+                        'rut' => $credentials['rut'],
+                        'rol_id' => $id_rol_estudiante->id
+                        ]);
+
                     if (Auth::guard($this->getGuard())->attempt($credentials, $request->has('remember'))) {
 
                         return $this->handleUserWasAuthenticated($request, $throttles);
@@ -215,6 +225,13 @@ class AuthController extends Controller
                                 'nombres' => $info_docente->nombres,
                                 'apellidos' => $info_docente->apellidos,
                                 'password' => bcrypt($credentials['password'])
+                                ]);
+
+                            $id_rol_docente = Roles::where('nombre','Docente')->select('id')->first();
+
+                            Rol_usuario::create([
+                                'rut' => $credentials['rut'],
+                                'rol_id' => $id_rol_docente
                                 ]);
 
                             if (Auth::guard($this->getGuard())->attempt($credentials, $request->has('remember'))) {
@@ -263,7 +280,7 @@ class AuthController extends Controller
     protected function validateLogin(Request $request)
     {
         $this->validate($request, [
-            $this->loginUsername() => 'required', 'password' => 'required',
+            $this->loginUsername() => 'required|numeric|digits_between:7,8', 'password' => 'required',
         ]);
     }
 

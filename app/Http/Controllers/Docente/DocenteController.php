@@ -31,11 +31,15 @@ class DocenteController extends Controller
      */
     public function index()
     {
-        return view('docente/index');
+        $rol = $this->getRol();
+
+        return view('docente/index',compact('rol'));
     }
 
     public function horario(Request $request)
     {
+
+        $rol = $this->getRol();
 
         if($request->get('dia') || $request->get('bloque'))
         {
@@ -49,7 +53,7 @@ class DocenteController extends Controller
                                ->select('horarios.*','salas.nombre as sala','periodos.bloque as bloque','cursos.seccion as seccion','asignaturas.nombre as asignatura','docentes.nombres as nombres_docente','docentes.apellidos as apellidos_docente')
                                ->get();     
 
-            return view('docente/horario',compact('horarios')); 
+            return view('docente/horario',compact('horarios','rol')); 
         }
 
         $fecha_actual = Carbon::now();
@@ -65,7 +69,7 @@ class DocenteController extends Controller
                              ->orderBy('periodos.bloque','asc')
                              ->get(); 
 
-        return view('docente/horario',compact('horarios'));    
+        return view('docente/horario',compact('horarios','rol'));    
     }
     /**
      * Show the form for creating a new resource.

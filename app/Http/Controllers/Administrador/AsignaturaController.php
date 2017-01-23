@@ -23,11 +23,13 @@ class AsignaturaController extends Controller
      */
     public function index()
     {
+        $rol = $this->getRol();
+
         $asignaturas = Asignatura::join('departamentos','departamentos.id','=','asignaturas.departamento_id')
                                 ->select('asignaturas.*','departamentos.nombre as departamento')
                                 ->get();
 
-        return view('administrador/asignatura/index',compact('asignaturas'));
+        return view('administrador/asignatura/index',compact('asignaturas','rol'));
     }
 
     /**
@@ -37,9 +39,11 @@ class AsignaturaController extends Controller
      */
     public function create()
     {
+        $rol = $this->getRol();
+
         $departamentos = Departamento::all('id','nombre');
 
-        return view('administrador/asignatura/create',compact('departamentos'));
+        return view('administrador/asignatura/create',compact('departamentos','rol'));
     }
 
     /**
@@ -79,11 +83,13 @@ class AsignaturaController extends Controller
      */
     public function edit($id)
     {
+        $rol = $this->getRol();
+
         $asignatura = Asignatura::find($id);
 
         $departamentos = Departamento::all('id','nombre');
 
-        return view('administrador/asignatura/edit',compact('asignatura','departamentos'));
+        return view('administrador/asignatura/edit',compact('asignatura','departamentos','rol'));
     }
 
     /**

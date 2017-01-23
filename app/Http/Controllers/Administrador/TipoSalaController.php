@@ -21,9 +21,11 @@ class TipoSalaController extends Controller
      */
     public function index()
     {
+        $rol = $this->getRol();
+
         $tipos = TipoSala::all();
 
-        return view('administrador/tipo_sala/index',compact('tipos'));
+        return view('administrador/tipo_sala/index',compact('tipos','rol'));
     }
 
     /**
@@ -33,7 +35,9 @@ class TipoSalaController extends Controller
      */
     public function create()
     {
-        return view('administrador/tipo_sala/create');
+        $rol = $this->getRol();
+
+        return view('administrador/tipo_sala/create',compact('rol'));
     }
 
     /**
@@ -71,9 +75,11 @@ class TipoSalaController extends Controller
      */
     public function edit($id)
     {
+        $rol = $this->getRol();
+
         $tipo = TipoSala::find($id);
 
-        return view('administrador/tipo_sala/edit',compact('tipo'));
+        return view('administrador/tipo_sala/edit',compact('tipo','rol'));
     }
 
     /**
@@ -121,4 +127,32 @@ class TipoSalaController extends Controller
 
         }
     }
+
+
+    public function upload(Request $request)
+    {
+        
+        $file = $request->file('file');
+    
+        $nombre = $file->getClientOriginalName();
+
+        \Storage::disk('local')->put($nombre,  \File::get($file));
+        \Excel::load('/storage/app/'.$nombre,function($archivo)
+        {
+            $result = $archivo->get();
+
+            foreach($result as $key => $value)
+            {
+                TipoSala::create([
+                    'nombre' => $value->nombre,
+                    'descripcion' => $value->descripcion
+                    ]);
+            }
+        })->get();
+        \Storage::delete($nombre);
+    
+        return redirect()->route('administrador.tipo_sala.index');
+            
+    }
+
 }

@@ -23,10 +23,12 @@ class EscuelaController extends Controller
      */
     public function index()
     {
+        $rol = $this->getRol();
+
         $escuelas = Escuela::join('departamentos','escuelas.departamento_id','=','departamentos.id')
                             ->select('escuelas.*','departamentos.nombre as departamento')
                             ->get();
-        return view('administrador/escuela/index',compact('escuelas'));
+        return view('administrador/escuela/index',compact('escuelas','rol'));
     }
 
     /**
@@ -36,11 +38,13 @@ class EscuelaController extends Controller
      */
     public function create()
     {
+        $rol = $this->getRol();
+
         $escuelas = Escuela::all('id','nombre');
 
         $departamentos = Departamento::all();
 
-        return view('administrador/escuela/create',compact('escuelas','departamentos'));
+        return view('administrador/escuela/create',compact('escuelas','departamentos','rol'));
     }
 
     /**
@@ -79,11 +83,13 @@ class EscuelaController extends Controller
      */
     public function edit($id)
     {
+        $rol = $this->getRol();
+
         $escuela = Escuela::find($id);
 
         $departamentos = Departamento::all('id','nombre');
 
-        return view('administrador/escuela/edit',compact('departamentos','escuela'));
+        return view('administrador/escuela/edit',compact('departamentos','escuela','rol'));
     }
 
     /**
@@ -117,7 +123,7 @@ class EscuelaController extends Controller
     public function destroy(Request $request,$id)
     {
         if($request->ajax()){
-dd('asda');
+
             $escuela = Escuela::find($id);
        
             if($escuela)// Si está el registro

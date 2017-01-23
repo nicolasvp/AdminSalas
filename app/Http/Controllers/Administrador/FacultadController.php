@@ -23,11 +23,13 @@ class FacultadController extends Controller
      */
     public function index()
     {
+        $rol = $this->getRol();
+
         $facultades = Facultad::join('campus','campus.id','=','facultades.campus_id')
                                 ->select('facultades.id','facultades.nombre','facultades.descripcion','campus.nombre as campus')
                                 ->get();
 
-        return view('administrador/facultad/index',compact('facultades'));
+        return view('administrador/facultad/index',compact('facultades','rol'));
     }
 
     /**
@@ -37,10 +39,11 @@ class FacultadController extends Controller
      */
     public function create(Request $request)
     {
+        $rol = $this->getRol();
 
         $campus = Campus::all('id','nombre');
 
-        return view('administrador/facultad/create',compact('campus'));
+        return view('administrador/facultad/create',compact('campus','rol'));
         
     }
 
@@ -81,12 +84,13 @@ class FacultadController extends Controller
      */
     public function edit($id)
     {
+        $rol = $this->getRol();
 
         $facultad = Facultad::find($id);
 
         $campus = Campus::all('id','nombre');
 
-        return view('administrador/facultad/edit',compact('facultad','campus'));
+        return view('administrador/facultad/edit',compact('facultad','campus','rol'));
        
     }
 

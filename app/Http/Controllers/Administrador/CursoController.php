@@ -25,13 +25,15 @@ class CursoController extends Controller
      */
     public function index()
     {
+        $rol = $this->getRol();
+
         $cursos = Curso::join('asignaturas','asignaturas.id','=','cursos.asignatura_id')
                         ->join('docentes','docentes.id','=','cursos.docente_id')
                         ->select('cursos.*','asignaturas.nombre as asignatura','docentes.nombres as nombres',
                             'docentes.apellidos as apellidos')
                         ->get();
 
-        return view('administrador/curso/index',compact('cursos'));
+        return view('administrador/curso/index',compact('cursos','rol'));
     }
 
     /**
@@ -41,11 +43,13 @@ class CursoController extends Controller
      */
     public function create()
     {
+        $rol = $this->getRol();
+
         $docentes = Docente::all();
 
         $asignaturas = Asignatura::all();
 
-        return view('administrador/curso/create',compact('docentes','asignaturas'));
+        return view('administrador/curso/create',compact('docentes','asignaturas','rol'));
     }
 
     /**
@@ -86,13 +90,15 @@ class CursoController extends Controller
      */
     public function edit($id)
     {
+        $rol = $this->getRol();
+
         $curso = Curso::find($id);
 
         $docentes = Docente::all();
 
         $asignaturas = Asignatura::all();
 
-        return view('administrador/curso/edit',compact('curso','docentes','asignaturas'));
+        return view('administrador/curso/edit',compact('curso','docentes','asignaturas','rol'));
     }
 
     /**

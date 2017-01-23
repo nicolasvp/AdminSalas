@@ -6,10 +6,9 @@
         <div class="panel panel-default">
             <div class="panel-body">
 			    <div class="jumbotron">
-			        <h1>Bienvenido al panel de administración</h1>
-			        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est vitae ultrices accumsan. Aliquam ornare lacus adipiscing, posuere lectus et, fringilla augue. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est vitae ultrices accumsan. Aliquam ornare lacus adipiscing.</p>
-			        <p><a class="btn btn-primary btn-lg" role="button">Aceptar</a>
-			        </p>
+			        <h2>Bienvenido al panel de administración de Salas UTEM</h2>
+			        <p>En este panel usted podrá configurar cada componente del Sistema de Administración y Gestión
+			        de Salas UTEM, por ejemplo podrá crear, editar, eliminar Campus, Facultades, Escuelas, Departamentos, Usuarios, etc. Como también asignar salas a todos las asignaturas.</p>
 			    </div>
             </div>
         </div>

@@ -23,11 +23,13 @@ class CarreraController extends Controller
      */
     public function index()
     {
+        $rol = $this->getRol();
+
         $carreras = Carrera::join('escuelas','escuelas.id','=','carreras.escuela_id')
                             ->select('carreras.*','escuelas.nombre as escuela')
                             ->get();
 
-        return view('administrador/carrera/index',compact('carreras'));
+        return view('administrador/carrera/index',compact('carreras','rol'));
     }
 
     /**
@@ -37,9 +39,11 @@ class CarreraController extends Controller
      */
     public function create()
     {
+        $rol = $this->getRol();
+
         $escuelas = Escuela::all('id','nombre');
 
-        return view('administrador/carrera/create',compact('escuelas'));
+        return view('administrador/carrera/create',compact('escuelas','rol'));
     }
 
     /**
@@ -79,11 +83,13 @@ class CarreraController extends Controller
      */
     public function edit($id)
     {
+        $rol = $this->getRol();
+
         $carrera = Carrera::find($id);
 
         $escuelas = Escuela::all('id','nombre');
 
-        return view('administrador/carrera/edit',compact('carrera','escuelas'));
+        return view('administrador/carrera/edit',compact('carrera','escuelas','rol'));
     }
 
     /**

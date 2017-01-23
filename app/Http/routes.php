@@ -37,10 +37,18 @@ Route::group(['middleware' => ['web']], function () {
 
 	Route::get('/','HomeController@index');
 
-	Route::group(['prefix' => 'administrador',  'middleware' => 'auth', 'namespace' => 'Administrador'], function(){
+	Route::group(['prefix' => 'administrador',  'namespace' => 'Administrador', 'middleware' => ['auth','IsAdmin']], function(){
 
-		Route::get('/dashboard',function(){
-			return view('administrador/index');
+		Route::get('/inicio',function(){
+
+	    $rol_usuario = \App\Rol_usuario::join('roles','roles_usuarios.rol_id','=','roles.id')
+	            ->where('roles_usuarios.rut','=',Auth::user()->rut)
+	            ->select('roles.nombre')
+	            ->get(); 
+        
+        $rol = $rol_usuario->first()->nombre;
+
+			return view('administrador/index',compact('rol'));
 		});
 
 		Route::resource('/campus','CampusController');
@@ -58,16 +66,35 @@ Route::group(['middleware' => ['web']], function () {
 		Route::resource('/horario','HorarioController');
 		Route::resource('/usuario','UsuarioController');
 
+		Route::post('/tipo_sala/create/upload',['uses' => 'TipoSalaController@upload', 'as' => 'administrador.tipo_sala.upload']);
 		Route::post('/periodo/create/upload',['uses' => 'PeriodoController@upload', 'as' => 'administrador.periodo.upload']);
+
 		Route::get('/horario/display/diario',['uses' => 'HorarioController@display_horario', 'as' => 'administrador.horario.display']);
 	});	
 
-	Route::group(['prefix' => 'alumno', 'namespace' => 'Alumno', 'middleware' => 'auth'], function(){
+	Route::group(['prefix' => 'encargado', 'namespace' => 'Encargado', 'middleware' => ['auth','IsEncargado']], function(){
+
+		Route::get('/inicio',function(){
+			
+			$rol_usuario = \App\Rol_usuario::join('roles','roles_usuarios.rol_id','=','roles.id')
+										    ->where('roles_usuarios.rut','=',Auth::user()->rut)
+										    ->select('roles.nombre')
+										    ->get(); 
+	        
+	        $rol = $rol_usuario->first()->nombre;
+
+			return view('encargado/index',compact('rol'));
+		});
+		Route::resource('/horario','HorarioController');
+		Route::get('/horario/display/diario',['uses' => 'HorarioController@display_horario', 'as' => 'encargado.horario.display']);
+	});
+
+	Route::group(['prefix' => 'alumno', 'namespace' => 'Alumno', 'middleware' => ['auth','IsEstudiante']], function(){
 		Route::resource('/','AlumnoController');
 		Route::get('horario',['uses' => 'AlumnoController@horario', 'as' => 'alumno.horario']);
 	});
 
-	Route::group(['prefix' => 'docente', 'namespace' => 'Docente', 'middleware' => 'auth'], function(){
+	Route::group(['prefix' => 'docente', 'namespace' => 'Docente', 'middleware' => ['auth','IsDocente']], function(){
 		Route::resource('/','DocenteController');
 		Route::get('horario',['uses' => 'DocenteController@horario', 'as' => 'docente.horario']);
 	});

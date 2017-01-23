@@ -25,12 +25,14 @@ class SalaController extends Controller
      */
     public function index()
     {
+        $rol = $this->getRol();
+
         $salas = Sala::join('campus','campus.id','=','salas.campus_id')
                     ->join('tipos_salas','tipos_salas.id','=','salas.tipo_sala_id')
                     ->select('salas.*','campus.nombre as campus','tipos_salas.nombre as tipo')
                     ->get();
 
-        return view('administrador/sala/index',compact('salas'));
+        return view('administrador/sala/index',compact('salas','rol'));
     }
 
     /**
@@ -40,11 +42,13 @@ class SalaController extends Controller
      */
     public function create()
     {
+        $rol = $this->getRol();
+
         $campus = Campus::all();
 
         $tipos = TipoSala::all();
 
-        return view('administrador/sala/create',compact('campus','tipos'));
+        return view('administrador/sala/create',compact('campus','tipos','rol'));
     }
 
     /**
@@ -85,13 +89,15 @@ class SalaController extends Controller
      */
     public function edit($id)
     {
+        $rol = $this->getRol();
+        
         $sala = Sala::find($id);
 
         $campus = Campus::all();
 
         $tipos = TipoSala::all();
 
-        return view('administrador/sala/edit',compact('sala','campus','tipos'));
+        return view('administrador/sala/edit',compact('sala','campus','tipos','rol'));
     }
 
     /**

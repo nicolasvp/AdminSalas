@@ -21,9 +21,11 @@ class PeriodoController extends Controller
      */
     public function index()
     {
+        $rol = $this->getRol();
+
         $periodos = Periodo::all();
 
-        return view('administrador/periodo/index',compact('periodos'));
+        return view('administrador/periodo/index',compact('periodos','rol'));
     }
 
     /**
@@ -33,7 +35,9 @@ class PeriodoController extends Controller
      */
     public function create()
     {
-        return view('administrador/periodo/create');
+        $rol = $this->getRol();
+
+        return view('administrador/periodo/create',compact('rol'));
     }
 
     /**
@@ -72,9 +76,11 @@ class PeriodoController extends Controller
      */
     public function edit($id)
     {
+        $rol = $this->getRol();
+
         $periodo = Periodo::find($id);
 
-        return view('administrador/periodo/edit',compact('periodo'));
+        return view('administrador/periodo/edit',compact('periodo','rol'));
     }
 
     /**

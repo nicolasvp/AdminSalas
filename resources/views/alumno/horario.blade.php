@@ -23,12 +23,12 @@
                                         <div class="form-group">
                                             <label>Día</label>
                                             <select class="form-control" name="dia">
-                                                <option name="dia" value="lunes">Lunes</option>
-                                                <option name="dia" value="martes">Martes</option>
-                                                <option name="dia" value="miercoles">Miércoles</option>
-                                                <option name="dia" value="jueves">Jueves</option>
-                                                <option name="dia" value="viernes">Viernes</option>
-                                                <option name="dia" value="sabado">Sábado</option>
+                                                <option name="dia" value="Lunes">Lunes</option>
+                                                <option name="dia" value="Martes">Martes</option>
+                                                <option name="dia" value="Miercoles">Miércoles</option>
+                                                <option name="dia" value="Jueves">Jueves</option>
+                                                <option name="dia" value="Viernes">Viernes</option>
+                                                <option name="dia" value="Sabado">Sábado</option>
                                             </select>
                                         </div>
                                     </div>

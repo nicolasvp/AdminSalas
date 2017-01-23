@@ -23,11 +23,13 @@ class DepartamentoController extends Controller
      */
     public function index()
     {
+        $rol = $this->getRol();
+
         $departamentos = Departamento::join('facultades','facultades.id','=','departamentos.facultad_id')
                         ->select('departamentos.*','facultades.nombre as facultad')
                         ->get();
 
-        return view('administrador/departamento/index',compact('departamentos'));
+        return view('administrador/departamento/index',compact('departamentos','rol'));
     }
 
     /**
@@ -37,9 +39,11 @@ class DepartamentoController extends Controller
      */
     public function create()
     {
+        $rol = $this->getRol();
+
         $facultades = Facultad::all('id','nombre');
 
-        return view('administrador/departamento/create',compact('facultades'));
+        return view('administrador/departamento/create',compact('facultades','rol'));
     }
 
     /**
@@ -78,11 +82,13 @@ class DepartamentoController extends Controller
      */
     public function edit($id)
     {
+        $rol = $this->getRol();
+
         $departamento = Departamento::find($id);
 
         $facultades = Facultad::all('id','nombre');
 
-        return view('administrador/departamento/edit',compact('facultades','departamento'));
+        return view('administrador/departamento/edit',compact('facultades','departamento','rol'));
     }
 
     /**
