@@ -8,8 +8,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-
-    <title>..::ADMIN SALAS::..</title>
+    <link rel="icon" href="{{ asset('img/40px-utemcito-azul.png') }}"/>
+    
+    <title>..:: ADMIN SALAS ::..</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="{{ asset('/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
@@ -20,12 +21,8 @@
     <!-- Custom CSS -->
     <link href="{{ asset('/dist/css/sb-admin-2.css') }}" rel="stylesheet">
 
-    <!-- Morris Charts CSS -->
-    <link href="{{ asset('/vendor/morrisjs/morris.css') }}" rel="stylesheet">
-
     <!-- Custom Fonts -->
     <link href="{{ asset('/vendor/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet" type="text/css">
-
 
     @yield('style')
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -73,10 +70,13 @@ a {
                 	<b>{{ $rol }}</b>
                 </li>
                 <li class="dropdown">
-
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#" style="color: #fff;">
                         <i class="fa fa-user fa-fw"></i>
-                        Hola, {{ Auth::user()->nombres }} {{ Auth::user()->apellidos }}
+                        Hola,
+                        @foreach(explode(' ', Auth::user()->nombres) as $nombre) 
+                            {{ $nombre }}
+                            @break;
+                        @endforeach  
                     </a>
                     <ul class="dropdown-menu dropdown-user" >
                         <li><a href="{{ url('/logout') }}"><i class="fa fa-sign-out fa-fw"></i> Salir</a>
@@ -92,60 +92,73 @@ a {
                 <div class="sidebar-nav navbar-collapse">
                     <ul class="nav" id="side-menu">
                         <li class="sidebar-search" style="text-align: center;">
-  							<span><b>MENÚ</b></span>
+  							<span><b style="color: #585858;">MENÚ</b></span>
                         </li>
                         <li>
-                            <a href="{{ asset('/administrador/inicio') }}"><i class="fa fa-dashboard"></i> Inicio</a>
+                            <a href="{{ asset('/administrador/inicio') }}"><i class="fa fa-home"></i> Inicio</a>
                         </li>
                         <li>
-                            <a href="{{ route('administrador.horario.index') }}"><i class="fa fa-cog"></i> Horarios</a>
+                            <a href="{{ route('administrador.horario.index') }}"><i class="fa fa-calendar-o"></i> Horarios</a>
                         </li>   
                         <li>
-                            <a href="{{ route('administrador.horario.display') }}"><i class="fa fa-cog"></i> Ver Horarios</a>
+                            <a href="{{ route('administrador.horario.display') }}"><i class="fa fa-eye"></i> Ver Horarios</a>
                         </li>                                                                                                          
                         <li>
-                            <a href="{{ route('administrador.usuario.index') }}"><i class="fa fa-cog"></i> Usuarios</a>
+                            <a href="{{ route('administrador.usuario.index') }}"><i class="fa fa-users"></i> Usuarios</a>
                         </li>                         
                         <li>
                             <a href="#"><i class="fa fa-cog"></i> Configuración<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
 
                                 <li>
-                                    <a href="{{ route('administrador.campus.index') }}"><i class="fa fa-cog"></i> Campus</a>
+                                    <a href="{{ route('administrador.campus.index') }}"><i class="fa fa-university"></i> Campus</a>
                                 </li>
                                 <li>
-                                    <a href="{{ route('administrador.facultad.index') }}"><i class="fa fa-cog"></i> Facultades</a>
+                                    <a href="{{ route('administrador.facultad.index') }}"><i class="fa fa-building"></i> Facultades</a>
                                 </li>
                                 <li>
-                                    <a href="{{ route('administrador.departamento.index') }}"><i class="fa fa-cog"></i> Departamentos</a>
+                                    <a href="{{ route('administrador.departamento.index') }}"><i class="fa fa-bookmark"></i> Departamentos</a>
                                 </li>
                                 <li>
-                                    <a href="{{ route('administrador.escuela.index') }}"><i class="fa fa-cog"></i> Escuelas</a>
+                                    <a href="{{ route('administrador.escuela.index') }}"><i class="fa fa-info-circle"></i> Escuelas</a>
                                 </li>
                                 <li>
-                                    <a href="{{ route('administrador.carrera.index') }}"><i class="fa fa-cog"></i> Carreras</a>
+                                    <a href="{{ route('administrador.carrera.index') }}"><i class="fa fa-flag-o"></i> Carreras</a>
                                 </li>
                                 <li>
-                                    <a href="{{ route('administrador.asignatura.index') }}"><i class="fa fa-cog"></i> Asignaturas</a>
+                                    <a href="{{ route('administrador.asignatura.index') }}"><i class="fa fa-check-square-o"></i> Asignaturas</a>
                                 </li>
                                 <li>
-                                    <a href="{{ route('administrador.docente.index') }}"><i class="fa fa-cog"></i> Docentes</a>
+                                    <a href="{{ route('administrador.docente.index') }}"><i class="fa fa-graduation-cap"></i> Docentes</a>
                                 </li>
                                 <li>
-                                    <a href="{{ route('administrador.curso.index') }}"><i class="fa fa-cog"></i> Cursos</a>
+                                    <a href="{{ route('administrador.curso.index') }}"><i class="fa fa-book"></i> Cursos</a>
                                 </li>     
                                 <li>
-                                    <a href="{{ route('administrador.rol.index') }}"><i class="fa fa-cog"></i> Roles</a>
+                                    <a href="{{ route('administrador.rol.index') }}"><i class="fa fa-group"></i> Roles</a>
                                 </li>
                                 <li>
-                                    <a href="{{ route('administrador.tipo_sala.index') }}"><i class="fa fa-cog"></i> Tipos Salas</a>
+                                    <a href="{{ route('administrador.tipo_sala.index') }}"><i class="fa fa-pencil-square-o"></i> Tipos Salas</a>
                                 </li>
                                 <li>
-                                    <a href="{{ route('administrador.sala.index') }}"><i class="fa fa-cog"></i> Salas</a>
+                                    <a href="{{ route('administrador.sala.index') }}"><i class="fa fa-cubes"></i> Salas</a>
                                 </li>
                                 <li>
-                                    <a href="{{ route('administrador.periodo.index') }}"><i class="fa fa-cog"></i> Periodos</a>
+                                    <a href="{{ route('administrador.periodo.index') }}"><i class="fa fa-clock-o"></i> Periodos</a>
                                 </li>                        
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-globe"></i> Accesos Directos<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                <a target="_blank" href="https://www.utem.cl/">Página UTEM</a>
+                                <a target="_blank" href="http://postulacion.utem.cl/">DirDoc</a>
+                                <a target="_blank" href="http://reko.utem.cl/portal/">Reko</a>
+                                <a target="_blank" href="http://biblioteca.utem.cl/">Catálogo Biblioteca</a>
+                                <a target="_blank" href="http://bienestarestudiantil.blogutem.cl/">Bienestar Estudiantil</a>
+                                <a target="_blank" href="http://validacion.utem.cl/">Validación Certificados</a>
+                                </li>
                             </ul>
                         </li>                        
                     </ul>
@@ -156,12 +169,20 @@ a {
         </nav>
 
         <div id="page-wrapper">
-            <div class="row">
+            <div class="row" style="margin-right: 0px; margin-left: 0px;">
+                <div class="breadcrumbs" id="breadcrumbs">
+                    <ul class="breadcrumb">
+                        <li>
+                            <i class="fa fa-home"></i><a href="#"> Inicio</a>
+                        </li>
+                    </ul>
+                </div>
                 @yield('container')
             </div>
-
+    
         </div>
         <!-- /#page-wrapper -->
+        @include('layouts/footer')
 
     </div>
     <!-- /#wrapper -->
@@ -174,11 +195,6 @@ a {
 
     <!-- Metis Menu Plugin JavaScript -->
     <script src="{{ asset('/vendor/metisMenu/metisMenu.min.js') }}"></script>
-
-    <!-- Morris Charts JavaScript -->
-    <script src="{{ asset('/vendor/raphael/raphael.min.js') }}"></script>
-    <script src="{{ asset('/vendor/morrisjs/morris.min.js') }}"></script>
-    <script src="{{ asset('/data/morris-data.js') }}"></script>
 
     <!-- Custom Theme JavaScript -->
     <script src="{{ asset('/dist/js/sb-admin-2.js') }}"></script>

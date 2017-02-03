@@ -8,8 +8,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
+    <link rel="icon" href="{{ asset('img/40px-utemcito-azul.png') }}"/>
 
-    <title>..::DOCENTE SALAS::..</title>
+    <title>..:: DOCENTE SALAS ::..</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="{{ asset('/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
@@ -26,7 +27,7 @@
     <!-- Custom Fonts -->
     <link href="{{ asset('/vendor/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet" type="text/css">
 
-
+    <link href="{{ asset('css/salas.css') }}" rel="stylesheet" type="text/css">
     @yield('style')
 
 
@@ -69,7 +70,11 @@ a {
 
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#" style="color: #fff;">
                         <i class="fa fa-user fa-fw"></i>
-                        Hola, {{ Auth::user()->nombres }} {{ Auth::user()->apellidos }}
+                        Hola,
+                        @foreach(explode(' ', Auth::user()->nombres) as $nombre) 
+                            {{ $nombre }}
+                            @break;
+                        @endforeach                         
                     </a>
                     <ul class="dropdown-menu dropdown-user" >
                         <li><a href="{{ url('/logout') }}"><i class="fa fa-sign-out fa-fw"></i> Salir</a>
@@ -88,10 +93,10 @@ a {
                             <span><b>MENÚ</b></span>
                         </li>
                         <li>
-                            <a href="{{ route('docente..index') }}"><i class="fa fa-dashboard"></i> Inicio</a>
+                            <a href="{{ route('docente..index') }}"><i class="fa fa-home"></i> Inicio</a>
                         </li>
                         <li>
-                            <a href="{{ route('docente.horario') }}"><i class="fa fa-cog"></i> Horarios</a>
+                            <a href="{{ route('docente.horario') }}"><i class="fa fa-eye"></i> Horarios</a>
                         </li>                                                                                                              
                     </ul>
                 </div>
@@ -101,13 +106,20 @@ a {
         </nav>
 
         <div id="page-wrapper">
-            <div class="row">
+            <div class="row" style="margin-right: 0px; margin-left: 0px;">
+                <div class="breadcrumbs" id="breadcrumbs">
+                    <ul class="breadcrumb">
+                        <li>
+                            <i class="fa fa-home"></i><a href="#">Inicio</a>
+                        </li>
+                    </ul>
+                </div>
                 @yield('container')
             </div>
-
+         @include('layouts/footer')
         </div>
         <!-- /#page-wrapper -->
-
+        @include('layouts/footer')
     </div>
     <!-- /#wrapper -->
 

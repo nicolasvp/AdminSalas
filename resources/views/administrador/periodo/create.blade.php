@@ -20,9 +20,9 @@
                         </div>
                         <div class="col-sm-6 col-md-6 col-lg-6">
                             {!! Form::open(['route' => ['administrador.periodo.upload'], 'method' => 'POST', 'files' => true]) !!}
-                                <label>Archivo Excel</label>
-                                <button role="button" type="submit" class="btn btn-success" style="float: right;">Subir</button>
-                                <input type="file" name="file" style="float: right;"> 
+	                            <label>Archivo Excel</label>
+	                            <button role="button" type="submit" class="btn btn-success" style="float: right;">Subir</button>
+	                            <input type="file" name="file" style="float: right;"> 
                             {!! Form::close() !!}
                         </div>
                     </div>

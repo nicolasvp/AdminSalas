@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>..::ADMIN SALAS::..</title>
+    <title>..::Buscador Salas UTEM::..</title>
 
     <!-- Fonts -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css" integrity="sha384-XdYbMnZ/QjLh6iI4ogqCTaIjrFk87ip+ekIjefZch0Y+PvJ8CDYtEs1ipDmPorQ+" crossorigin="anonymous">
@@ -56,12 +56,16 @@
         }  
         .green {
             color: #69aa46!important;
-        }          
+        }        
+        .center {
+		    text-align: center!important;
+		}  
+
     </style>
 
 </head>
 <body id="app-layout">
-    <nav class="navbar navbar-default navbar-static-top">
+    <nav class="navbar navbar-default navbar-static-top" style="display: none;">
         <div class="container">
             <div class="navbar-header">
 
@@ -100,6 +104,14 @@
 <div class="container">
     <div class="row">
         <div class="col-md-6 col-md-offset-3">
+        	<div class="center">
+        		<h1>
+        		<img src="{{ asset('img/40px-utemcito-azul.png') }}">
+        		Buscador de Salas UTEM
+        		</h1>
+        		<h4 style="color: #478fca!important;">Universidad Tecnológica Metropolitana</h4>
+        	</div>
+        	<hr>
             <div class="panel panel-default">
                 <div class="panel-heading" style="text-align: center;">                
                     <h4 class="header blue lighter bigger">
@@ -114,7 +126,9 @@
                          <div class="form-group{{ $errors->has('rut') ? ' has-error' : '' }}">
                             <label for="email" class="col-md-4 control-label">Rut</label>
                             <div class="col-md-6">
-                                <input id="rut" type="text" class="form-control" placeholder="Ej: 18117925" name="rut" value="{{ old('rut') }}">
+                                <span>
+                                    <input id="rut" type="text" class="form-control" placeholder="Ej: 18117925" name="rut" value="{{ old('rut') }}">
+                                </span>
                                 <p style="font-size: 12px; font-style: italic">Rut debe ser sin puntos ni digito verificador.</p>
                                 @if ($errors->has('rut'))
                                     <span class="help-block">
