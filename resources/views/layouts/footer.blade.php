@@ -42,6 +42,9 @@
     display: inline-block;
     color: #4c8fbd;
 }
+.breadcrumb>li+li:before {
+    content: ">\00a0";
+}
 #page-wrapper {
     position: inherit;
     margin: 0 0 0 250px;
@@ -66,13 +69,17 @@
 	font-size: 18px;
 	margin-right: 2px;
 }
+.sidebar ul li a.active {
+    background-color: #fff;
+}
 </style>
-   <div class="footer">
-        <div class="footer-inner">
-            <div class="footer-content">
-                <span class="bigger-120">
-                    Universidad Tecnológica Metropolitana - SISEI
-                </span>
-            </div>
+
+<div class="footer">
+    <div class="footer-inner">
+        <div class="footer-content">
+            <span class="bigger-120">
+                Universidad Tecnológica Metropolitana - SISEI
+            </span>
         </div>
     </div>
+</div>

@@ -1,9 +1,14 @@
 @extends('administrador/main')
 
 @section('style')
-<link rel="stylesheet" href="{{ asset('dist/css/jquery-ui.css') }}">
-
+    <link rel="stylesheet" href="{{ asset('dist/css/jquery-ui.css') }}">
 @stop
+
+@section('option')
+    <li><a href="{{ route('administrador.periodo.index') }}">Períodos</a></li>
+    <li class="active">Ingresar Período</li>
+@stop
+
 @section('container')
 
     <div class="col-lg-12">
@@ -50,6 +55,8 @@
                 </div>
             </div>
         </div>
+    </div>
+
 @stop
 
 @section('scripts')

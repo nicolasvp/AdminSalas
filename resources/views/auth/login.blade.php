@@ -4,7 +4,8 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
+    <link rel="icon" href="{{ asset('img/40px-utemcito-azul.png') }}"/>
+    
     <title>..::Buscador Salas UTEM::..</title>
 
     <!-- Fonts -->
@@ -60,7 +61,19 @@
         .center {
 		    text-align: center!important;
 		}  
-
+        .login-icon {
+            padding: 0 3px;
+            z-index: 2;
+            position: absolute;
+            top: 1px;
+            bottom: 1px;
+            left: auto;
+            right: 20px;
+            line-height: 30px;
+            display: inline-block;
+            color: #909090;
+            font-size: 16px;
+        }
     </style>
 
 </head>
@@ -128,6 +141,7 @@
                             <div class="col-md-6">
                                 <span>
                                     <input id="rut" type="text" class="form-control" placeholder="Ej: 18117925" name="rut" value="{{ old('rut') }}">
+                                    <i class="fa fa-user login-icon"></i>
                                 </span>
                                 <p style="font-size: 12px; font-style: italic">Rut debe ser sin puntos ni digito verificador.</p>
                                 @if ($errors->has('rut'))
@@ -141,6 +155,7 @@
                             <label for="password" class="col-md-4 control-label">Contraseña</label>
                             <div class="col-md-6">
                                 <input id="password" type="password" placeholder="Contraseña" class="form-control" name="password">
+                                <i class="fa fa-lock login-icon"></i>
                                 @if ($errors->has('password'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('password') }}</strong>

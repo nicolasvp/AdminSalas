@@ -27,7 +27,7 @@
     <!-- Custom Fonts -->
     <link href="{{ asset('/vendor/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet" type="text/css">
 
-    <link href="{{ asset('css/salas.css') }}" rel="stylesheet" type="text/css">
+    <!--link href="{{ asset('css/salas.css') }}" rel="stylesheet" type="text/css"-->
     @yield('style')
 
 
@@ -54,7 +54,7 @@ a {
                     <span class="icon-bar"></span>
                 </button>
                 <a class="navbar-brand" href="{{ route('docente..index') }}" style="color: #fff;">
-               <small>
+               <small style="font-size: 27px">
                 <img src="{{ asset('img/utemcito-blanco-sintitulo.png') }}" height="27px">
                 UTEM
                 </small>
@@ -96,8 +96,11 @@ a {
                             <a href="{{ route('docente..index') }}"><i class="fa fa-home"></i> Inicio</a>
                         </li>
                         <li>
-                            <a href="{{ route('docente.horario') }}"><i class="fa fa-eye"></i> Horarios</a>
-                        </li>                                                                                                              
+                            <a href="{{ route('docente.horario') }}"><i class="fa fa-eye"></i> Ver Horarios</a>
+                        </li>  
+                        <li>
+                            <a href="{{ route('contacto.index') }}"><i class="fa fa-send"></i> Contáctanos</a>                 
+                        </li>                                                                                                 
                     </ul>
                 </div>
                 <!-- /.sidebar-collapse -->
@@ -108,15 +111,15 @@ a {
         <div id="page-wrapper">
             <div class="row" style="margin-right: 0px; margin-left: 0px;">
                 <div class="breadcrumbs" id="breadcrumbs">
-                    <ul class="breadcrumb">
+                    <ol class="breadcrumb">
                         <li>
-                            <i class="fa fa-home"></i><a href="#">Inicio</a>
+                            <i class="fa fa-home"></i><a href="{{ route('docente..index') }}"> Inicio</a>
                         </li>
-                    </ul>
-                </div>
+                        @yield('option')
+                    </ol>
+                </div>    
                 @yield('container')
             </div>
-         @include('layouts/footer')
         </div>
         <!-- /#page-wrapper -->
         @include('layouts/footer')

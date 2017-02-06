@@ -8,6 +8,10 @@
     <link href="{{ asset('vendor/datatables-responsive/dataTables.responsive.css') }}" rel="stylesheet">
 @stop
 
+@section('option')
+    <li class="active">Períodos</li>
+@stop
+
 @section('container')
 
                 <div class="col-lg-12" style="padding-top: 20px;">

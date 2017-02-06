@@ -8,65 +8,68 @@
     <link href="{{ asset('vendor/datatables-responsive/dataTables.responsive.css') }}" rel="stylesheet">
 @stop
 
+@section('option')
+    <li class="active">Facultades</li>
+@stop
+
 @section('container')
 
-                <div class="col-lg-12" style="padding-top: 20px;">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <div class="row">
-                                <div class="col-md-6 col-lg-6">
-                                    <h4> Facultades </h4>
-                                    @if(Session::has('message'))
-                                        <div class="alert alert-success alert-dismissable">
-                                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                                            <strong>{{ Session::get('message') }}</strong>
-                                        </div>
-                                    @endif                                    
-                                </div>
-                                <div class="col-md-6 col-lg-6">
-                                    {!! Form::open(['route' => 'administrador.facultad.create', 'method' => 'GET']) !!}
-                                        <button type="submit" class="btn btn-success" style="float: right">Ingresar  <i class="fa fa-plus"></i></button>
-                                    {!! Form::close() !!}
-                                </div>
-                           </div>
-                        </div>
-                        <!-- /.panel-heading -->
-                        <div class="panel-body">
-                            <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
-                                <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Nombre</th>
-                                        <th>Descripción</th>
-                                        <th>Campus</th>
-                                        <th>Editar</th>
-                                        <th>Eliminar</th>                                        
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                @foreach($facultades as $facultad)
-                                    <tr class="text-center" data-id="{{ $facultad->id }}">
-                                        <td class="center">{{ $facultad->id }}</td>
-                                        <td class="center">{{ $facultad->nombre }}</td>
-                                        <td class="center">{{ $facultad->descripcion }}</td>
-                                        <td class="center">{{ $facultad->campus }}</td>
-                                        <td class="center"><a href="{{ route('administrador.facultad.edit',$facultad->id)}}"><i class="fa fa-edit"></i></a></td>
-                                        <td class="center"><a href="#!" class="btn-delete"><i class="fa fa-trash"></i></a>
-                                        {!! Form::open(['route' => ['administrador.facultad.destroy', ':FACULTAD_ID'], 'method' => 'DELETE', 'id' => 'form-delete'])!!}
-                                        {!! Form::close() !!}
-                                        </td>                                           
-                                    </tr>
-                                @endforeach
-                                </tbody>
-                            </table>
-                            <!-- /.table-responsive -->
-                        </div>
-                        <!-- /.panel-body -->
+    <div class="col-lg-12" style="padding-top: 20px;">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-md-6 col-lg-6">
+                        <h4> Facultades </h4>
+                        @if(Session::has('message'))
+                            <div class="alert alert-success alert-dismissable">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                                <strong>{{ Session::get('message') }}</strong>
+                            </div>
+                        @endif                                    
                     </div>
-                    <!-- /.panel -->
-                </div>
-                <!-- /.col-lg-12 -->
-
+                    <div class="col-md-6 col-lg-6">
+                        {!! Form::open(['route' => 'administrador.facultad.create', 'method' => 'GET']) !!}
+                            <button type="submit" class="btn btn-success" style="float: right">Ingresar  <i class="fa fa-plus"></i></button>
+                        {!! Form::close() !!}
+                    </div>
+               </div>
+            </div>
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+                <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Nombre</th>
+                            <th>Descripción</th>
+                            <th>Campus</th>
+                            <th>Editar</th>
+                            <th>Eliminar</th>                                        
+                        </tr>
+                    </thead>
+                    <tbody>
+                    @foreach($facultades as $facultad)
+                        <tr class="text-center" data-id="{{ $facultad->id }}">
+                            <td class="center">{{ $facultad->id }}</td>
+                            <td class="center">{{ $facultad->nombre }}</td>
+                            <td class="center">{{ $facultad->descripcion }}</td>
+                            <td class="center">{{ $facultad->campus }}</td>
+                            <td class="center"><a href="{{ route('administrador.facultad.edit',$facultad->id)}}"><i class="fa fa-edit"></i></a></td>
+                            <td class="center"><a href="#!" class="btn-delete"><i class="fa fa-trash"></i></a>
+                            {!! Form::open(['route' => ['administrador.facultad.destroy', ':FACULTAD_ID'], 'method' => 'DELETE', 'id' => 'form-delete'])!!}
+                            {!! Form::close() !!}
+                            </td>                                           
+                        </tr>
+                    @endforeach
+                    </tbody>
+                </table>
+                <!-- /.table-responsive -->
+            </div>
+            <!-- /.panel-body -->
+        </div>
+        <!-- /.panel -->
+    </div>
+    <!-- /.col-lg-12 -->
 
 @stop
 

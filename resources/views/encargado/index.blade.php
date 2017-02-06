@@ -6,8 +6,9 @@
         <div class="panel panel-default">
             <div class="panel-body">
 			    <div class="jumbotron">
-			        <h1>Bienvenido al panel de asignación de salas UTEM</h1>
-			        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est vitae ultrices accumsan. Aliquam ornare lacus adipiscing, posuere lectus et, fringilla augue. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est vitae ultrices accumsan. Aliquam ornare lacus adipiscing.</p>
+			        <h2>Bienvenido al panel de asignación de salas UTEM</h2>
+			        <p>En este panel usted podrá asignar salas a todos las asignaturas, para esto posee dos formas, la primera, completando un formulario para una sola asignatura y la segunda, de forma masiva a través de la subida de un archivos Excel.
+                    También podrá agregar comentarios a los horarios asignados para que todos puedan visualizarlos.</p>
 			    </div>
             </div>
         </div>

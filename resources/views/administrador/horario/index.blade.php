@@ -8,72 +8,76 @@
     <link href="{{ asset('vendor/datatables-responsive/dataTables.responsive.css') }}" rel="stylesheet">
 @stop
 
+@section('option')
+    <li class="active">Horarios</li>
+@stop
+
 @section('container')
 
-                <div class="col-lg-12" style="padding-top: 20px;">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <div class="row">
-                                <div class="col-md-6 col-lg-6">
-                                    <h4> Horarios </h4>
-                                    @if(Session::has('message'))
-                                        <div class="alert alert-success alert-dismissable">
-                                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                                            <strong>{{ Session::get('message') }}</strong>
-                                        </div>
-                                    @endif                                    
-                                </div>
-                                <div class="col-md-6 col-lg-6">
-                                    {!! Form::open(['route' => 'administrador.horario.create', 'method' => 'GET']) !!}
-                                        <button type="submit" class="btn btn-success" style="float: right">Ingresar  <i class="fa fa-plus"></i></button>
-                                    {!! Form::close() !!}
-                                </div>
-                           </div>
-                        </div>
-                        <!-- /.panel-heading -->
-                        <div class="panel-body">
-                            <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
-                                <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Curso</th>
-                                        <th>Docente</th>
-                                        <th>Sección</th>
-                                        <th>Sala</th>
-                                        <th>Bloque</th>
-                                        <th>Fecha</th>
-                                        <th>Día</th>
-                                        <th>Editar</th>
-                                        <th>Eliminar</th>                                           
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                @foreach($horarios as $horario)
-                                    <tr class="text-center" data-id="{{ $horario->id }}">
-                                        <td class="center">{{ $horario->id }}</td>
-                                        <td class="center">{{ $horario->asignatura }}</td>
-                                        <td class="center">{{ $horario->nombres_docente }} {{ $horario->apellidos_docente }}</td>
-                                        <td class="center">{{ $horario->seccion }}</td>
-                                        <td class="center">{{ $horario->sala }}</td>
-                                        <td class="center">{{ $horario->bloque }}</td>
-                                        <td class="center">{{ $horario->fecha }}</td>
-                                        <td class="center">{{ $horario->dia }}</td>
-                                        <td class="center"><a href="{{ route('administrador.horario.edit',$horario->id)}}"><i class="fa fa-edit"></i></a></td>
-                                        <td class="center"><a href="#!" class="btn-delete"><i class="fa fa-trash"></i></a>
-                                        {!! Form::open(['route' => ['administrador.horario.destroy', ':HORARIO_ID'], 'method' => 'DELETE', 'id' => 'form-delete']) !!}
-                                        {!! Form::close() !!}
-                                        </td>                                         
-                                    </tr>
-                                @endforeach
-                                </tbody>
-                            </table>
-                            <!-- /.table-responsive -->
-                        </div>
-                        <!-- /.panel-body -->
+    <div class="col-lg-12" style="padding-top: 20px;">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-md-6 col-lg-6">
+                        <h4> Horarios </h4>
+                        @if(Session::has('message'))
+                            <div class="alert alert-success alert-dismissable">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                                <strong>{{ Session::get('message') }}</strong>
+                            </div>
+                        @endif                                    
                     </div>
-                    <!-- /.panel -->
-                </div>
-                <!-- /.col-lg-12 -->
+                    <div class="col-md-6 col-lg-6">
+                        {!! Form::open(['route' => 'administrador.horario.create', 'method' => 'GET']) !!}
+                            <button type="submit" class="btn btn-success" style="float: right">Ingresar  <i class="fa fa-plus"></i></button>
+                        {!! Form::close() !!}
+                    </div>
+               </div>
+            </div>
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+                <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Curso</th>
+                            <th>Docente</th>
+                            <th>Sección</th>
+                            <th>Sala</th>
+                            <th>Bloque</th>
+                            <th>Fecha</th>
+                            <th>Día</th>
+                            <th>Editar</th>
+                            <th>Eliminar</th>                                           
+                        </tr>
+                    </thead>
+                    <tbody>
+                    @foreach($horarios as $horario)
+                        <tr class="text-center" data-id="{{ $horario->id }}">
+                            <td class="center">{{ $horario->id }}</td>
+                            <td class="center">{{ $horario->asignatura }}</td>
+                            <td class="center">{{ $horario->nombres_docente }} {{ $horario->apellidos_docente }}</td>
+                            <td class="center">{{ $horario->seccion }}</td>
+                            <td class="center">{{ $horario->sala }}</td>
+                            <td class="center">{{ $horario->bloque }}</td>
+                            <td class="center">{{ $horario->fecha }}</td>
+                            <td class="center">{{ $horario->dia }}</td>
+                            <td class="center"><a href="{{ route('administrador.horario.edit',$horario->id)}}"><i class="fa fa-edit"></i></a></td>
+                            <td class="center"><a href="#!" class="btn-delete"><i class="fa fa-trash"></i></a>
+                            {!! Form::open(['route' => ['administrador.horario.destroy', ':HORARIO_ID'], 'method' => 'DELETE', 'id' => 'form-delete']) !!}
+                            {!! Form::close() !!}
+                            </td>                                         
+                        </tr>
+                    @endforeach
+                    </tbody>
+                </table>
+                <!-- /.table-responsive -->
+            </div>
+            <!-- /.panel-body -->
+        </div>
+        <!-- /.panel -->
+    </div>
+    <!-- /.col-lg-12 -->
 
 
 @stop

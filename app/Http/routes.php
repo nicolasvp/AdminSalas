@@ -99,6 +99,8 @@ Route::group(['middleware' => ['web']], function () {
 		Route::get('horario',['uses' => 'DocenteController@horario', 'as' => 'docente.horario']);
 	});
 
+	Route::resource('/contacto','ContactoController');
+
 });
 
 

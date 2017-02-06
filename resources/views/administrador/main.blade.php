@@ -24,6 +24,9 @@
     <!-- Custom Fonts -->
     <link href="{{ asset('/vendor/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet" type="text/css">
 
+    <!-- Custom Salas CSS -->
+    <!--link  href="{{ asset('/css/salas.css') }}" rel="stylesheet" type="text/css"-->
+
     @yield('style')
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -42,7 +45,6 @@ a {
 .btn {
 	border-radius: 0px;
 }
-
 </style>
     <div id="wrapper">
 
@@ -160,7 +162,10 @@ a {
                                 <a target="_blank" href="http://validacion.utem.cl/">Validación Certificados</a>
                                 </li>
                             </ul>
-                        </li>                        
+                        </li>      
+                        <li>
+                            <a href="{{ route('contacto.index') }}"><i class="fa fa-send"></i> Contáctanos</a>                 
+                        </li>                                           
                     </ul>
                 </div>
                 <!-- /.sidebar-collapse -->
@@ -171,15 +176,15 @@ a {
         <div id="page-wrapper">
             <div class="row" style="margin-right: 0px; margin-left: 0px;">
                 <div class="breadcrumbs" id="breadcrumbs">
-                    <ul class="breadcrumb">
+                    <ol class="breadcrumb">
                         <li>
-                            <i class="fa fa-home"></i><a href="#"> Inicio</a>
+                            <i class="fa fa-home"></i><a href="{{ asset('/administrador/inicio') }}"> Inicio</a>
                         </li>
-                    </ul>
+                        @yield('option')
+                    </ol>
                 </div>
                 @yield('container')
             </div>
-    
         </div>
         <!-- /#page-wrapper -->
         @include('layouts/footer')

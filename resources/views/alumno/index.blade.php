@@ -6,9 +6,8 @@
         <div class="panel panel-default">
             <div class="panel-body">
 			    <div class="jumbotron">
-			        <h1>Bienvenido al buscador de salas UTEM</h1>
-			        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est vitae ultrices accumsan. Aliquam ornare lacus adipiscing, posuere lectus et, fringilla augue. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est vitae ultrices accumsan. Aliquam ornare lacus adipiscing.</p>
-
+			        <h2>Bienvenido al buscador de salas UTEM</h2>
+			        <p>En este panel, clickeando en la opción de "Ver Horarios", usted podrá consultar por los cursos y las salas a las que están asignados, como tambien el docente que la dicta, el período, sección y posibles avisos que se tengan acerca del curso.</p>
 			    </div>
             </div>
         </div>

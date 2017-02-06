@@ -27,14 +27,9 @@
     <!-- Custom Fonts -->
     <link href="{{ asset('/vendor/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet" type="text/css">
 
-    <link href="{{ asset('css/salas.css') }}" rel="stylesheet" type="text/css">
+    <!--link href="{{ asset('css/salas.css') }}" rel="stylesheet" type="text/css"-->
     @yield('style')
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
+
 
 </head>
 
@@ -59,7 +54,7 @@ a {
                     <span class="icon-bar"></span>
                 </button>
                 <a class="navbar-brand" href="{{ route('alumno..index') }}" style="color: #fff;">
-               <small>
+               <small style="font-size: 27px">
                 <img src="{{ asset('img/utemcito-blanco-sintitulo.png') }}" height="27px">
                 UTEM
                 </small>
@@ -79,7 +74,7 @@ a {
                         @foreach(explode(' ', Auth::user()->nombres) as $nombre) 
                             {{ $nombre }}
                             @break;
-                        @endforeach                        
+                        @endforeach                         
                     </a>
                     <ul class="dropdown-menu dropdown-user" >
                         <li><a href="{{ url('/logout') }}"><i class="fa fa-sign-out fa-fw"></i> Salir</a>
@@ -101,8 +96,11 @@ a {
                             <a href="{{ route('alumno..index') }}"><i class="fa fa-home"></i> Inicio</a>
                         </li>
                         <li>
-                            <a href="{{ route('alumno.horario') }}"><i class="fa fa-eye"></i> Horarios</a>
-                        </li>                                                                                                              
+                            <a href="{{ route('alumno.horario') }}"><i class="fa fa-eye"></i> Ver Horarios</a>
+                        </li>  
+                        <li>
+                            <a href="{{ route('contacto.index') }}"><i class="fa fa-send"></i> Contáctanos</a>                 
+                        </li>                                                                                                 
                     </ul>
                 </div>
                 <!-- /.sidebar-collapse -->
@@ -113,18 +111,18 @@ a {
         <div id="page-wrapper">
             <div class="row" style="margin-right: 0px; margin-left: 0px;">
                 <div class="breadcrumbs" id="breadcrumbs">
-                    <ul class="breadcrumb">
+                    <ol class="breadcrumb">
                         <li>
-                            <i class="fa fa-home"></i><a href="#">Inicio</a>
+                            <i class="fa fa-home"></i><a href="{{ route('alumno..index') }}"> Inicio</a>
                         </li>
-                    </ul>
-                </div>
+                        @yield('option')
+                    </ol>
+                </div>    
                 @yield('container')
             </div>
-         @include('layouts/footer')
         </div>
         <!-- /#page-wrapper -->
-
+        @include('layouts/footer')
     </div>
     <!-- /#wrapper -->
 

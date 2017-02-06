@@ -27,7 +27,7 @@
     <!-- Custom Fonts -->
     <link href="{{ asset('/vendor/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet" type="text/css">
 
-    <link href="{{ asset('css/salas.css') }}" rel="stylesheet" type="text/css">
+    <!--link href="{{ asset('css/salas.css') }}" rel="stylesheet" type="text/css"-->
     @yield('style')
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -59,7 +59,7 @@ a {
                     <span class="icon-bar"></span>
                 </button>
                 <a class="navbar-brand" href="{{ asset('/encargado/inicio') }}" style="color: #fff;">
-               <small>
+               <small style="font-size: 27px">
                 <img src="{{ asset('img/utemcito-blanco-sintitulo.png') }}" height="27px">
                 UTEM
                 </small>
@@ -105,7 +105,10 @@ a {
                         </li>   
                         <li>
                             <a href="{{ route('encargado.horario.display') }}"><i class="fa fa-eye"></i> Ver Horarios</a>
-                        </li>                                                                                                                                                           
+                        </li>                                                                                                              
+                        <li>
+                            <a href="{{ route('contacto.index') }}"><i class="fa fa-send"></i> Contáctanos</a>                 
+                        </li>                                             
                     </ul>
                 </div>
                 <!-- /.sidebar-collapse -->
@@ -116,18 +119,18 @@ a {
         <div id="page-wrapper">
             <div class="row" style="margin-right: 0px; margin-left: 0px;">
                 <div class="breadcrumbs" id="breadcrumbs">
-                    <ul class="breadcrumb">
+                    <ol class="breadcrumb">
                         <li>
-                            <i class="fa fa-home"></i><a href="#">Inicio</a>
+                            <i class="fa fa-home"></i><a href="{{ asset('/encargado/inicio') }}"> Inicio</a>
                         </li>
-                    </ul>
+                        @yield('option')
+                    </ol>
                 </div>
                 @yield('container')
             </div>
-         @include('layouts/footer')
-        </div>
+        </div>        
         <!-- /#page-wrapper -->
-
+        @include('layouts/footer')
     </div>
     <!-- /#wrapper -->
 
