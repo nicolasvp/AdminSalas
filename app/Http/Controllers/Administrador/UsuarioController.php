@@ -101,6 +101,7 @@ class UsuarioController extends Controller
         if($request->ajax()){
 
             $usuario = User::find($request->get('id'));
+
             $roles = Rol_usuario::where('rut',$usuario->rut)->select('rut','rol_id')->get();
             $rolesTotales = Roles::select('id','nombre')->get();
             $respuesta = ['roles' => $rolesTotales, 'roles_usuario' => $roles];

@@ -46,7 +46,7 @@
                            <div class="form-group" id="roles">
 
                            </div>  
-                            <input type="hidden" id="usuario_id" value="{{ $usuario->rut }}">
+                            <input type="hidden" id="usuario_id" value="{{ $usuario->id }}">
                            <button type="submit" class="btn btn-success">Aceptar</button>
                         	{!! Form::close() !!}
                       </div>
@@ -71,7 +71,8 @@ $(document).ready(function(){
         url:   '/~nvera/administrador/usuario/'+id+'/edit',
         type:  'get',
         dataType: 'json',
-        success:  function(respuesta) {          
+        success:  function(respuesta) {  
+        console.log(respuesta);        
           $.each(respuesta['roles'], function(k,v){
 
             $("#roles").append("<input id='"+v.id+"' type='checkbox' value='"+v.id+"' name='roles[]'>"+v.nombre);

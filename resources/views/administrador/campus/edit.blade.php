@@ -38,7 +38,11 @@
 
                           <div class="form-group">
                            {!! Form::label('encargado', 'Encargado') !!}
-                           {!! Form::text('rut_encargado', null,['class' => 'form-control', 'placeholder' => 'Ej: 18117925']) !!}                                  
+                            <select class="form-control" name="encargado" id="encargado">
+                            @foreach($encargados as $encargado)
+                              <option name="encargado" id="encargado_{{ $encargado->rut }}" value="{{ $encargado->rut }}">{{ $encargado->rut }}</option>
+                            @endforeach
+                            </select>                               
                           </div>
 
                             <button type="submit" class="btn btn-success">Aceptar</button>
@@ -50,4 +54,16 @@
     </div>
   </div>
 
+@stop
+
+@section('scripts')
+<script type="text/javascript">
+
+ $(document).ready(function(){
+
+  $("#encargado option[id='encargado_"+{{ $campus->rut_encargado }}+"']").attr('selected','selected');
+
+ });
+
+</script>
 @stop

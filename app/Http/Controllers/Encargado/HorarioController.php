@@ -22,6 +22,10 @@ use App\Asignatura;
 
 use App\Docente;
 
+use App\Campus;
+
+use Illuminate\Support\Facades\Auth;
+
 use Carbon\Carbon;
 
 class HorarioController extends Controller
@@ -46,35 +50,31 @@ class HorarioController extends Controller
         return view('encargado/horario/index',compact('horarios','rol'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function create()
     {
         $rol = $this->getRol();
 
         $cursos = Curso::join('asignaturas','asignaturas.id','=','cursos.asignatura_id')
                         ->join('docentes','docentes.id','=','cursos.docente_id')
+                        ->join('departamentos','departamentos.id','=','asignaturas.departamento_id')
+                        ->join('facultades','facultades.id','=','departamentos.facultad_id')
+                        ->join('campus','campus.id','=','facultades.campus_id')
+                        ->where('campus.rut_encargado','=',Auth::user()->rut)
                         ->select('cursos.*','asignaturas.nombre as asignatura','docentes.nombres as docente_nombres','docentes.apellidos as docente_apellidos')
                         ->get();
 
-        //$docentes = Docente::all();
-
-        $salas = Sala::all();
+        $salas = Sala::join('campus','campus.id','=','salas.campus_id')
+                      ->select('salas.*')
+                      ->where('campus.rut_encargado','=',Auth::user()->rut)
+                      ->get();
 
         $periodos = Periodo::all();
 
         return view('encargado/horario/create',compact('cursos','salas','periodos','rol'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+
     public function store(Request $request)
     {
 
@@ -342,23 +342,13 @@ class HorarioController extends Controller
       }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function show(Request $request,$id)
     {
 
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function edit($id)
     {
         $rol = $this->getRol();
@@ -367,28 +357,29 @@ class HorarioController extends Controller
 
         $cursos = Curso::join('asignaturas','asignaturas.id','=','cursos.asignatura_id')
                         ->join('docentes','docentes.id','=','cursos.docente_id')
+                        ->join('departamentos','departamentos.id','=','asignaturas.departamento_id')
+                        ->join('facultades','facultades.id','=','departamentos.facultad_id')
+                        ->join('campus','campus.id','=','facultades.campus_id')
+                        ->where('campus.rut_encargado','=',Auth::user()->rut)
                         ->select('cursos.*','asignaturas.nombre as asignatura','docentes.nombres as docente_nombres','docentes.apellidos as docente_apellidos')
                         ->get();
+
+        $salas = Sala::join('campus','campus.id','=','salas.campus_id')
+                      ->select('salas.*')
+                      ->where('campus.rut_encargado','=',Auth::user()->rut)
+                      ->get();
 
         $fecha_inicio = Horario::where('curso_id',$horario->curso_id)
                                 ->min('fecha');
         $fecha_termino = Horario::where('curso_id',$horario->curso_id) 
                                 ->max('fecha');
                           
-        $salas = Sala::all();
-
         $periodos = Periodo::all();
 
         return view('encargado/horario/edit',compact('horario','cursos','docentes','salas','periodos','fecha_inicio','fecha_termino','rol'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function update(Request $request, $id)
     {
 
@@ -414,12 +405,7 @@ class HorarioController extends Controller
 
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function destroy(Request $request,$id)
     {
         if($request->ajax()){

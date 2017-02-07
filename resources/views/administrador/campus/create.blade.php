@@ -35,7 +35,11 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Rut Encargado</label>
-                                    <input class="form-control" name="rut_encargado" placeholder="Ej: 18117925-2">
+                                    <select class="form-control" name="encargado" id="encargado">
+                                        @foreach($encargados as $encargado)
+                                        <option name="encargado" value="{{ $encargado->rut }}">{{ $encargado->rut }}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                                 <button type="submit" class="btn btn-success">Aceptar</button>
                           	{!! Form::close() !!}

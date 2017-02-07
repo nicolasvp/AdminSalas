@@ -85,6 +85,7 @@ Route::group(['middleware' => ['web']], function () {
 
 			return view('encargado/index',compact('rol'));
 		});
+
 		Route::resource('/horario','HorarioController');
 		Route::get('/horario/display/diario',['uses' => 'HorarioController@display_horario', 'as' => 'encargado.horario.display']);
 	});

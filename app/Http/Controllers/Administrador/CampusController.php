@@ -41,7 +41,12 @@ class CampusController extends Controller
     {
         $rol = $this->getRol();
 
-        return view('administrador/campus/create',compact('rol'));
+        $encargados = Rol_usuario::join('roles','roles.id','=','roles_usuarios.rol_id')
+                                   ->where('roles.nombre','Encargado')
+                                   ->select('roles_usuarios.rut')
+                                   ->get();
+
+        return view('administrador/campus/create',compact('rol','encargados'));
     }
 
     /**
@@ -52,12 +57,12 @@ class CampusController extends Controller
      */
     public function store(Request $request)
     {
-      
+    
         Campus::create([
             'nombre' => $request->get('nombre'),
             'direccion' => $request->get('direccion'),
             'descripcion' => $request->get('descripcion'),
-            'rut_encargado' => '18117925'
+            'rut_encargado' => $request->get('encargado')
             ]);
         return redirect()->route('administrador.campus.index');
     }
@@ -85,7 +90,12 @@ class CampusController extends Controller
 
         $campus = Campus::find($id);
 
-        return view('administrador/campus/edit',compact('campus','rol'));
+        $encargados = Rol_usuario::join('roles','roles.id','=','roles_usuarios.rol_id')
+                                   ->where('roles.nombre','Encargado')
+                                   ->select('roles_usuarios.rut')
+                                   ->get();
+
+        return view('administrador/campus/edit',compact('campus','rol','encargados'));
        
     }
 
