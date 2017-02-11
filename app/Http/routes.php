@@ -65,11 +65,24 @@ Route::group(['middleware' => ['web']], function () {
 		Route::resource('/periodo','PeriodoController');
 		Route::resource('/horario','HorarioController');
 		Route::resource('/usuario','UsuarioController');
-
+		Route::resource('/contacto','ContactoController');
 		Route::post('/tipo_sala/create/upload',['uses' => 'TipoSalaController@upload', 'as' => 'administrador.tipo_sala.upload']);
 		Route::post('/periodo/create/upload',['uses' => 'PeriodoController@upload', 'as' => 'administrador.periodo.upload']);
-
 		Route::get('/horario/display/diario',['uses' => 'HorarioController@display_horario', 'as' => 'administrador.horario.display']);
+		Route::get('/campus_download',['uses' => 'CampusController@excel_download','as' => 'administrador.campus.download']);
+		Route::get('/facultad_download',['uses' => 'FacultadController@excel_download','as' => 'administrador.facultad.download']);
+		Route::get('/departamento_download',['uses' => 'DepartamentoController@excel_download','as' => 'administrador.departamento.download']);
+		Route::get('/escuela_download',['uses' => 'EscuelaController@excel_download','as' => 'administrador.escuela.download']);
+		Route::get('/carrera_download',['uses' => 'CarreraController@excel_download','as' => 'administrador.carrera.download']);	
+		Route::get('/asignatura_download',['uses' => 'AsignaturaController@excel_download','as' => 'administrador.asignatura.download']);
+		Route::get('/docente_download',['uses' => 'DocenteController@excel_download','as' => 'administrador.docente.download']);
+		Route::get('/curso_download',['uses' => 'CursoController@excel_download','as' => 'administrador.curso.download']);
+		Route::get('/rol_download',['uses' => 'RolController@excel_download','as' => 'administrador.rol.download']);
+		Route::get('/tipo_sala_download',['uses' => 'TipoSalaController@excel_download','as' => 'administrador.tipo_sala.download']);	
+		Route::get('/sala_download',['uses' => 'SalaController@excel_download','as' => 'administrador.sala.download']);	
+		Route::get('/periodo_download',['uses' => 'PeriodoController@excel_download','as' => 'administrador.periodo.download']);	
+		Route::get('/usuario_download',['uses' => 'UsuarioController@excel_download','as' => 'administrador.usuario.download']);
+		Route::get('/horario_download',['uses' => 'HorarioController@excel_download','as' => 'administrador.horario.download']);
 	});	
 
 	Route::group(['prefix' => 'encargado', 'namespace' => 'Encargado', 'middleware' => ['auth','IsEncargado']], function(){
@@ -83,28 +96,44 @@ Route::group(['middleware' => ['web']], function () {
 	        
 	        $rol = $rol_usuario->first()->nombre;
 
-			return view('encargado/index',compact('rol'));
+	    	$campus = \App\Campus::where('rut_encargado',Auth::user()->rut)
+					    	->select('nombre')
+					    	->get();
+
+			if($campus->isEmpty()){
+				$campus = '';
+			}
+			else
+			{
+				$campus = $campus->first()->nombre;
+			}
+					    	
+			return view('encargado/index',compact('rol','campus'));
 		});
 
 		Route::resource('/horario','HorarioController');
+		Route::resource('/contacto','ContactoController');
 		Route::get('/horario/display/diario',['uses' => 'HorarioController@display_horario', 'as' => 'encargado.horario.display']);
+		Route::get('/horario_download',['uses' => 'HorarioController@excel_download','as' => 'encargado.horario.download']);
 	});
 
 	Route::group(['prefix' => 'alumno', 'namespace' => 'Alumno', 'middleware' => ['auth','IsEstudiante']], function(){
 		Route::resource('/','AlumnoController');
+		Route::resource('/contacto','ContactoController');
 		Route::get('horario',['uses' => 'AlumnoController@horario', 'as' => 'alumno.horario']);
 	});
 
 	Route::group(['prefix' => 'docente', 'namespace' => 'Docente', 'middleware' => ['auth','IsDocente']], function(){
 		Route::resource('/','DocenteController');
+		Route::resource('/contacto','ContactoController');
 		Route::get('horario',['uses' => 'DocenteController@horario', 'as' => 'docente.horario']);
 	});
 
-	Route::resource('/contacto','ContactoController');
+	
 
 });
 
-
+Route::resource('/graficas','GraficasController');
 
 Route::get('/rest',function(){
 

@@ -10,7 +10,7 @@
     <meta name="author" content="">
     <link rel="icon" href="{{ asset('img/40px-utemcito-azul.png') }}"/>
 
-    <title>..:: ADMIN SALAS ::..</title>
+    <title>..:: ENCARGADO SALAS ::..</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="{{ asset('/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
@@ -20,9 +20,6 @@
 
     <!-- Custom CSS -->
     <link href="{{ asset('/dist/css/sb-admin-2.css') }}" rel="stylesheet">
-
-    <!-- Morris Charts CSS -->
-    <link href="{{ asset('/vendor/morrisjs/morris.css') }}" rel="stylesheet">
 
     <!-- Custom Fonts -->
     <link href="{{ asset('/vendor/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet" type="text/css">
@@ -69,7 +66,7 @@ a {
 
             <ul class="nav navbar-top-links navbar-right">
                 <li class="dropdown" style="color: #fff;">  
-                    <b>{{ $rol }}</b>
+                    <b>{{ $rol }} : @if($campus != ''){{ $campus }}@else Sin Campus Asignado @endif</b>
                 </li>
                 <li class="dropdown">
 
@@ -107,7 +104,7 @@ a {
                             <a href="{{ route('encargado.horario.display') }}"><i class="fa fa-eye"></i> Ver Horarios</a>
                         </li>                                                                                                              
                         <li>
-                            <a href="{{ route('contacto.index') }}"><i class="fa fa-send"></i> Contáctanos</a>                 
+                            <a href="{{ route('encargado.contacto.index') }}"><i class="fa fa-send"></i> Contáctanos</a>                 
                         </li>                                             
                     </ul>
                 </div>
@@ -142,11 +139,6 @@ a {
 
     <!-- Metis Menu Plugin JavaScript -->
     <script src="{{ asset('/vendor/metisMenu/metisMenu.min.js') }}"></script>
-
-    <!-- Morris Charts JavaScript -->
-    <script src="{{ asset('/vendor/raphael/raphael.min.js') }}"></script>
-    <script src="{{ asset('/vendor/morrisjs/morris.min.js') }}"></script>
-    <script src="{{ asset('/data/morris-data.js') }}"></script>
 
     <!-- Custom Theme JavaScript -->
     <script src="{{ asset('/dist/js/sb-admin-2.js') }}"></script>

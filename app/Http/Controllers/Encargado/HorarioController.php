@@ -10,6 +10,8 @@ use App\Http\Requests;
 
 use Illuminate\Support\Facades\Session;
 
+use Illuminate\Support\Facades\Auth;
+
 use App\Horario;
 
 use App\Curso;
@@ -24,8 +26,6 @@ use App\Docente;
 
 use App\Campus;
 
-use Illuminate\Support\Facades\Auth;
-
 use Carbon\Carbon;
 
 class HorarioController extends Controller
@@ -37,23 +37,32 @@ class HorarioController extends Controller
      */
     public function index()
     {
+
         $rol = $this->getRol();
+
+        $campus = $this->getCampus();
 
         $horarios = Horario::join('cursos','horarios.curso_id','=','cursos.id')
                            ->join('salas','salas.id','=','horarios.sala_id')
                            ->join('periodos','periodos.id','=','horarios.periodo_id')
                            ->join('asignaturas','asignaturas.id','=','cursos.asignatura_id')
                            ->join('docentes','docentes.id','=','cursos.docente_id')
+	                       ->join('departamentos','departamentos.id','=','asignaturas.departamento_id')
+	                       ->join('facultades','facultades.id','=','departamentos.facultad_id')
+	                       ->join('campus','campus.id','=','facultades.campus_id')
+	                       ->where('campus.rut_encargado','=',Auth::user()->rut)
                            ->select('horarios.*','salas.nombre as sala','periodos.bloque as bloque','cursos.seccion as seccion','asignaturas.nombre as asignatura','docentes.nombres as nombres_docente','docentes.apellidos as apellidos_docente')
                            ->get();
 
-        return view('encargado/horario/index',compact('horarios','rol'));
+        return view('encargado/horario/index',compact('horarios','rol','campus'));
     }
 
 
     public function create()
     {
         $rol = $this->getRol();
+
+		$campus = $this->getCampus();
 
         $cursos = Curso::join('asignaturas','asignaturas.id','=','cursos.asignatura_id')
                         ->join('docentes','docentes.id','=','cursos.docente_id')
@@ -67,11 +76,12 @@ class HorarioController extends Controller
         $salas = Sala::join('campus','campus.id','=','salas.campus_id')
                       ->select('salas.*')
                       ->where('campus.rut_encargado','=',Auth::user()->rut)
+                      ->where('salas.estado','Disponible')
                       ->get();
 
         $periodos = Periodo::all();
 
-        return view('encargado/horario/create',compact('cursos','salas','periodos','rol'));
+        return view('encargado/horario/create',compact('cursos','salas','periodos','rol','campus'));
     }
 
 
@@ -353,6 +363,8 @@ class HorarioController extends Controller
     {
         $rol = $this->getRol();
 
+		$campus = $this->getCampus();
+
         $horario = Horario::find($id);
 
         $cursos = Curso::join('asignaturas','asignaturas.id','=','cursos.asignatura_id')
@@ -367,6 +379,7 @@ class HorarioController extends Controller
         $salas = Sala::join('campus','campus.id','=','salas.campus_id')
                       ->select('salas.*')
                       ->where('campus.rut_encargado','=',Auth::user()->rut)
+                      ->where('salas.estado','Disponible')
                       ->get();
 
         $fecha_inicio = Horario::where('curso_id',$horario->curso_id)
@@ -376,7 +389,7 @@ class HorarioController extends Controller
                           
         $periodos = Periodo::all();
 
-        return view('encargado/horario/edit',compact('horario','cursos','docentes','salas','periodos','fecha_inicio','fecha_termino','rol'));
+        return view('encargado/horario/edit',compact('horario','cursos','docentes','salas','periodos','fecha_inicio','fecha_termino','rol','campus'));
     }
 
 
@@ -429,7 +442,7 @@ class HorarioController extends Controller
     {
 
       $rol = $this->getRol();
-      
+      $campus = $this->getCampus();
       $fecha_seleccionada = $request->get('fecha');
       $dia = $request->get('dia');
       $bloque = $request->get('bloque');
@@ -442,12 +455,14 @@ class HorarioController extends Controller
                            ->join('periodos','periodos.id','=','horarios.periodo_id')
                            ->join('asignaturas','asignaturas.id','=','cursos.asignatura_id')
                            ->join('docentes','docentes.id','=','cursos.docente_id')
+                           ->join('campus','campus.id','=','salas.campus_id')
                            ->where('horarios.fecha',$fecha_seleccionada)
                            ->where('periodos.bloque',$bloque)
+                           ->where('campus.rut_encargado','=',Auth::user()->rut)
                            ->select('horarios.*','salas.nombre as sala','periodos.bloque as bloque','cursos.seccion as seccion','asignaturas.nombre as asignatura','docentes.nombres as nombres_docente','docentes.apellidos as apellidos_docente')
                            ->get();     
 
-        return view('encargado/horario/display',compact('horarios','rol','fecha_seleccionada','dia','bloque')); 
+        return view('encargado/horario/display',compact('horarios','rol','fecha_seleccionada','dia','bloque','campus')); 
       }
 
       if($fecha_seleccionada)
@@ -458,11 +473,13 @@ class HorarioController extends Controller
                            ->join('periodos','periodos.id','=','horarios.periodo_id')
                            ->join('asignaturas','asignaturas.id','=','cursos.asignatura_id')
                            ->join('docentes','docentes.id','=','cursos.docente_id')
+                           ->join('campus','campus.id','=','salas.campus_id')
                            ->where('horarios.fecha',$fecha_seleccionada)
+                           ->where('campus.rut_encargado','=',Auth::user()->rut)
                            ->select('horarios.*','salas.nombre as sala','periodos.bloque as bloque','cursos.seccion as seccion','asignaturas.nombre as asignatura','docentes.nombres as nombres_docente','docentes.apellidos as apellidos_docente')
                            ->get();     
 
-        return view('encargado/horario/display',compact('horarios','rol','fecha_seleccionada','dia','bloque')); 
+        return view('encargado/horario/display',compact('horarios','rol','fecha_seleccionada','dia','bloque','campus')); 
       }
 
       if($dia && $bloque)
@@ -473,12 +490,14 @@ class HorarioController extends Controller
                            ->join('periodos','periodos.id','=','horarios.periodo_id')
                            ->join('asignaturas','asignaturas.id','=','cursos.asignatura_id')
                            ->join('docentes','docentes.id','=','cursos.docente_id')
+                           ->join('campus','campus.id','=','salas.campus_id')
                            ->where('horarios.dia',$dia)
                            ->where('periodos.bloque',$bloque)
+                           ->where('campus.rut_encargado','=',Auth::user()->rut)
                            ->select('horarios.*','salas.nombre as sala','periodos.bloque as bloque','cursos.seccion as seccion','asignaturas.nombre as asignatura','docentes.nombres as nombres_docente','docentes.apellidos as apellidos_docente')
                            ->get();     
 
-        return view('encargado/horario/display',compact('horarios','rol','fecha_seleccionada','dia','bloque')); 
+        return view('encargado/horario/display',compact('horarios','rol','fecha_seleccionada','dia','bloque','campus')); 
       }
 
       if($dia)
@@ -489,11 +508,13 @@ class HorarioController extends Controller
                            ->join('periodos','periodos.id','=','horarios.periodo_id')
                            ->join('asignaturas','asignaturas.id','=','cursos.asignatura_id')
                            ->join('docentes','docentes.id','=','cursos.docente_id')
+                           ->join('campus','campus.id','=','salas.campus_id')
                            ->where('horarios.dia',$dia)
+                           ->where('campus.rut_encargado','=',Auth::user()->rut)
                            ->select('horarios.*','salas.nombre as sala','periodos.bloque as bloque','cursos.seccion as seccion','asignaturas.nombre as asignatura','docentes.nombres as nombres_docente','docentes.apellidos as apellidos_docente')
                            ->get();     
 
-        return view('encargado/horario/display',compact('horarios','rol','fecha_seleccionada','dia','bloque')); 
+        return view('encargado/horario/display',compact('horarios','rol','fecha_seleccionada','dia','bloque','campus')); 
       }
 
       if($bloque)
@@ -504,11 +525,13 @@ class HorarioController extends Controller
                            ->join('periodos','periodos.id','=','horarios.periodo_id')
                            ->join('asignaturas','asignaturas.id','=','cursos.asignatura_id')
                            ->join('docentes','docentes.id','=','cursos.docente_id')
+                           ->join('campus','campus.id','=','salas.campus_id')
                            ->where('periodos.bloque',$bloque)
+                           ->where('campus.rut_encargado','=',Auth::user()->rut)
                            ->select('horarios.*','salas.nombre as sala','periodos.bloque as bloque','cursos.seccion as seccion','asignaturas.nombre as asignatura','docentes.nombres as nombres_docente','docentes.apellidos as apellidos_docente')
                            ->get();     
 
-        return view('encargado/horario/display',compact('horarios','rol','fecha_seleccionada','dia','bloque')); 
+        return view('encargado/horario/display',compact('horarios','rol','fecha_seleccionada','dia','bloque','campus')); 
       }
 
       $fecha_actual = Carbon::now();
@@ -519,12 +542,68 @@ class HorarioController extends Controller
                          ->join('periodos','periodos.id','=','horarios.periodo_id')
                          ->join('asignaturas','asignaturas.id','=','cursos.asignatura_id')
                          ->join('docentes','docentes.id','=','cursos.docente_id')
+                         ->join('campus','campus.id','=','salas.campus_id')
                          ->where('horarios.fecha',$fecha)
+                         ->where('campus.rut_encargado','=',Auth::user()->rut)
                          ->select('horarios.*','salas.nombre as sala','periodos.bloque as bloque','cursos.seccion as seccion','asignaturas.nombre as asignatura','docentes.nombres as nombres_docente','docentes.apellidos as apellidos_docente')
                          ->orderBy('periodos.bloque','asc')
                          ->get(); 
 
 
-      return view('encargado/horario/display',compact('horarios','rol','fecha_seleccionada','dia','bloque'));      
+      return view('encargado/horario/display',compact('horarios','rol','fecha_seleccionada','dia','bloque','campus'));      
+    }
+
+
+    protected function getCampus()
+    {
+    	$campus = Campus::where('rut_encargado',Auth::user()->rut)
+				    	->select('nombre')
+				    	->get();
+
+        if($campus->isEmpty())
+        {
+        	return '';
+        }
+        else
+        {
+			return $campus->first()->nombre;
+        }
+
+    	
+    }
+
+    public function excel_download()
+    {
+
+	    $var = Horario::join('cursos','horarios.curso_id','=','cursos.id')
+	                       ->join('salas','salas.id','=','horarios.sala_id')
+	                       ->join('periodos','periodos.id','=','horarios.periodo_id')
+	                       ->join('asignaturas','asignaturas.id','=','cursos.asignatura_id')
+	                       ->join('docentes','docentes.id','=','cursos.docente_id')
+	                       ->join('departamentos','departamentos.id','=','asignaturas.departamento_id')
+	                       ->join('facultades','facultades.id','=','departamentos.facultad_id')
+	                       ->join('campus','campus.id','=','facultades.campus_id')
+	                       ->where('campus.rut_encargado','=',Auth::user()->rut)
+	                       ->select('horarios.*','salas.nombre as sala','periodos.bloque as bloque','cursos.seccion as seccion','asignaturas.nombre as asignatura','docentes.nombres as nombres_docente','docentes.apellidos as apellidos_docente')
+	                       ->get();
+
+	      \Excel::create('Horarios',function($excel) use ($var)
+	      {
+	        $excel->sheet('Sheetname',function($sheet) use ($var)
+	        {
+	          $data=[];
+	          array_push($data, array('FECHA','SALA','PERIODO','CURSO','PERMANENCIA','DIA','COMENTARIO','ASISTENCIA_DOCENTE','CANTIDAD_ALUMNOS'));
+	          foreach($var as $key => $v)
+	          {
+	            
+	            array_push($data, array($v->fecha,$v->sala_id,$v->periodo_id,$v->curso_id,$v->permanencia,$v->dia,$v->comentario,$v->asistencia_docente,$v->cantidad_alumnos));
+	          }   
+	          $sheet->fromArray($data,null, 'A1', false,false);
+	        
+	        });
+	        
+	      })->download('xlsx');
+        
+           return redirect()->route('encargado.horario.index');
     }
 }

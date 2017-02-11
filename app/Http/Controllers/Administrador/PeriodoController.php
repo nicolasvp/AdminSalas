@@ -157,5 +157,26 @@ class PeriodoController extends Controller
 	      	
     }
 
+    public function excel_download()
+    {
+        $var = Periodo::all();
+        \Excel::create('Periodos',function($excel) use ($var)
+        {
+            $excel->sheet('Sheetname',function($sheet) use ($var)
+            {
+                $data=[];
+                array_push($data, array('BLOQUE','INICIO','FIN'));
+                foreach($var as $key => $v)
+                {
+                    array_push($data, array($v->bloque,$v->inicio,$v->fin));
+                }       
+                $sheet->fromArray($data,null, 'A1', false,false);
+            
+            });
+            
+        })->download('xlsx');
+            
+           return redirect()->route('administrador.periodo.index');
+    } 
 
 }

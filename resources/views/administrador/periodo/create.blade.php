@@ -12,7 +12,7 @@
 @section('container')
 
     <div class="col-lg-12">
-        <h1 class="page-header">Período</h1>
+        <h2 class="page-header">Período</h2>
     </div>
     <!-- /.row -->
     <div class="row">
@@ -25,9 +25,11 @@
                         </div>
                         <div class="col-sm-6 col-md-6 col-lg-6">
                             {!! Form::open(['route' => ['administrador.periodo.upload'], 'method' => 'POST', 'files' => true]) !!}
+                             <div class="form-group" style="float:right;">
 	                            <label>Archivo Excel</label>
 	                            <button role="button" type="submit" class="btn btn-success" style="float: right;">Subir</button>
-	                            <input type="file" name="file" style="float: right;"> 
+	                            <input type="file" name="file" class="filestyle"> 
+	                        </div>
                             {!! Form::close() !!}
                         </div>
                     </div>
@@ -61,5 +63,9 @@
 
 @section('scripts')
 <script src="{{ asset('dist/js/jquery-ui.js') }}"></script>
+<!--script src="{{ URL::asset('js/bootstrap-filestyle.min.js') }}"></script-->
 
+<!--script type="text/javascript">
+	$(":file").filestyle();
+</script-->
 @stop

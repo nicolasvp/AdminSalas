@@ -6,6 +6,8 @@
 
    <!-- DataTables Responsive CSS -->
     <link href="{{ asset('vendor/datatables-responsive/dataTables.responsive.css') }}" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.css">
 @stop
 
 @section('option')
@@ -18,8 +20,8 @@
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <div class="row">
-                                <div class="col-md-4 col-lg-4">
-                                    <h4> Horarios </h4>
+                                <div class="col-md-2 col-lg-2">
+                                    <h2> Horarios </h2>
                                     @if(Session::has('message'))
                                         <div class="alert alert-success alert-dismissable">
                                             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
@@ -27,7 +29,7 @@
                                         </div>
                                     @endif                                    
                                 </div>
-                                <div class="col-md-8 col-lg-8">
+                                <div class="col-md-10 col-lg-10">
                                     {!! Form::open(['route' => 'alumno.horario', 'method' => 'GET']) !!}
                                     <div class="col-md-2 col-lg-2" style="float: right;">
                                         <button type="submit" class="btn btn-success" style="margin-top:25px; float: right;">Aceptar</button>      
@@ -68,7 +70,17 @@
                                             <label>Fecha</label>
                                             <input type="text" class="form-control" id="fecha" name="fecha">
                                         </div>
-                                    </div>                           
+                                    </div> 
+                                    <div class="col-md-2 col-lg-2" style="float: right;">
+                                        <div class="form-group" id="form-fecha">
+                                            <label>Campus</label>
+                                            <select class="form-control" name="campus" id="campus">
+                                            	@foreach($campus as $camp)
+                                            		<option class="form-control" id="campus_{{ $camp->nombre }}" name="campus" value="{{ $camp->id }}"> {{ $camp->nombre }}</option>
+                                            	@endforeach
+                                            </select>
+                                        </div>
+                                    </div>                                                               
                                     {!! Form::close() !!}
                                 </div>
                            </div>
@@ -119,9 +131,11 @@
 <script src="{{ asset('vendor/datatables/js/jquery.dataTables.min.js') }}"></script>
 <script src="{{ asset('vendor/datatables-plugins/dataTables.bootstrap.min.js') }}"></script>
 <script src="{{ asset('vendor/datatables-responsive/dataTables.responsive.js') }}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.js"></script>
 
 <script>
 $(document).ready(function() {
+
     $('#dataTables-example').DataTable({
         responsive: true,
         "language": {
@@ -145,7 +159,46 @@ $(document).ready(function() {
                 }
             }
     });
+    $("#fecha").datepicker();
+    $("#fecha").datepicker('option', {dateFormat: 'dd-mm-yy'});
    
+    var fecha_seleccionada = $("#fecha_seleccionada").val();
+    var dia_seleccionado = $("#dia_seleccionado").val();
+    var bloque_seleccionado = $("#bloque_seleccionado").val();
+
+    if(dia_seleccionado != 0)
+        $("#dia option[id='dia_"+dia_seleccionado+"']").attr('selected','selected');        
+    if(bloque_seleccionado != 0)
+        $("#bloque option[id='bloque_"+bloque_seleccionado+"']").attr('selected','selected'); 
+    if($("#fecha").val() != null)
+    $("#fecha").val(fecha_seleccionada);    
+
+});
+
+$("#fecha").change(function(){
+   
+    if($(this).val())
+    {
+        $("#dia").prop('disabled',true);
+    }
+    else
+    {
+        $("#dia").prop('disabled',false);
+    }
+
+});
+
+$("#dia").change(function(){
+   
+    if($(this).val())
+    {
+        $("#fecha").prop('disabled',true);
+    }
+    if($(this).val() == 0)
+    {
+        $("#fecha").prop('disabled',false);
+    }
+
 });
 </script>
 

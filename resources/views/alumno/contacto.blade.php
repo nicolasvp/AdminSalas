@@ -5,13 +5,13 @@
 @stop
 
 @section('container')
-
+ <div class="col-lg-12" style="padding-top: 20px;">
     <!-- /.row -->
     <div class="row">
         <div class="col-lg-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h4> Comunícate con nosotros </h4>
+                    <h2> Comunícate con nosotros </h2>
                     @if(Session::has('message'))
                         <div class="alert alert-success alert-dismissable">
                             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
@@ -22,7 +22,7 @@
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-lg-6 col-lg-offset-3">
-                            {!! Form::open(['route' => ['contacto.store'], 'method' => 'POST']) !!}
+                            {!! Form::open(['route' => ['alumno.contacto.store'], 'method' => 'POST']) !!}
                                 <div class="form-group">
                                     <label>Asunto</label>
                                     <input class="form-control" name="asunto" placeholder="Ej: Consulta sobre el horario">
@@ -43,5 +43,5 @@
             </div>
         </div>
     </div>
-
+</div>
 @stop

@@ -66,13 +66,10 @@ class UsuarioController extends Controller
             'password' => bcrypt($request->get('rut'))
             ]);
 
-        foreach($request->get('roles') as $rol)
-        {
-            Rol_usuario::create([
-                'rut' => $request->get('rut'),
-                'rol_id' => $rol
-                ]);
-        }
+        Rol_usuario::create([
+            'rut' => $request->get('rut'),
+            'rol_id' => $request->get('rol')
+            ]);
 
         return redirect()->route('administrador.usuario.index');
     }
@@ -186,4 +183,30 @@ class UsuarioController extends Controller
         }
 
     }
+
+    public function excel_download()
+    {
+        $var = User::all();
+        \Excel::create('Usuarios',function($excel) use ($var)
+        {
+            $excel->sheet('Sheetname',function($sheet) use ($var)
+            {
+                $data=[];
+                array_push($data, array('RUT','EMAIL','NOMBRES','APELLIDOS'));
+                foreach($var as $key => $v)
+                {
+                    $a = \App\RutUtils::dv($v->rut);
+                    $rut = $v->rut."-".$a;
+                    
+                    array_push($data, array($rut,$v->email,$v->nombres,$v->apellidos));
+                }       
+                $sheet->fromArray($data,null, 'A1', false,false);
+            
+            });
+            
+        })->download('xlsx');
+            
+           return redirect()->route('administrador.usuario.index');
+    }
+    
 }

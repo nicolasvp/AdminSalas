@@ -18,11 +18,7 @@ use App\TipoSala;
 
 class SalaController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
         $rol = $this->getRol();
@@ -35,11 +31,7 @@ class SalaController extends Controller
         return view('administrador/sala/index',compact('salas','rol'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function create()
     {
         $rol = $this->getRol();
@@ -51,42 +43,27 @@ class SalaController extends Controller
         return view('administrador/sala/create',compact('campus','tipos','rol'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+
     public function store(Request $request)
     {
+
         Sala::create([
             'campus_id' => $request->get('campus'),
             'tipo_sala_id' => $request->get('tipo'),
             'nombre' => $request->get('nombre'),
             'descripcion' => $request->get('descripcion'),
-            'capacidad' => $request->get('capacidad')
+            'capacidad' => $request->get('capacidad'),
+            'estado' => $request->get('estado')
             ]);
 
         return redirect()->route('administrador.sala.index');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
         $rol = $this->getRol();
@@ -100,13 +77,7 @@ class SalaController extends Controller
         return view('administrador/sala/edit',compact('sala','campus','tipos','rol'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function update(Request $request, $id)
     {
 
@@ -117,6 +88,7 @@ class SalaController extends Controller
         $sala->nombre = $request->get('nombre');
         $sala->descripcion = $request->get('descripcion');
         $sala->capacidad = $request->get('capacidad');
+        $sala->estado = $request->get('estado');
         $sala->save();
                             
         Session::flash('message', 'La sala ' .$sala->nombre.' ha sido actualizada');
@@ -124,12 +96,7 @@ class SalaController extends Controller
         return redirect()->route('administrador.sala.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function destroy(Request $request,$id)
     {
         if($request->ajax()){
@@ -148,4 +115,28 @@ class SalaController extends Controller
 
         }
     }
+
+    public function excel_download()
+    {
+        $var = Sala::all();
+        \Excel::create('Salas',function($excel) use ($var)
+        {
+            $excel->sheet('Sheetname',function($sheet) use ($var)
+            {
+                $data=[];
+                array_push($data, array('CAMPUS','TIPO_SALA','NOMBRE','DESCRIPCION','CAPACIDAD','ESTADO'));
+                foreach($var as $key => $v)
+                {
+                    
+                    array_push($data, array($v->campus_id,$v->tipo_sala_id,$v->nombre,$v->descripcion,$v->capacidad,$v->estado));
+                }       
+                $sheet->fromArray($data,null, 'A1', false,false);
+            
+            });
+            
+        })->download('xlsx');
+            
+           return redirect()->route('administrador.sala.index');
+    }
+
 }

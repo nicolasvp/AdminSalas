@@ -139,4 +139,27 @@ class AsignaturaController extends Controller
 
         }
     }
+
+    public function excel_download()
+    {
+        $var = Asignatura::all();
+        \Excel::create('Asignaturas',function($excel) use ($var)
+        {
+            $excel->sheet('Sheetname',function($sheet) use ($var)
+            {
+                $data=[];
+                array_push($data, array('DEPARTAMENTO','CODIGO','NOMBRE','DESCRIPCION'));
+                foreach($var as $key => $v)
+                {
+                    
+                    array_push($data, array($v->departamento_id,$v->codigo,$v->nombre,$v->descripcion));
+                }       
+                $sheet->fromArray($data,null, 'A1', false,false);
+            
+            });
+            
+        })->download('xlsx');
+            
+           return redirect()->route('administrador.asignatura.index');
+    }
 }

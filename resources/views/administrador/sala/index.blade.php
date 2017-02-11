@@ -19,7 +19,7 @@
             <div class="panel-heading">
                 <div class="row">
                     <div class="col-md-6 col-lg-6">
-                        <h4> Salas </h4>
+                        <h2> Salas </h2>
                         @if(Session::has('message'))
                             <div class="alert alert-success alert-dismissable">
                                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
@@ -29,7 +29,11 @@
                     </div>
                     <div class="col-md-6 col-lg-6">
                         {!! Form::open(['route' => 'administrador.sala.create', 'method' => 'GET']) !!}
-                            <button type="submit" class="btn btn-success" style="float: right">Ingresar  <i class="fa fa-plus"></i></button>
+                            <button type="submit" class="btn btn-success" style="float: right; margin-top: 10px;">Ingresar  <i class="fa fa-plus"></i></button>
+                        {!! Form::close() !!}
+
+                        {!! Form::open(['route' => 'administrador.sala.download', 'method' => 'GET']) !!}
+                            <button type="submit" class="btn btn-info pull-right" style="margin-top: 10px;">Descargar <i class="fa fa-download"></i></button>
                         {!! Form::close() !!}
                     </div>
                </div>
@@ -44,6 +48,7 @@
                             <th>Tipo</th>
                             <th>Nombre</th>
                             <th>Descripcion</th>
+                            <th>Estado</th>
                             <th>Capacidad</th>
                             <th>Editar</th>
                             <th>Eliminar</th>                                           
@@ -57,6 +62,7 @@
                             <td class="center">{{ $sala->tipo }}</td>
                             <td class="center">{{ $sala->nombre }}</td>
                             <td class="center">{{ $sala->descripcion }}</td>
+                            <td class="center">{{ $sala->estado }}</td>
                             <td class="center">{{ $sala->capacidad }}</td>                                        
                             <td class="center"><a href="{{ route('administrador.sala.edit',$sala->id)}}"><i class="fa fa-edit"></i></a></td>
                             <td class="center"><a href="#!" class="btn-delete"><i class="fa fa-trash"></i></a>

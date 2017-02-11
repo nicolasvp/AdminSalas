@@ -8,7 +8,7 @@
 @section('container')
 
     <div class="col-lg-12">
-        <h1 class="page-header">Sala</h1>
+        <h2 class="page-header">Sala</h2>
     </div>
     <!-- /.row -->
     <div class="row">
@@ -48,7 +48,13 @@
                                 <div class="form-group">
                                     <label>Capacidad</label>
                                     <input class="form-control" name="capacidad" placeholder="Ej: 40">
-                                </div>                                        
+                                </div> 
+                                <div class="form-group">
+                                    <select class="form-control" name="estado">
+                                        <option value="Disponible">Disponible</option>
+                                        <option value="No Disponible">No Disponible</option>
+                                    </select>
+                                </div>                                       
                                 <button type="submit" class="btn btn-success">Aceptar</button>
                           	{!! Form::close() !!}
                         </div>

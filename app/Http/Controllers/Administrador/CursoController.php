@@ -154,4 +154,28 @@ class CursoController extends Controller
 
         }
     }
+
+    public function excel_download()
+    {
+        $var = Curso::all();
+        \Excel::create('Cursos',function($excel) use ($var)
+        {
+            $excel->sheet('Sheetname',function($sheet) use ($var)
+            {
+                $data=[];
+                array_push($data, array('ASIGNATURA','DOCENTE','SEMESTRE','ANIO','SECCION'));
+                foreach($var as $key => $v)
+                {
+                    
+                    array_push($data, array($v->asignatura_id,$v->docente_id,$v->semestre,$v->anio,$v->seccion));
+                }       
+                $sheet->fromArray($data,null, 'A1', false,false);
+            
+            });
+            
+        })->download('xlsx');
+            
+           return redirect()->route('administrador.curso.index');
+    }    
+
 }

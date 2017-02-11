@@ -62,7 +62,9 @@ class HorarioController extends Controller
 
         //$docentes = Docente::all();
 
-        $salas = Sala::all();
+        $salas = Sala::where('estado','Disponible')
+                      ->select('*')
+                      ->get();
 
         $periodos = Periodo::all();
 
@@ -375,7 +377,9 @@ class HorarioController extends Controller
         $fecha_termino = Horario::where('curso_id',$horario->curso_id) 
                                 ->max('fecha');
                           
-        $salas = Sala::all();
+        $salas = Sala::where('estado','Disponible')
+                      ->select('*')
+                      ->get();
 
         $periodos = Periodo::all();
 
@@ -540,5 +544,28 @@ class HorarioController extends Controller
 
 
       return view('administrador/horario/display',compact('horarios','rol','fecha_seleccionada','dia','bloque'));      
+    }
+
+    public function excel_download()
+    {
+      $var = Horario::all();
+      \Excel::create('Horarios',function($excel) use ($var)
+      {
+        $excel->sheet('Sheetname',function($sheet) use ($var)
+        {
+          $data=[];
+          array_push($data, array('FECHA','SALA','PERIODO','CURSO','PERMANENCIA','DIA','COMENTARIO','ASISTENCIA_DOCENTE','CANTIDAD_ALUMNOS'));
+          foreach($var as $key => $v)
+          {
+            
+            array_push($data, array($v->fecha,$v->sala_id,$v->periodo_id,$v->curso_id,$v->permanencia,$v->dia,$v->comentario,$v->asistencia_docente,$v->cantidad_alumnos));
+          }   
+          $sheet->fromArray($data,null, 'A1', false,false);
+        
+        });
+        
+      })->download('xlsx');
+        
+           return redirect()->route('administrador.horario.index');
     }
 }

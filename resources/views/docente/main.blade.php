@@ -21,9 +21,6 @@
     <!-- Custom CSS -->
     <link href="{{ asset('/dist/css/sb-admin-2.css') }}" rel="stylesheet">
 
-    <!-- Morris Charts CSS -->
-    <link href="{{ asset('/vendor/morrisjs/morris.css') }}" rel="stylesheet">
-
     <!-- Custom Fonts -->
     <link href="{{ asset('/vendor/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet" type="text/css">
 
@@ -99,7 +96,7 @@ a {
                             <a href="{{ route('docente.horario') }}"><i class="fa fa-eye"></i> Ver Horarios</a>
                         </li>  
                         <li>
-                            <a href="{{ route('contacto.index') }}"><i class="fa fa-send"></i> Contáctanos</a>                 
+                            <a href="{{ route('docente.contacto.index') }}"><i class="fa fa-send"></i> Contáctanos</a>                 
                         </li>                                                                                                 
                     </ul>
                 </div>
@@ -134,11 +131,6 @@ a {
 
     <!-- Metis Menu Plugin JavaScript -->
     <script src="{{ asset('/vendor/metisMenu/metisMenu.min.js') }}"></script>
-
-    <!-- Morris Charts JavaScript -->
-    <script src="{{ asset('/vendor/raphael/raphael.min.js') }}"></script>
-    <script src="{{ asset('/vendor/morrisjs/morris.min.js') }}"></script>
-    <script src="{{ asset('/data/morris-data.js') }}"></script>
 
     <!-- Custom Theme JavaScript -->
     <script src="{{ asset('/dist/js/sb-admin-2.js') }}"></script>

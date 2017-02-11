@@ -20,6 +20,8 @@ use App\Asignatura;
 
 use App\Docente;
 
+use App\Campus;
+
 use Carbon\Carbon;
 
 class AlumnoController extends Controller
@@ -48,6 +50,7 @@ class AlumnoController extends Controller
       $fecha_seleccionada = $request->get('fecha');
       $dia = $request->get('dia');
       $bloque = $request->get('bloque');
+      $campus = Campus::select('id','nombre')->get();
 
       if($fecha_seleccionada && $bloque)
       {
@@ -59,10 +62,11 @@ class AlumnoController extends Controller
                            ->join('docentes','docentes.id','=','cursos.docente_id')
                            ->where('horarios.fecha',$fecha_seleccionada)
                            ->where('periodos.bloque',$bloque)
+                           ->where('salas.campus_id',$request->get('campus'))
                            ->select('horarios.*','salas.nombre as sala','periodos.bloque as bloque','cursos.seccion as seccion','asignaturas.nombre as asignatura','docentes.nombres as nombres_docente','docentes.apellidos as apellidos_docente')
                            ->get();     
 
-        return view('alumno/horario',compact('horarios','rol','fecha_seleccionada','dia','bloque')); 
+        return view('alumno/horario',compact('horarios','rol','fecha_seleccionada','dia','bloque','campus')); 
       }
 
       if($fecha_seleccionada)
@@ -74,10 +78,11 @@ class AlumnoController extends Controller
                            ->join('asignaturas','asignaturas.id','=','cursos.asignatura_id')
                            ->join('docentes','docentes.id','=','cursos.docente_id')
                            ->where('horarios.fecha',$fecha_seleccionada)
+                           ->where('salas.campus_id',$request->get('campus'))
                            ->select('horarios.*','salas.nombre as sala','periodos.bloque as bloque','cursos.seccion as seccion','asignaturas.nombre as asignatura','docentes.nombres as nombres_docente','docentes.apellidos as apellidos_docente')
                            ->get();     
 
-        return view('alumno/horario',compact('horarios','rol','fecha_seleccionada','dia','bloque')); 
+        return view('alumno/horario',compact('horarios','rol','fecha_seleccionada','dia','bloque','campus')); 
       }
 
       if($dia && $bloque)
@@ -90,10 +95,11 @@ class AlumnoController extends Controller
                            ->join('docentes','docentes.id','=','cursos.docente_id')
                            ->where('horarios.dia',$dia)
                            ->where('periodos.bloque',$bloque)
+                           ->where('salas.campus_id',$request->get('campus'))
                            ->select('horarios.*','salas.nombre as sala','periodos.bloque as bloque','cursos.seccion as seccion','asignaturas.nombre as asignatura','docentes.nombres as nombres_docente','docentes.apellidos as apellidos_docente')
                            ->get();     
 
-        return view('alumno/horario',compact('horarios','rol','fecha_seleccionada','dia','bloque')); 
+        return view('alumno/horario',compact('horarios','rol','fecha_seleccionada','dia','bloque','campus')); 
       }
 
       if($dia)
@@ -105,10 +111,11 @@ class AlumnoController extends Controller
                            ->join('asignaturas','asignaturas.id','=','cursos.asignatura_id')
                            ->join('docentes','docentes.id','=','cursos.docente_id')
                            ->where('horarios.dia',$dia)
+                           ->where('salas.campus_id',$request->get('campus'))
                            ->select('horarios.*','salas.nombre as sala','periodos.bloque as bloque','cursos.seccion as seccion','asignaturas.nombre as asignatura','docentes.nombres as nombres_docente','docentes.apellidos as apellidos_docente')
                            ->get();     
 
-        return view('alumno/horario',compact('horarios','rol','fecha_seleccionada','dia','bloque')); 
+        return view('alumno/horario',compact('horarios','rol','fecha_seleccionada','dia','bloque','campus')); 
       }
 
       if($bloque)
@@ -120,10 +127,11 @@ class AlumnoController extends Controller
                            ->join('asignaturas','asignaturas.id','=','cursos.asignatura_id')
                            ->join('docentes','docentes.id','=','cursos.docente_id')
                            ->where('periodos.bloque',$bloque)
+                           ->where('salas.campus_id',$request->get('campus'))
                            ->select('horarios.*','salas.nombre as sala','periodos.bloque as bloque','cursos.seccion as seccion','asignaturas.nombre as asignatura','docentes.nombres as nombres_docente','docentes.apellidos as apellidos_docente')
                            ->get();     
 
-        return view('alumno/horario',compact('horarios','rol','fecha_seleccionada','dia','bloque')); 
+        return view('alumno/horario',compact('horarios','rol','fecha_seleccionada','dia','bloque','campus')); 
       }
 
       $fecha_actual = Carbon::now();
@@ -135,12 +143,13 @@ class AlumnoController extends Controller
                          ->join('asignaturas','asignaturas.id','=','cursos.asignatura_id')
                          ->join('docentes','docentes.id','=','cursos.docente_id')
                          ->where('horarios.fecha',$fecha)
+                         ->where('salas.campus_id',$request->get('campus'))
                          ->select('horarios.*','salas.nombre as sala','periodos.bloque as bloque','cursos.seccion as seccion','asignaturas.nombre as asignatura','docentes.nombres as nombres_docente','docentes.apellidos as apellidos_docente')
                          ->orderBy('periodos.bloque','asc')
                          ->get(); 
 
 
-      return view('alumno/horario',compact('horarios','rol','fecha_seleccionada','dia','bloque'));      
+      return view('alumno/horario',compact('horarios','rol','fecha_seleccionada','dia','bloque','campus'));      
     }
 
     public function create()

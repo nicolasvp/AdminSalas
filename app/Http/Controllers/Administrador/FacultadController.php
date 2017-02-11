@@ -140,4 +140,29 @@ class FacultadController extends Controller
 
         }
     }
+
+    public function excel_download()
+    {
+        $var = Facultad::all();
+        \Excel::create('Facultades',function($excel) use ($var)
+        {
+            $excel->sheet('Sheetname',function($sheet) use ($var)
+            {
+                $data=[];
+                array_push($data, array('NOMBRE','CAMPUS','DESCRIPCION'));
+                foreach($var as $key => $v)
+                {
+                    
+                    array_push($data, array($v->nombre,$v->campus_id,$v->descripcion));
+                }       
+                $sheet->fromArray($data,null, 'A1', false,false);
+            
+            });
+            
+        })->download('xlsx');
+            
+           return redirect()->route('administrador.facultad.index');
+    }
+
+
 }

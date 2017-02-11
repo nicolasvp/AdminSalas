@@ -8,24 +8,28 @@
 @section('container')
 
     <div class="col-lg-12">
-        <h1 class="page-header">Tipo de Sala</h1>
+        <h2 class="page-header">Tipo de Sala</h2>
     </div>
     <!-- /.row -->
     <div class="row">
         <div class="col-lg-12">
             <div class="panel panel-default">
-                <div class="row">
-                    <div class="col-sm-6 col-md-6 col-lg-6">
-                        <h4> Ingrese los datos </h4>
-                    </div>
-                    <div class="col-sm-6 col-md-6 col-lg-6">
-                        {!! Form::open(['route' => ['administrador.tipo_sala.upload'], 'method' => 'POST', 'files' => true]) !!}
-                            <label>Archivo Excel</label>
-                            <button role="button" type="submit" class="btn btn-success" style="float: right;">Subir</button>
-                            <input type="file" name="file" style="float: right;"> 
-                        {!! Form::close() !!}
-                    </div>
-                </div>                        
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-sm-6 col-md-6 col-lg-6">
+                            <h4> Ingrese los datos </h4>
+                        </div>
+                        <div class="col-sm-6 col-md-6 col-lg-6">
+                            {!! Form::open(['route' => ['administrador.tipo_sala.upload'], 'method' => 'POST', 'files' => true]) !!}
+                                <div class="form-group" style="float:right;">
+                                    <label>Archivo Excel</label>
+                                    <button role="button" type="submit" class="btn btn-success" style="float: right;">Subir</button>
+                                    <input type="file" name="file" class="filestyle"> 
+                                </div>
+                            {!! Form::close() !!}
+                        </div>
+                    </div> 
+                </div>                       
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-lg-6">

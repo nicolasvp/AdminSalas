@@ -8,7 +8,7 @@
 @section('container')
 
   <div class="col-lg-12">
-      <h1 class="page-header">Editar Sala: {{ $sala->nombre }}</h1>
+      <h2 class="page-header">Editar Sala: {{ $sala->nombre }}</h2>
   </div>
   <!-- /.row -->
   <div class="row">
@@ -51,6 +51,12 @@
                            {!! Form::label('capacidad', 'Capacidad') !!}
                            {!! Form::text('capacidad', null,['class' => 'form-control', 'placeholder' => 'Ej: 3']) !!}
                           </div>
+                          <div class="form-group">
+                              <select class="form-control" name="estado" id="estado">
+                                  <option value="Disponible">Disponible</option>
+                                  <option value="No Disponible">No Disponible</option>
+                              </select>
+                          </div>
 
                           <input type="hidden" id="campus_id" value="{{ $sala->campus_id }}">
                           <input type="hidden" id="tipo_sala_id" value="{{ $sala->tipo_sala_id }}">
@@ -78,6 +84,8 @@ $(document).ready(function(){
   var tipo_sala_id = $("#tipo_sala_id").val();
 
   $("#tipo option[id='tipo_"+tipo_sala_id+"']").attr('selected','selected');
+
+  $("#estado option[value='{{$sala->estado}}']").attr('selected','selected');
 
 });
 </script>

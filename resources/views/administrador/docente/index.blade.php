@@ -20,7 +20,7 @@
             <div class="panel-heading">
                 <div class="row">
                     <div class="col-md-6 col-lg-6">
-                        <h4> Docentes </h4>
+                        <h2> Docentes </h2>
                         @if(Session::has('message'))
                             <div class="alert alert-success alert-dismissable">
                                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
@@ -30,9 +30,13 @@
                     </div>
                     <div class="col-md-6 col-lg-6">
                         {!! Form::open(['route' => 'administrador.docente.create', 'method' => 'GET']) !!}
-                            <button type="submit" class="btn btn-success" style="float: right">Ingresar  <i class="fa fa-plus"></i></button>
+                            <button type="submit" class="btn btn-success" style="float: right; margin-top: 10px;">Ingresar  <i class="fa fa-plus"></i></button>
                         {!! Form::close() !!}
-                   </div>
+
+                        {!! Form::open(['route' => 'administrador.docente.download', 'method' => 'GET']) !!}
+                            <button type="submit" class="btn btn-info pull-right" style="margin-top: 10px;">Descargar <i class="fa fa-download"></i></button>
+                        {!! Form::close() !!}
+                    </div>
                </div>
             </div>
             <!-- /.panel-heading -->

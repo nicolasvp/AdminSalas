@@ -58,8 +58,7 @@ class DocenteController extends Controller
                 'departamento_id' => $request->get('departamento'),
                 'rut' => $request->get('rut'),
                 'nombres' => $request->get('nombres'),
-                'apellidos' => $request->get('apellidos'),
-                'email' => $request->get('email')
+                'apellidos' => $request->get('apellidos')
             ]);
 
         return redirect()->route('administrador.docente.index');
@@ -141,4 +140,30 @@ class DocenteController extends Controller
 
         }
     }
+
+    public function excel_download()
+    {
+        $var = Docente::all();
+        \Excel::create('Docentes',function($excel) use ($var)
+        {
+            $excel->sheet('Sheetname',function($sheet) use ($var)
+            {
+                $data=[];
+                array_push($data, array('DEPARTAMENTO','NOMBRES','APELLIDOS','RUT'));
+                foreach($var as $key => $v)
+                {
+                    $a = \App\RutUtils::dv($v->rut);
+                    $rut = $v->rut."-".$a;
+                    
+                    array_push($data, array($v->departamento_id,$v->nombres,$v->apellidos,$rut,$v->email));
+                }       
+                $sheet->fromArray($data,null, 'A1', false,false);
+            
+            });
+            
+        })->download('xlsx');
+            
+           return redirect()->route('administrador.docente.index');
+    }
+
 }

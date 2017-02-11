@@ -25,4 +25,7 @@ class Controller extends BaseController
 
         return $rol;
     }
+
+    
+
 }

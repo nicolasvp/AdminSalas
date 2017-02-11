@@ -8,7 +8,7 @@
 @section('container')
 
     <div class="col-lg-12">
-        <h1 class="page-header">Usuario</h1>
+        <h2 class="page-header">Usuario</h2>
     </div>
     <!-- /.row -->
     <div class="row">
@@ -23,7 +23,7 @@
                             {!! Form::open(['route' => ['administrador.usuario.store'], 'method' => 'POST']) !!}
                                 <div class="form-group">
                                     <label>Rut</label>
-                                    <input class="form-control" name="rut" placeholder="Ej: 18117925-2">
+                                    <input class="form-control" name="rut" placeholder="Ej: 18117925">
                                 </div>   
                                 <div class="form-group">
                                     <label>Email</label>
@@ -37,10 +37,10 @@
                                     <label>Apellidos</label>
                                     <input class="form-control" name="apellidos" placeholder="Ej: Vera">
                                 </div>
-                                <label>Roles</label>
+                                <label>Rol</label>
                                 <div class="form-group">
                                     @foreach($roles as $rol_u)
-                                        <input type="checkbox" id="{{ $rol_u->nombre }}" value="{{ $rol_u->id }}" name="roles[]">
+                                        <input type="radio" id="{{ $rol_u->nombre }}" value="{{ $rol_u->id }}" name="rol">
                                             {{ $rol_u->nombre }}
                                     @endforeach
                                 </div>                                        

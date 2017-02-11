@@ -7,7 +7,7 @@
    <!-- DataTables Responsive CSS -->
     <link href="{{ asset('vendor/datatables-responsive/dataTables.responsive.css') }}" rel="stylesheet">
     
-    <link rel="stylesheet" href="{{ asset('dist/css/jquery-ui.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.css">
 
 @stop
 
@@ -22,7 +22,7 @@
             <div class="panel-heading">
                 <div class="row">
                     <div class="col-md-4 col-lg-4">
-                        <h4> Horarios </h4>
+                        <h2> Horarios </h2>
                         @if(Session::has('message'))
                             <div class="alert alert-success alert-dismissable">
                                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
@@ -128,7 +128,8 @@
 <script src="{{ asset('vendor/datatables/js/jquery.dataTables.min.js') }}"></script>
 <script src="{{ asset('vendor/datatables-plugins/dataTables.bootstrap.min.js') }}"></script>
 <script src="{{ asset('vendor/datatables-responsive/dataTables.responsive.js') }}"></script>
-<script src="{{ asset('dist/js/jquery-ui.js') }}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.js"></script>
+
 
 <script>
 $(document).ready(function() {

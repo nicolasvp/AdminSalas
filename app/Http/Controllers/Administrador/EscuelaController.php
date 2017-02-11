@@ -138,4 +138,28 @@ class EscuelaController extends Controller
 
         }
     }
+
+    public function excel_download()
+    {
+        $var = Escuela::all();
+        \Excel::create('Escuelas',function($excel) use ($var)
+        {
+            $excel->sheet('Sheetname',function($sheet) use ($var)
+            {
+                $data=[];
+                array_push($data, array('NOMBRE','DEPARTAMENTO','DESCRIPCION'));
+                foreach($var as $key => $v)
+                {
+                    
+                    array_push($data, array($v->nombre,$v->departamento_id,$v->descripcion));
+                }       
+                $sheet->fromArray($data,null, 'A1', false,false);
+            
+            });
+            
+        })->download('xlsx');
+            
+           return redirect()->route('administrador.escuela.index');
+    }
+
 }

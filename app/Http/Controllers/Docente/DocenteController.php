@@ -20,6 +20,8 @@ use App\Asignatura;
 
 use App\Docente;
 
+use App\Campus;
+
 use Carbon\Carbon;
 
 class DocenteController extends Controller
@@ -44,6 +46,7 @@ class DocenteController extends Controller
       $fecha_seleccionada = $request->get('fecha');
       $dia = $request->get('dia');
       $bloque = $request->get('bloque');
+      $campus = Campus::select('id','nombre')->get();
 
       if($fecha_seleccionada && $bloque)
       {
@@ -58,7 +61,7 @@ class DocenteController extends Controller
                            ->select('horarios.*','salas.nombre as sala','periodos.bloque as bloque','cursos.seccion as seccion','asignaturas.nombre as asignatura','docentes.nombres as nombres_docente','docentes.apellidos as apellidos_docente')
                            ->get();     
 
-        return view('encdocente/horario',compact('horarios','rol','fecha_seleccionada','dia','bloque')); 
+        return view('encdocente/horario',compact('horarios','rol','fecha_seleccionada','dia','bloque','campus')); 
       }
 
       if($fecha_seleccionada)
@@ -73,7 +76,7 @@ class DocenteController extends Controller
                            ->select('horarios.*','salas.nombre as sala','periodos.bloque as bloque','cursos.seccion as seccion','asignaturas.nombre as asignatura','docentes.nombres as nombres_docente','docentes.apellidos as apellidos_docente')
                            ->get();     
 
-        return view('docente/horario',compact('horarios','rol','fecha_seleccionada','dia','bloque')); 
+        return view('docente/horario',compact('horarios','rol','fecha_seleccionada','dia','bloque','campus')); 
       }
 
       if($dia && $bloque)
@@ -89,7 +92,7 @@ class DocenteController extends Controller
                            ->select('horarios.*','salas.nombre as sala','periodos.bloque as bloque','cursos.seccion as seccion','asignaturas.nombre as asignatura','docentes.nombres as nombres_docente','docentes.apellidos as apellidos_docente')
                            ->get();     
 
-        return view('docente/horario',compact('horarios','rol','fecha_seleccionada','dia','bloque')); 
+        return view('docente/horario',compact('horarios','rol','fecha_seleccionada','dia','bloque','campus')); 
       }
 
       if($dia)
@@ -104,7 +107,7 @@ class DocenteController extends Controller
                            ->select('horarios.*','salas.nombre as sala','periodos.bloque as bloque','cursos.seccion as seccion','asignaturas.nombre as asignatura','docentes.nombres as nombres_docente','docentes.apellidos as apellidos_docente')
                            ->get();     
 
-        return view('docente/horario',compact('horarios','rol','fecha_seleccionada','dia','bloque')); 
+        return view('docente/horario',compact('horarios','rol','fecha_seleccionada','dia','bloque','campus')); 
       }
 
       if($bloque)
@@ -119,7 +122,7 @@ class DocenteController extends Controller
                            ->select('horarios.*','salas.nombre as sala','periodos.bloque as bloque','cursos.seccion as seccion','asignaturas.nombre as asignatura','docentes.nombres as nombres_docente','docentes.apellidos as apellidos_docente')
                            ->get();     
 
-        return view('docente/horario',compact('horarios','rol','fecha_seleccionada','dia','bloque')); 
+        return view('docente/horario',compact('horarios','rol','fecha_seleccionada','dia','bloque','campus')); 
       }
 
       $fecha_actual = Carbon::now();
@@ -136,7 +139,7 @@ class DocenteController extends Controller
                          ->get(); 
 
 
-      return view('docente/horario',compact('horarios','rol','fecha_seleccionada','dia','bloque'));          
+      return view('docente/horario',compact('horarios','rol','fecha_seleccionada','dia','bloque','campus'));          
     }
     /**
      * Show the form for creating a new resource.
