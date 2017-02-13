@@ -66,6 +66,7 @@ Route::group(['middleware' => ['web']], function () {
 		Route::resource('/horario','HorarioController');
 		Route::resource('/usuario','UsuarioController');
 		Route::resource('/contacto','ContactoController');
+		Route::resource('/estadistica','EstadisticaController');
 		Route::post('/tipo_sala/create/upload',['uses' => 'TipoSalaController@upload', 'as' => 'administrador.tipo_sala.upload']);
 		Route::post('/periodo/create/upload',['uses' => 'PeriodoController@upload', 'as' => 'administrador.periodo.upload']);
 		Route::get('/horario/display/diario',['uses' => 'HorarioController@display_horario', 'as' => 'administrador.horario.display']);
@@ -133,7 +134,7 @@ Route::group(['middleware' => ['web']], function () {
 
 });
 
-Route::resource('/graficas','GraficasController');
+
 
 Route::get('/rest',function(){
 

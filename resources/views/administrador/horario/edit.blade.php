@@ -12,7 +12,7 @@
 @section('container')
 
     <div class="col-lg-12">
-        <h2 class="page-header">Editar Horario</h2>
+        <h2 class="page-header">Editar Horario: #{{ $horario->id }}</h2>
     </div>
     <!-- /.row -->
     <div class="row">
@@ -68,15 +68,13 @@
                                 <div class="form-group">
                                     <input type="text" class="form-control" name="cantidad_alumnos" placeholder="Ej: 20">
                                 </div>                                                                                 
-                                <input type="hidden" id="curso_id" value="{{ $horario->curso_id }}">
-                                <input type="hidden" id="docente_id" value="{{ $curso->docente_id }}">
-                                <input type="hidden" id="sala_id" value="{{ $horario->sala_id }}">                              
-                                <input type="hidden" id="periodo_id" value="{{ $horario->periodo_id }}">
                                 <input type="hidden" id="fecha_id" value="{{ $horario->fecha }}">
                                 <input type="hidden" id="fecha_inicio" value="{{ $fecha_inicio }}">
                                 <input type="hidden" id="fecha_termino" value="{{ $fecha_termino }}">
                                 <input type="hidden" id="permanencia" value="{{ $horario->permanencia }}">
                                 <input type="hidden" id="dia" value="{{ $horario->dia }}">
+                                <input type="hidden" id="asistencia_docente" value="{{ $horario->asistencia_docente }}">
+                                <input type="hidden" id="comentario_horario" value="{{ $horario->comentario }}">
 
                               <button type="submit" class="btn btn-success">Aceptar</button>
                             {!! Form::close() !!}
@@ -95,26 +93,34 @@
 
 $(document).ready(function(){
 
-  var curso_id = $("#curso_id").val();
-  $("#curso option[id='curso_"+curso_id+"']").attr('selected','selected');
+  $("#curso option[id='curso_"+{{ $horario->curso_id }}+"']").attr('selected','selected');
 
-  var docente_id = $("#docente_id").val();
-  $("#docente option[id='docente_"+docente_id+"']").attr('selected','selected');
+  $("#docente option[id='docente_"+{{ $curso->docente_id }}+"']").attr('selected','selected');
 
-  var sala_id = $("#sala_id").val();
-  $("#sala option[id='sala_"+sala_id+"']").attr('selected','selected');
+  $("#sala option[id='sala_"+{{ $horario->sala_id }}+"']").attr('selected','selected');
 
-  var periodo_id = $("#periodo_id").val();
-  $("#periodo option[id='periodo_"+periodo_id+"']").attr('selected','selected');
+  $("#periodo option[id='periodo_"+{{ $horario->periodo_id }}+"']").attr('selected','selected');
+
+  $("#cantidad_alumnos").val({{ $horario->cantidad_alumnos }});
+
+
+  if($("#asistencia_docente").val() == 'si'){
+    $("#asistencia_si").attr('checked', 'checked');;
+  }
+  if($("#asistencia_docente").val() == 'no'){
+    $("#asistencia_no").attr('checked', 'checked');;
+  }
+  
+  if($("#comentario_horario").val() != '')
+  {
+    $("#comentario").val($("#comentario_horario").val());
+  }
 
   var dia = $("#dia").val();
   $("#"+dia).prop('checked',true);
 
-
-
   $("#fecha").datepicker();
   $("#fecha").datepicker('option', {dateFormat: 'dd-mm-yy'});
-
 
   var fecha = $("#fecha_id").val();
   var fecha_separada = fecha.split('-');

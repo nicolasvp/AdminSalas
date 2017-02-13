@@ -146,6 +146,9 @@ a {
                             </ul>
                         </li>
                         <li>
+                            <a href="{{ route('administrador.estadistica.index') }}"><i class="fa fa-bar-chart-o"></i> Estadísticas</a>              
+                        </li>                         
+                        <li>
                             <a href="#"><i class="fa fa-globe"></i> Accesos Directos<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
@@ -159,7 +162,7 @@ a {
                             </ul>
                         </li>      
                         <li>
-                            <a href="{{ route('administrador.contacto.index') }}"><i class="fa fa-send"></i> Contáctanos</a>                 
+                            <a href="{{ route('administrador.contacto.index') }}"><i class="fa fa-send"></i> Contáctanos</a>            
                         </li>                                           
                     </ul>
                 </div>

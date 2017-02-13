@@ -388,7 +388,7 @@ class HorarioController extends Controller
                                 ->max('fecha');
                           
         $periodos = Periodo::all();
-
+//dd($horario);
         return view('encargado/horario/edit',compact('horario','cursos','docentes','salas','periodos','fecha_inicio','fecha_termino','rol','campus'));
     }
 

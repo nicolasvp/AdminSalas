@@ -1,17 +1,19 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Graficas Probando</title>
+	<title>Gráficas Probando</title>
 </head>
 <body>
 	<button id="grafico_1">grafico 1</button>
 	<button id="grafico_2">grafico 2</button>
 	<button id="grafico_3">grafico 3</button>
+	<button id="grafico_4">grafico 4</button>
     <div id="container" style="min-width: 400px; height: 400px; margin: 0 auto"></div>
 </body>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.js"></script>
 <script src="http://code.highcharts.com/highcharts.js"></script>
 <script src="http://code.highcharts.com/modules/exporting.js"></script>
+
 <script type="text/javascript">
 
    	$("#grafico_1").click(function(){
@@ -55,7 +57,7 @@
         series: []
         };
 
-        $.getJSON("{{ route('graficas.index') }}", function(json) {
+        $.getJSON("{{ route('graficas.index') }}",{dato:'salas'}, function(json) {
 
             //options.xAxis.categories = json[0]['data']; //xAxis: {categories: []}
             options.xAxis.categories = [ 
@@ -165,191 +167,7 @@ $("#grafico_2").click(function(){
 	            y: 0.2,
 	            drilldown: null
 	        }]
-	    }],
-	    drilldown: {
-	        series: [{
-	            name: 'Microsoft Internet Explorer',
-	            id: 'Microsoft Internet Explorer',
-	            data: [
-	                [
-	                    'v11.0',
-	                    24.13
-	                ],
-	                [
-	                    'v8.0',
-	                    17.2
-	                ],
-	                [
-	                    'v9.0',
-	                    8.11
-	                ],
-	                [
-	                    'v10.0',
-	                    5.33
-	                ],
-	                [
-	                    'v6.0',
-	                    1.06
-	                ],
-	                [
-	                    'v7.0',
-	                    0.5
-	                ]
-	            ]
-	        }, {
-	            name: 'Chrome',
-	            id: 'Chrome',
-	            data: [
-	                [
-	                    'v40.0',
-	                    5
-	                ],
-	                [
-	                    'v41.0',
-	                    4.32
-	                ],
-	                [
-	                    'v42.0',
-	                    3.68
-	                ],
-	                [
-	                    'v39.0',
-	                    2.96
-	                ],
-	                [
-	                    'v36.0',
-	                    2.53
-	                ],
-	                [
-	                    'v43.0',
-	                    1.45
-	                ],
-	                [
-	                    'v31.0',
-	                    1.24
-	                ],
-	                [
-	                    'v35.0',
-	                    0.85
-	                ],
-	                [
-	                    'v38.0',
-	                    0.6
-	                ],
-	                [
-	                    'v32.0',
-	                    0.55
-	                ],
-	                [
-	                    'v37.0',
-	                    0.38
-	                ],
-	                [
-	                    'v33.0',
-	                    0.19
-	                ],
-	                [
-	                    'v34.0',
-	                    0.14
-	                ],
-	                [
-	                    'v30.0',
-	                    0.14
-	                ]
-	            ]
-	        }, {
-	            name: 'Firefox',
-	            id: 'Firefox',
-	            data: [
-	                [
-	                    'v35',
-	                    2.76
-	                ],
-	                [
-	                    'v36',
-	                    2.32
-	                ],
-	                [
-	                    'v37',
-	                    2.31
-	                ],
-	                [
-	                    'v34',
-	                    1.27
-	                ],
-	                [
-	                    'v38',
-	                    1.02
-	                ],
-	                [
-	                    'v31',
-	                    0.33
-	                ],
-	                [
-	                    'v33',
-	                    0.22
-	                ],
-	                [
-	                    'v32',
-	                    0.15
-	                ]
-	            ]
-	        }, {
-	            name: 'Safari',
-	            id: 'Safari',
-	            data: [
-	                [
-	                    'v8.0',
-	                    2.56
-	                ],
-	                [
-	                    'v7.1',
-	                    0.77
-	                ],
-	                [
-	                    'v5.1',
-	                    0.42
-	                ],
-	                [
-	                    'v5.0',
-	                    0.3
-	                ],
-	                [
-	                    'v6.1',
-	                    0.29
-	                ],
-	                [
-	                    'v7.0',
-	                    0.26
-	                ],
-	                [
-	                    'v6.2',
-	                    0.17
-	                ]
-	            ]
-	        }, {
-	            name: 'Opera',
-	            id: 'Opera',
-	            data: [
-	                [
-	                    'v12.x',
-	                    0.34
-	                ],
-	                [
-	                    'v28',
-	                    0.24
-	                ],
-	                [
-	                    'v27',
-	                    0.17
-	                ],
-	                [
-	                    'v29',
-	                    0.16
-	                ]
-	            ]
-	        }]
-	    }
+	    }]
 	});
 });
 
@@ -406,16 +224,64 @@ $("#grafico_3").click(function(){
         }]
     };
 
-    $.getJSON("{{ route('graficas.index') }}", function(json) {
+    $.getJSON("{{ route('graficas.index') }}",{dato:'salas'}, function(json) {
 
  	    $.each(json,function(k,v){
         	options.series[0].data.push(v);
        	}); 
 
-
         chart = new Highcharts.Chart(options);
 
     });
+
+});
+
+$("#grafico_4").click(function(){
+
+    var options =  {
+        chart: {
+        	renderTo: 'container',
+            plotBackgroundColor: null,
+            plotBorderWidth: null,
+            plotShadow: false,
+            type: 'pie'
+        },
+        title: {
+            text: 'Browser market shares January, 2015 to May, 2015'
+        },
+        tooltip: {
+            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+        },
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: true,
+                    format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                    style: {
+                        color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                    }
+                }
+            }
+        },
+        series: [{
+            name: 'Brands',
+            colorByPoint: true,
+            data: []
+        }]    	
+    };
+
+    $.getJSON("{{ route('graficas.index') }}",{dato:'salas'}, function(json) {
+
+ 	    $.each(json,function(k,v){
+        	options.series[0].data.push(v);
+       	}); 
+
+   		chart = new Highcharts.Chart(options);
+
+    });
+
 
 });
 

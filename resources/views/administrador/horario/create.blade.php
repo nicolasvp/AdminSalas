@@ -1,7 +1,7 @@
 @extends('administrador/main')
 
 @section('style')
-<link rel="stylesheet" href="{{ asset('dist/css/jquery-ui.css') }}">
+    <link rel="stylesheet" href="{{ asset('dist/css/jquery-ui.css') }}">
 @stop
 
 @section('option')

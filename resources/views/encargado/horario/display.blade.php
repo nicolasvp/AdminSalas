@@ -80,6 +80,7 @@
                 <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
                     <thead>
                         <tr>
+                            <th>Fecha</th>
                             <th>Bloque</th>
                             <th>Curso</th>
                             <th>Docente</th>
@@ -94,6 +95,7 @@
                     <tbody>
                     @foreach($horarios as $horario)
                         <tr class="text-center" data-id="{{ $horario->id }}">
+                            <td class="center">{{ $horario->fecha }}</td>
                             <td class="center">{{ $horario->bloque }}</td>
                             <td class="center">{{ $horario->asignatura }}</td>
                             <td class="center">{{ $horario->nombres_docente }} {{ $horario->apellidos_docente }}</td>

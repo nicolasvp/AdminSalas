@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Administrador;
 
 use Illuminate\Http\Request;
 
@@ -21,12 +21,40 @@ class GraficasController extends Controller
     {
         if($request->ajax())
         {
-            $horarios = DB::select("select c.nombre, count(a.curso_id) as cantidad
+            if($request->get('dato') == 'cursos')
+            {
+                //Cantidad de horarios por cursos
+                $horarios = DB::select("select c.nombre, count(a.curso_id) as cantidad
+                                        from
+                                        horarios a
+                                        inner join cursos b on a.curso_id = b.id
+                                        inner join asignaturas c on c.id = b.asignatura_id
+                                        group by c.nombre order by cantidad desc");                
+            }
+
+            if($request->get('dato') == 'salas')
+            {            
+
+                //Cantidad de horarios por salas
+                $horarios = DB::select("select b.nombre, count(a.sala_id) as cantidad
+                            from
+                            horarios a
+                            inner join salas b on a.sala_id = b.id
+                            group by b.nombre order by cantidad desc");
+             
+            }
+
+            if($request->get('dato') == 'asistencia_docente')
+            {
+                //Cantidad de horarios por asistencia de docente
+                $horarios = DB::select("select a.asistencia_docente, count(a.sala_id) as cantidad
                                     from
                                     horarios a
-                                    inner join cursos b on a.curso_id = b.id
-                                    inner join asignaturas c on c.id = b.asignatura_id
-                                    group by c.nombre order by cantidad desc");
+                                    inner join salas b on a.sala_id = b.id
+                                    where a.asistencia_docente is not null
+                                    group by a.asistencia_docente order by cantidad desc");
+            }
+
             $arreglo = [];
             foreach ($horarios as $key => $value) {
                // print_r($value);
@@ -34,10 +62,9 @@ class GraficasController extends Controller
 
             }
                
-            
+        
             return response()->json($arreglo);        
         }
-
 
         return view('graficas');
     }
