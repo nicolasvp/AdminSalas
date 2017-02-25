@@ -12,7 +12,7 @@
 @section('container')
 
     <div class="col-lg-12">
-        <h2 class="page-header">Curso</h2>
+        <h2 class="page-header"> Horario</h2>
     </div>
     <!-- /.row -->
     <div class="row">

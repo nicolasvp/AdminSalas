@@ -9,7 +9,7 @@
 @section('container')
 
   <div class="col-lg-12">
-      <h2 class="page-header">Editar Docente: {{ $docente->nombre }}</h2>
+      <h2 class="page-header">Editar Docente: {{ $docente->nombres }} {{ $docente->apellidos }}</h2>
   </div>
   <!-- /.row -->
   <div class="row">

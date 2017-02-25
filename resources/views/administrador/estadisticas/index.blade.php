@@ -9,7 +9,7 @@
 @stop
 
 @section('container')
-<!-- DataTables JavaScript -->
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.js"></script>
 <script src="http://code.highcharts.com/highcharts.js"></script>
 <script src="http://code.highcharts.com/modules/exporting.js"></script>
@@ -106,7 +106,7 @@ $(document).ready(function(){
 
 });  
 
-function column_chart(){
+function pie_chart(){
 
     var options =  {
         chart: {
@@ -153,7 +153,7 @@ function column_chart(){
     });
 }    
 
-function pie_chart(){
+function column_chart(){
 
     var options =  {
         chart: {

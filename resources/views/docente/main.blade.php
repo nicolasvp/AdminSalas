@@ -96,6 +96,19 @@ a {
                             <a href="{{ route('docente.horario') }}"><i class="fa fa-eye"></i> Ver Horarios</a>
                         </li>  
                         <li>
+                            <a href="#"><i class="fa fa-globe"></i> Accesos Directos<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                <a target="_blank" href="https://www.utem.cl/">Página UTEM</a>
+                                <a target="_blank" href="http://postulacion.utem.cl/">DirDoc</a>
+                                <a target="_blank" href="http://reko.utem.cl/portal/">Reko</a>
+                                <a target="_blank" href="http://biblioteca.utem.cl/">Catálogo Biblioteca</a>
+                                <a target="_blank" href="http://bienestarestudiantil.blogutem.cl/">Bienestar Estudiantil</a>
+                                <a target="_blank" href="http://validacion.utem.cl/">Validación Certificados</a>
+                                </li>
+                            </ul>
+                        </li>                        
+                        <li>
                             <a href="{{ route('docente.contacto.index') }}"><i class="fa fa-send"></i> Contáctanos</a>                 
                         </li>                                                                                                 
                     </ul>

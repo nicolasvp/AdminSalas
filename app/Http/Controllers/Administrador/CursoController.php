@@ -94,11 +94,13 @@ class CursoController extends Controller
 
         $curso = Curso::find($id);
 
+        $nombre_curso = Asignatura::where('id',$curso->asignatura_id)->select('nombre')->first();
+
         $docentes = Docente::all();
 
         $asignaturas = Asignatura::all();
 
-        return view('administrador/curso/edit',compact('curso','docentes','asignaturas','rol'));
+        return view('administrador/curso/edit',compact('curso','docentes','asignaturas','rol','nombre_curso'));
     }
 
     /**

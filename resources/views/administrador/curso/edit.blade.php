@@ -8,7 +8,7 @@
 @section('container')
 
   <div class="col-lg-12">
-      <h2 class="page-header">Editar Curso: </h2>
+      <h2 class="page-header">Editar Curso: {{ $nombre_curso->nombre }}</h2>
   </div>
   <!-- /.row -->
   <div class="row">
