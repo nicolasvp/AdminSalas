@@ -41,7 +41,7 @@
                           </div>
                           <div class="form-group">
                            {!! Form::label('semestre', 'Semestre') !!}
-                           {!! Form::text('semestre', null,['class' => 'form-control', 'placeholder' => 'Ej: 1']) !!}
+                           {!! Form::select('semestre', null,['class' => 'form-control']) !!}
                           </div>
                           <div class="form-group">
                            {!! Form::label('anio', 'Año') !!}

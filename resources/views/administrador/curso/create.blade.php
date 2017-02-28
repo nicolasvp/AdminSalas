@@ -39,7 +39,10 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Semestre</label>
-                                    <input class="form-control" name="semestre" placeholder="Ej: 1">
+                                    <select class="form-control" name="semestre">
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                    </select>
                                 </div>                                        
                                 <div class="form-group">
                                     <label>Año</label>

@@ -84,6 +84,12 @@ Route::group(['middleware' => ['web']], function () {
 		Route::get('/periodo_download',['uses' => 'PeriodoController@excel_download','as' => 'administrador.periodo.download']);	
 		Route::get('/usuario_download',['uses' => 'UsuarioController@excel_download','as' => 'administrador.usuario.download']);
 		Route::get('/horario_download',['uses' => 'HorarioController@excel_download','as' => 'administrador.horario.download']);
+		Route::get('/estadistica_tipo',['uses' => 'EstadisticaController@tipos','as' => 'administrador.estadistica.tipos']);
+		Route::get('/estadistica_salas',['uses' => 'EstadisticaController@salas','as' => 'administrador.estadistica.salas']);
+		Route::get('/estadistica_cursos',['uses' => 'EstadisticaController@cursos','as' => 'administrador.estadistica.cursos']);
+		Route::get('/estadistica_asistencia',['uses' => 'EstadisticaController@asistencia','as' => 'administrador.estadistica.asistencia']);
+		Route::get('/estadistica_carreras',['uses' => 'EstadisticaController@carreras','as' => 'administrador.estadistica.carreras']);
+		Route::get('/estadistica_estado_salas',['uses' => 'EstadisticaController@estado_salas','as' => 'administrador.estadistica.estado_salas']);
 	});	
 
 	Route::group(['prefix' => 'encargado', 'namespace' => 'Encargado', 'middleware' => ['auth','IsEncargado']], function(){

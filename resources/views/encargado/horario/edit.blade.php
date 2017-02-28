@@ -61,8 +61,8 @@
                               </div> 
                               <label>Asistencia Docente</label>
                               <div class="form-group">
-                                  <input type="radio" name="asistencia_docente" id="asistencia_si" value="si"> Sí</input>
-                                  <input type="radio" name="asistencia_docente" id="asistencia_no" value="no"> No</input>
+                                  <input type="radio" name="asistencia_docente" id="asistencia_si" value="Si"> Sí</input>
+                                  <input type="radio" name="asistencia_docente" id="asistencia_no" value="No"> No</input>
                               </div> 
                               <label>Cantidad de Alumnos</label>
                               <div class="form-group">
@@ -104,10 +104,10 @@ $(document).ready(function(){
   $("#cantidad_alumnos").val({{ $horario->cantidad_alumnos }});
 
 
-  if($("#asistencia_docente").val() == 'si'){
+  if($("#asistencia_docente").val() == 'Si'){
     $("#asistencia_si").attr('checked', 'checked');;
   }
-  if($("#asistencia_docente").val() == 'no'){
+  if($("#asistencia_docente").val() == 'No'){
     $("#asistencia_no").attr('checked', 'checked');;
   }
   
