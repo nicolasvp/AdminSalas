@@ -92,13 +92,15 @@ code {
     content: ">\00a0";
 }
 */
+
 #page-wrapper {
-    position: inherit;
-    margin: 0 0 0 250px;
+   /* position: inherit;
+    margin: 0 0 0 250px; */
     padding: 0 0px;
-    border-left: 1px solid #e7e7e7;
-    min-height: 545px !important;
+  /*  border-left: 1px solid #e7e7e7;
+    min-height: 545px !important; */
 }
+
 .sidebar .sidebar-search {
     padding: 7.5px;
     border: 3px double #E5E5E5;

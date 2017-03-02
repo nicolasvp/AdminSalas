@@ -19,7 +19,7 @@
                 </div>
                 <div class="panel-body">
                     <div class="row">
-                        <div class="col-lg-6">
+                        <div class="col-lg-4">
                             {!! Form::open(['route' => ['administrador.sala.store'], 'method' => 'POST']) !!}
                                 <div class="form-group">
                                     <label>Campus</label>
@@ -54,7 +54,18 @@
                                         <option value="Disponible">Disponible</option>
                                         <option value="No Disponible">No Disponible</option>
                                     </select>
-                                </div>                                       
+                                </div>   
+                                <div class="form-group">
+                                    <label>Semestre</label>
+                                    <select class="form-control" name="semestre">
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                    </select>
+                                </div>                     
+                                <div class="form-group">
+                                    <label>Año</label>
+                                    <input class="form-control" name="anio" placeholder="Ej: 2017"></input>
+                                </div>               
                                 <button type="submit" class="btn btn-success">Aceptar</button>
                           	{!! Form::close() !!}
                         </div>

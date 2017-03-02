@@ -38,6 +38,31 @@ a {
 .btn {
 	border-radius: 0px;
 }
+@media (max-width: 768px) {
+
+    #user-rol {
+        margin-top: 15px;
+        left: 15px;
+    }
+    #user-info {
+        float: right;
+        margin-right: 0px;        
+    }  
+    #horario-title {
+        text-align: center;
+    } 
+}
+@media (min-width: 768px) {
+
+    #user-rol {
+        margin-top: 15px;
+        left: 0px;
+    }
+    #user-info {
+        float: right;
+        margin-right: 15px;
+    }      
+}  
 </style>
     <div id="wrapper">
 
@@ -60,11 +85,10 @@ a {
             <!-- /.navbar-header -->
 
             <ul class="nav navbar-top-links navbar-right">
-                <li class="dropdown" style="color: #fff;">  
+                <li class="dropdown" id="user-rol" style="color: #fff;">  
                     <b>{{ $rol }}</b>
                 </li>
-                <li class="dropdown">
-
+                <li class="dropdown" id="user-info">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#" style="color: #fff;">
                         <i class="fa fa-user fa-fw"></i>
                         Hola,

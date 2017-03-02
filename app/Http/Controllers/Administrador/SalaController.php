@@ -53,7 +53,9 @@ class SalaController extends Controller
             'nombre' => $request->get('nombre'),
             'descripcion' => $request->get('descripcion'),
             'capacidad' => $request->get('capacidad'),
-            'estado' => $request->get('estado')
+            'estado' => $request->get('estado'),
+            'semestre' => $request->get('semestre'),
+            'anio' => $request->get('anio')
             ]);
 
         return redirect()->route('administrador.sala.index');

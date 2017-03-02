@@ -184,7 +184,7 @@ class EstadisticaController extends Controller
     	}
 
     	//Cantidad de horarios por carreras
-        $horarios = DB::select("select b.nombre, count(a.sala_id) as cantidad
+        $horarios = DB::select("select g.nombre, count(a.sala_id) as cantidad
 				                from
 				                horarios a
 				                inner join salas b on a.sala_id = b.id
@@ -195,7 +195,7 @@ class EstadisticaController extends Controller
                                 inner join carreras g on g.escuela_id = f.id
                                 inner join campus h on h.id = b.campus_id
                                 where ".$condicion."
-				                group by b.nombre order by cantidad desc");
+				                group by g.nombre order by cantidad desc");
 
         $arreglo = [];
         foreach ($horarios as $key => $value) {
@@ -275,10 +275,9 @@ class EstadisticaController extends Controller
 
     	if($request->get('fecha_inicio') != '' && $request->get('fecha_termino') != '')
     	{
-    		
     		$fecha_inicio = date_format(date_create($request->get('fecha_inicio')),"Y-m-d");
     		$fecha_termino = date_format(date_create($request->get('fecha_termino')),"Y-m-d");
-            $condicion .= " and a.fecha between to_date('".$fecha_inicio."','YYYY-MM-DD') and to_date('".$fecha_termino."','YYYY-MM-DD')";   
+            $condicion .= " and a.updated_at between to_date('".$fecha_inicio."','YYYY-MM-DD HH24:MI:SS') and to_date('".$fecha_termino."','YYYY-MM-DD HH24:MI:SS')";  
     	}
 
 
@@ -289,12 +288,12 @@ class EstadisticaController extends Controller
     	
     	if($request->get('semestre'))
     	{
-    		$condicion .= " and d.semestre = ".$request->get('semestre');
+    		$condicion .= " and a.semestre = ".$request->get('semestre');
     	}
 
     	if($request->get('anio'))
     	{
-    		$condicion .= " and extract(year from a.fecha) = ".$request->get('anio');
+    		$condicion .= " and a.anio = ".$request->get('anio');
     	}
 
     	if($request->get('elemento'))
@@ -304,8 +303,7 @@ class EstadisticaController extends Controller
 
 
         $salas = DB::select("select a.estado, count(a.id) as cantidad
-			                from
-			                salas a
+			                from salas a
 			                inner join campus b on b.id = a.campus_id
 			                where ".$condicion."      
 			                group by a.estado order by cantidad desc");

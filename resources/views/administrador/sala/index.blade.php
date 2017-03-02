@@ -50,6 +50,8 @@
                             <th>Descripcion</th>
                             <th>Estado</th>
                             <th>Capacidad</th>
+                            <th>Semestre</th>
+                            <th>Año</th>
                             <th>Editar</th>
                             <th>Eliminar</th>                                           
                         </tr>
@@ -63,7 +65,9 @@
                             <td class="center">{{ $sala->nombre }}</td>
                             <td class="center">{{ $sala->descripcion }}</td>
                             <td class="center">{{ $sala->estado }}</td>
-                            <td class="center">{{ $sala->capacidad }}</td>                                        
+                            <td class="center">{{ $sala->capacidad }}</td> 
+                            <td class="center">{{ $sala->semestre }}</td>
+                            <td class="center">{{ $sala->anio }}</td>                                       
                             <td class="center"><a href="{{ route('administrador.sala.edit',$sala->id)}}"><i class="fa fa-edit"></i></a></td>
                             <td class="center"><a href="#!" class="btn-delete"><i class="fa fa-trash"></i></a>
                             {!! Form::open(['route' => ['administrador.sala.destroy', ':SALA_ID'], 'method' => 'DELETE', 'id' => 'form-delete']) !!}

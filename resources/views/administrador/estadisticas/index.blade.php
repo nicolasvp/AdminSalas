@@ -6,6 +6,21 @@
 
 @section('style')
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.css">
+    <style type="text/css">
+    @media (max-width: 768px) {
+
+        #buscar {
+            margin-top: 0px;
+            margin-bottom: 15px;
+        }
+    }
+    @media (min-width: 768px) {
+
+        #buscar {
+            margin-top: 25px;
+        }
+    }    
+    </style>
 @stop
 
 @section('container')
@@ -57,7 +72,7 @@
                                         <option value="cursos">Cursos</option>
                                         <option value="carreras">Carreras</option>
                                         <option value="asistencia">Asistencia</option>
-                                        <option value="estado_salas">Estado de Salas</option>
+                                        <option value="estado salas">Estado de Salas</option>
                                     </select>
                                 </div>                                
                             </div>
@@ -90,7 +105,7 @@
                                     <label>Año</label>
                                     <select class="form-control" id="anio" name="anio">
                                         <option name="anio" value="">Seleccione</option>
-                                    <!-- Esto hay que hacerlo dinámico -->
+                                        <option value="2016">2016</option>
                                         @foreach($anios as $anio)
                                         <option value="{{ $anio->anio }}">{{ $anio->anio }}</option>
                                         @endforeach
@@ -105,8 +120,8 @@
                                     </select>
                                 </div>
                             </div>                                                                                
-                            <div class="col-lg-2">
-                                <button id="buscar" class="btn btn-success" onClick="search_results()" style="margin-top: 25px;">Aceptar</button>
+                            <div class="col-lg-2" style="text-align: center;">
+                                <button id="buscar" class="btn btn-success" onClick="search_results()" style="">Aceptar</button>
                             </div>
                         </div>
                     </div>
@@ -116,7 +131,7 @@
                             </div>
                             <!-- /.panel-heading -->
                             <div class="panel-body">
-                                <div id="pie-chart"></div>
+                                <div id="column-chart"></div>
                             </div>
                             <!-- /.panel-body -->
                         </div>
@@ -129,7 +144,7 @@
                             </div>
                             <!-- /.panel-heading -->
                             <div class="panel-body">
-                                <div id="column-chart"></div>
+                                <div id="pie-chart"></div>
                             </div>
                             <!-- /.panel-body -->
                         </div>
@@ -212,7 +227,7 @@ function search_results(){
             ruta = "{{ route('administrador.estadistica.asistencia') }}";
         break;
 
-        case "estado_salas":
+        case "estado salas":
             $(".estadisticas").text(tipo);
             ruta = "{{ route('administrador.estadistica.estado_salas') }}";
         break;

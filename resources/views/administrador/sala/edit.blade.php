@@ -52,12 +52,21 @@
                            {!! Form::text('capacidad', null,['class' => 'form-control', 'placeholder' => 'Ej: 3']) !!}
                           </div>
                           <div class="form-group">
-                              <select class="form-control" name="estado" id="estado">
-                                  <option value="Disponible">Disponible</option>
-                                  <option value="No Disponible">No Disponible</option>
-                              </select>
+                            <select class="form-control" name="estado" id="estado">
+                                <option value="Disponible">Disponible</option>
+                                <option value="No Disponible">No Disponible</option>
+                            </select>
                           </div>
-
+                          <div class="form-group">
+                            <select class="form-control" name="semestre" id="semestre">
+                              <option value="1">1</option>
+                              <option value="2">2</option>
+                            </select>
+                          </div>
+                          <div class="form-group">
+                           {!! Form::label('anio', 'Año') !!}
+                           {!! Form::text('anio', null,['class' => 'form-control', 'placeholder' => 'Ej: 2017']) !!}
+                          </div>
                           <input type="hidden" id="campus_id" value="{{ $sala->campus_id }}">
                           <input type="hidden" id="tipo_sala_id" value="{{ $sala->tipo_sala_id }}">
 
@@ -87,6 +96,7 @@ $(document).ready(function(){
 
   $("#estado option[value='{{$sala->estado}}']").attr('selected','selected');
 
+  $("#semestre option[value='{{$sala->semestre}}']").attr('selected','selected');
 });
 </script>
 @stop

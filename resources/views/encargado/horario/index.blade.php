@@ -6,6 +6,7 @@
 
    <!-- DataTables Responsive CSS -->
     <link href="{{ asset('vendor/datatables-responsive/dataTables.responsive.css') }}" rel="stylesheet">
+
 @stop
 
 @section('option')
@@ -18,7 +19,7 @@
         <div class="panel panel-default">
             <div class="panel-heading">
                 <div class="row">
-                    <div class="col-md-6 col-lg-6">
+                    <div class="col-xs-4 col-md-6 col-lg-6">
                         <h2> Horarios </h2>
                         @if(Session::has('message'))
                             <div class="alert alert-success alert-dismissable">
@@ -27,13 +28,13 @@
                             </div>
                         @endif                                    
                     </div>
-                    <div class="col-md-6 col-lg-6">
+                    <div class="col-xs-8 col-md-6 col-lg-6">
                         {!! Form::open(['route' => 'encargado.horario.create', 'method' => 'GET']) !!}
-                            <button type="submit" class="btn btn-success" style="float: right; margin-top: 10px;">Ingresar  <i class="fa fa-plus"></i></button>
+                            <button type="submit" class="btn btn-success new-sm" style="float: right; margin-top: 10px;">Ingresar  <i class="fa fa-plus"></i></button>
                         {!! Form::close() !!}
 
                         {!! Form::open(['route' => 'encargado.horario.download', 'method' => 'GET']) !!}
-                            <button type="submit" class="btn btn-info pull-right" style="margin-top: 10px;">Descargar <i class="fa fa-download"></i></button>
+                            <button type="submit" class="btn btn-info pull-right new-sm" style="margin-top: 10px;">Descargar <i class="fa fa-download"></i></button>
                         {!! Form::close() !!}
                     </div>
                </div>

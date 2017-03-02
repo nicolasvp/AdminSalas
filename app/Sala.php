@@ -8,5 +8,5 @@ class Sala extends Model
 {
     protected $table = 'salas';
 
-    protected $fillable = ['campus_id','tipo_sala_id','nombre','descripcion','capacidad','estado'];
+    protected $fillable = ['campus_id','tipo_sala_id','nombre','descripcion','capacidad','estado','semestre','anio'];
 }

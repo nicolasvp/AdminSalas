@@ -20,7 +20,7 @@
         <div class="panel panel-default">
             <div class="panel-heading">
                 <div class="row">
-                    <div class="col-md-4 col-lg-4">
+                    <div class="col-md-4 col-lg-4" id="horario-title">
                         <h2> Horarios </h2>
                         @if(Session::has('message'))
                             <div class="alert alert-success alert-dismissable">
@@ -31,10 +31,10 @@
                     </div>
                     <div class="col-md-8 col-lg-8">
                         {!! Form::open(['route' => 'encargado.horario.display', 'method' => 'GET']) !!}
-                        <div class="col-md-2 col-lg-2" style="float: right;">
+                        <div class="hidden-xs hidden-sm col-md-2 col-lg-2" style="float: right;">
                             <button type="submit" class="btn btn-success" style="margin-top:25px; float: right;">Aceptar</button>      
                         </div>
-                        <div class="col-md-2 col-lg-2" style="float: right;">
+                        <div class="col-xs-12 col-md-2 col-lg-2" style="float: right;">
                             <div class="form-group">
                                 <label>Bloque</label>
                                 <select class="form-control" name="bloque" id="bloque">
@@ -51,7 +51,7 @@
                                 </select>
                             </div> 
                         </div>
-                        <div class="col-md-2 col-lg-2" style="float: right;">
+                        <div class="col-xs-12 col-md-2 col-lg-2" style="float: right;">
                             <div class="form-group">
                                 <label>Día</label>
                                 <select class="form-control" name="dia" id="dia">
@@ -65,12 +65,15 @@
                                 </select>
                             </div>
                         </div>                                     
-                        <div class="col-md-2 col-lg-2" style="float: right;">
+                        <div class="col-xs-12 col-md-2 col-lg-2" style="float: right;">
                             <div class="form-group" id="form-fecha">
                                 <label>Fecha</label>
                                 <input type="text" class="form-control" id="fecha" name="fecha">
                             </div>
-                        </div>                           
+                        </div>
+                        <div class="visible-xs visible-sm col-md-2 col-lg-2" style="text-align: center">
+                            <button type="submit" class="btn btn-success">Aceptar</button>      
+                        </div>                                                   
                         {!! Form::close() !!}
                     </div>
                </div>

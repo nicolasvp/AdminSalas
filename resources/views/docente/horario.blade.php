@@ -20,7 +20,7 @@
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <div class="row">
-                                <div class="col-md-2 col-lg-2">
+                                <div class="col-xs-12 col-md-2 col-lg-2" id="horario-title">
                                     <h2> Horarios </h2>
                                     @if(Session::has('message'))
                                         <div class="alert alert-success alert-dismissable">
@@ -30,11 +30,11 @@
                                     @endif                                    
                                 </div>
                                 <div class="col-md-10 col-lg-10">
-                                    {!! Form::open(['route' => 'alumno.horario', 'method' => 'GET']) !!}
-                                    <div class="col-md-2 col-lg-2" style="float: right;">
+                                    {!! Form::open(['route' => 'docente.horario', 'method' => 'GET']) !!}
+                                    <div class="hidden-xs hidden-sm col-md-2 col-lg-2" style="float: right;">
                                         <button type="submit" class="btn btn-success" style="margin-top:25px; float: right;">Aceptar</button>      
                                     </div>
-                                    <div class="col-md-2 col-lg-2" style="float: right;">
+                                    <div class="col-xs-12 col-md-2 col-lg-2" style="float: right;">
                                         <div class="form-group">
                                             <label>Bloque</label>
                                             <select class="form-control" name="bloque" id="bloque">
@@ -51,7 +51,7 @@
                                             </select>
                                         </div> 
                                     </div>
-                                    <div class="col-md-2 col-lg-2" style="float: right;">
+                                    <div class="col-xs-12 col-md-2 col-lg-2" style="float: right;">
                                         <div class="form-group">
                                             <label>Día</label>
                                             <select class="form-control" name="dia" id="dia">
@@ -65,13 +65,13 @@
                                             </select>
                                         </div>
                                     </div>                                     
-                                    <div class="col-md-2 col-lg-2" style="float: right;">
+                                    <div class="col-xs-12 col-md-2 col-lg-2" style="float: right;">
                                         <div class="form-group" id="form-fecha">
                                             <label>Fecha</label>
                                             <input type="text" class="form-control" id="fecha" name="fecha">
                                         </div>
                                     </div> 
-                                    <div class="col-md-2 col-lg-2" style="float: right;">
+                                    <div class="col-xs-12 col-md-2 col-lg-2" style="float: right;">
                                         <div class="form-group" id="form-fecha">
                                             <label>Campus</label>
                                             <select class="form-control" name="campus" id="campus">
@@ -80,7 +80,10 @@
                                                 @endforeach
                                             </select>
                                         </div>
-                                    </div>                                                               
+                                    </div>  
+                                    <div class="visible-xs visible-sm col-xs-12" style="text-align: center;">
+                                        <button type="submit" class="btn btn-success">Aceptar</button>      
+                                    </div>                                                                                                 
                                     {!! Form::close() !!}
                                 </div>
                            </div>
