@@ -47,7 +47,10 @@ class SalaController extends Controller
     public function store(Request $request)
     {
 
+        $last_id = Sala::select('id')->orderBy('id','desc')->first();
+
         Sala::create([
+            'id' => $last_id->id + 1,
             'campus_id' => $request->get('campus'),
             'tipo_sala_id' => $request->get('tipo'),
             'nombre' => $request->get('nombre'),
@@ -57,6 +60,8 @@ class SalaController extends Controller
             'semestre' => $request->get('semestre'),
             'anio' => $request->get('anio')
             ]);
+
+        Session::flash('message', 'La sala ' .$request->get('nombre').' ha sido creada');
 
         return redirect()->route('administrador.sala.index');
     }
@@ -118,6 +123,41 @@ class SalaController extends Controller
         }
     }
 
+    public function upload(Request $request)
+    {
+        
+        $file = $request->file('file');
+    
+        $nombre = $file->getClientOriginalName();
+
+        \Storage::disk('local')->put($nombre,  \File::get($file));
+        \Excel::load('/storage/app/'.$nombre,function($archivo)
+        {
+            $result = $archivo->get();
+            foreach($result as $key => $value)
+            {
+                Sala::create([
+                    'id' => $value->id,
+                    'nombre' => $value->nombre,
+                    'campus_id' => $value->campus_id,
+                    'descripcion' => $value->descripcion,
+                    'tipo_sala_id' => $value->tipo_sala_id,
+                    'capacidad' => $value->capacidad,
+                    'estado' => $value->estado,
+                    'semestre' => $value->semestre,
+                    'anio' => $value->anio
+                    ]);
+                
+            }
+        })->get();
+        \Storage::delete($nombre);
+    
+        Session::flash('message', 'Las Salas han sido subidas correctamente!');
+
+        return redirect()->route('administrador.sala.index');
+            
+    }
+
     public function excel_download()
     {
         $var = Sala::all();
@@ -126,11 +166,10 @@ class SalaController extends Controller
             $excel->sheet('Sheetname',function($sheet) use ($var)
             {
                 $data=[];
-                array_push($data, array('CAMPUS','TIPO_SALA','NOMBRE','DESCRIPCION','CAPACIDAD','ESTADO'));
+                array_push($data, array('ID', 'CAMPUS_ID','TIPO_SALA_ID','NOMBRE','DESCRIPCION','ESTADO','CAPACIDAD','SEMESTRE','ANIO'));
                 foreach($var as $key => $v)
                 {
-                    
-                    array_push($data, array($v->campus_id,$v->tipo_sala_id,$v->nombre,$v->descripcion,$v->capacidad,$v->estado));
+                    array_push($data, array($v->id, $v->campus_id,$v->tipo_sala_id,$v->nombre,$v->descripcion,$v->estado,$v->capacidad,$v->semestre,$v->anio));
                 }       
                 $sheet->fromArray($data,null, 'A1', false,false);
             

@@ -8,5 +8,5 @@ class Docente extends Model
 {
     protected $table = 'docentes';
 
-    protected $fillable = ['departamento_id','rut','nombres','apellidos','email'];
+    protected $fillable = ['id','departamento_id','rut','nombres','apellidos','email'];
 }

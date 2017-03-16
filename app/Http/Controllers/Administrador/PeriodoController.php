@@ -14,11 +14,7 @@ use App\Periodo;
 
 class PeriodoController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
         $rol = $this->getRol();
@@ -28,11 +24,6 @@ class PeriodoController extends Controller
         return view('administrador/periodo/index',compact('periodos','rol'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         $rol = $this->getRol();
@@ -40,12 +31,6 @@ class PeriodoController extends Controller
         return view('administrador/periodo/create',compact('rol'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         Periodo::create([
@@ -54,26 +39,16 @@ class PeriodoController extends Controller
                 'fin' => $request->get('fin')
             ]);
 
+        Session::flash('message', 'El Periodo ' .$request->get('bloque').' ha sido creado');
+
         return redirect()->route('administrador.periodo.index');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
         $rol = $this->getRol();
@@ -83,13 +58,6 @@ class PeriodoController extends Controller
         return view('administrador/periodo/edit',compact('periodo','rol'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
         $periodo = Periodo::find($id);
@@ -105,12 +73,6 @@ class PeriodoController extends Controller
         return redirect()->route('administrador.periodo.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Request $request,$id)
     {
         if($request->ajax()){
@@ -145,6 +107,7 @@ class PeriodoController extends Controller
 			foreach($result as $key => $value)
 			{
 				Periodo::create([
+                    'id' => $value->id,
 					'bloque' => $value->bloque,
 					'inicio' => $value->inicio,
 					'fin' => $value->fin
@@ -165,10 +128,10 @@ class PeriodoController extends Controller
             $excel->sheet('Sheetname',function($sheet) use ($var)
             {
                 $data=[];
-                array_push($data, array('BLOQUE','INICIO','FIN'));
+                array_push($data, array('ID','BLOQUE','INICIO','FIN'));
                 foreach($var as $key => $v)
                 {
-                    array_push($data, array($v->bloque,$v->inicio,$v->fin));
+                    array_push($data, array($v->id, $v->bloque,$v->inicio,$v->fin));
                 }       
                 $sheet->fromArray($data,null, 'A1', false,false);
             

@@ -16,11 +16,7 @@ use App\Campus;
 
 class FacultadController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
         $rol = $this->getRol();
@@ -32,11 +28,6 @@ class FacultadController extends Controller
         return view('administrador/facultad/index',compact('facultades','rol'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create(Request $request)
     {
         $rol = $this->getRol();
@@ -47,12 +38,6 @@ class FacultadController extends Controller
         
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
 
@@ -62,26 +47,16 @@ class FacultadController extends Controller
             'descripcion' => $request->get('descripcion')
             ]);
 
+        Session::flash('message', 'La Facultad ' .$request->get('nombre').' ha sido creada');
+
         return redirect()->route('administrador.facultad.index');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
         $rol = $this->getRol();
@@ -94,13 +69,6 @@ class FacultadController extends Controller
        
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
         $facultad = Facultad::find($id);
@@ -116,12 +84,6 @@ class FacultadController extends Controller
         return redirect()->route('administrador.facultad.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Request $request,$id)
     {
         if($request->ajax()){
@@ -141,6 +103,36 @@ class FacultadController extends Controller
         }
     }
 
+    public function upload(Request $request)
+    {
+        
+        $file = $request->file('file');
+    
+        $nombre = $file->getClientOriginalName();
+
+        \Storage::disk('local')->put($nombre,  \File::get($file));
+        \Excel::load('/storage/app/'.$nombre,function($archivo)
+        {
+            $result = $archivo->get();
+            foreach($result as $key => $value)
+            {
+                Facultad::create([
+                    'id' => $value->id,
+                    'nombre' => $value->nombre,
+                    'campus_id' => $value->campus_id,
+                    'descripcion' => $value->descripcion
+                    ]);
+                
+            }
+        })->get();
+        \Storage::delete($nombre);
+    
+        Session::flash('message', 'Las Facultades han sido subidas correctamente!');
+
+        return redirect()->route('administrador.facultad.index');
+            
+    }
+
     public function excel_download()
     {
         $var = Facultad::all();
@@ -149,11 +141,11 @@ class FacultadController extends Controller
             $excel->sheet('Sheetname',function($sheet) use ($var)
             {
                 $data=[];
-                array_push($data, array('NOMBRE','CAMPUS','DESCRIPCION'));
+                array_push($data, array('ID','NOMBRE','CAMPUS_ID','DESCRIPCION'));
                 foreach($var as $key => $v)
                 {
                     
-                    array_push($data, array($v->nombre,$v->campus_id,$v->descripcion));
+                    array_push($data, array($v->id,$v->nombre,$v->campus_id,$v->descripcion));
                 }       
                 $sheet->fromArray($data,null, 'A1', false,false);
             

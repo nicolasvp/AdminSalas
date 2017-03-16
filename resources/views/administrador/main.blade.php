@@ -162,9 +162,6 @@ a {
                                     <a href="{{ route('administrador.curso.index') }}"><i class="fa fa-book"></i> Cursos</a>
                                 </li>     
                                 <li>
-                                    <a href="{{ route('administrador.rol.index') }}"><i class="fa fa-group"></i> Roles</a>
-                                </li>
-                                <li>
                                     <a href="{{ route('administrador.tipo_sala.index') }}"><i class="fa fa-pencil-square-o"></i> Tipos Salas</a>
                                 </li>
                                 <li>

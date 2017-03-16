@@ -31,6 +31,7 @@
                            {!! Form::text('descripcion', null,['class' => 'form-control', 'placeholder' => 'Ej: Encargado del campus..']) !!}
                           </div>
                           <button type="submit" class="btn btn-success">Aceptar</button>
+                          <a href="{{ URL::previous() }}" class="btn btn-default" role="button">Cancelar</a>
                       	{!! Form::close() !!}
                     </div>
                 </div>

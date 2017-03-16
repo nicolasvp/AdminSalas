@@ -25,19 +25,19 @@
                             <input type="hidden" name="_token" value="{{ csrf_token() }}" id="token">
                             <div class="form-group">
                              {!! Form::label('nombres', 'Nombres') !!}
-                             {!! Form::text('nombres', null,['class' => 'form-control', 'placeholder' => 'Ej: Mauro']) !!}
+                             {!! Form::text('nombres', null,['class' => 'form-control', 'placeholder' => 'Ej: Mauro', 'required']) !!}
                             </div>
                              <div class="form-group">
                              {!! Form::label('apellidos', 'Apellidos') !!}
-                             {!! Form::text('apellidos', null,['class' => 'form-control', 'placeholder' => 'Ej: Castillo']) !!}
+                             {!! Form::text('apellidos', null,['class' => 'form-control', 'placeholder' => 'Ej: Castillo', 'required']) !!}
                             </div>     
                              <div class="form-group">
                              {!! Form::label('rut', 'Rut') !!}
-                             {!! Form::text('rut', null,['class' => 'form-control', 'placeholder' => 'Ej: 6123121']) !!}
+                             {!! Form::text('rut', null,['class' => 'form-control', 'placeholder' => 'Ej: 6123121', 'required']) !!}
                             </div>                                                                                
                             <div class="form-group">
                              {!! Form::label('email', 'Email') !!}
-                             {!! Form::text('email', null,['class' => 'form-control', 'placeholder' => 'Ej: mcast@utem.cl']) !!}
+                             {!! Form::email('email', null,['class' => 'form-control', 'placeholder' => 'Ej: mcast@utem.cl']) !!}
                             </div>
                             <div class="form-group">
                                 <label>Departamento</label>
@@ -51,6 +51,7 @@
                             <input type="hidden" id="departamento_id" value="{{ $docente->departamento_id }}">
 
                             <button type="submit" class="btn btn-success">Aceptar</button>
+                            <a href="{{ URL::previous() }}" class="btn btn-default" role="button">Cancelar</a>
                         	{!! Form::close() !!}
                       </div>
                   </div>

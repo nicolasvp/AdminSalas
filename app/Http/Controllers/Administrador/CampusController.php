@@ -17,11 +17,7 @@ use App\Roles;
 
 class CampusController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
 
@@ -32,11 +28,6 @@ class CampusController extends Controller
         return view('administrador/campus/index',compact('campus','rol'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         $rol = $this->getRol();
@@ -49,41 +40,27 @@ class CampusController extends Controller
         return view('administrador/campus/create',compact('rol','encargados'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
     
+
         Campus::create([
             'nombre' => $request->get('nombre'),
             'direccion' => $request->get('direccion'),
             'descripcion' => $request->get('descripcion'),
             'rut_encargado' => $request->get('encargado')
             ]);
+
+        Session::flash('message', 'El Campus ' .$request->get('nombre').' ha sido creado');
+
         return redirect()->route('administrador.campus.index');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
         $rol = $this->getRol();
@@ -99,13 +76,6 @@ class CampusController extends Controller
        
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
 
@@ -123,12 +93,6 @@ class CampusController extends Controller
         return redirect()->route('administrador.campus.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Request $request, $id)
     {
         if($request->ajax()){
@@ -148,6 +112,38 @@ class CampusController extends Controller
 
     }
 
+    public function upload(Request $request)
+    {
+        
+        $file = $request->file('file');
+    
+        $nombre = $file->getClientOriginalName();
+
+        \Storage::disk('local')->put($nombre,  \File::get($file));
+        \Excel::load('/storage/app/'.$nombre,function($archivo)
+        {
+            $result = $archivo->get();
+            foreach($result as $key => $value)
+            {
+
+                Campus::create([
+                    'id' => $value->id,
+                    'nombre' => $value->nombre,
+                    'direccion' => $value->direccion,
+                    'descripcion' => $value->descripcion,
+                    'rut_encargado' => $value->rut_encargado
+                    ]);                    
+                
+            }
+        })->get();
+        \Storage::delete($nombre);
+    
+        Session::flash('message', 'Los Campus han sido subidos correctamente!');
+
+        return redirect()->route('administrador.campus.index');
+            
+    }
+
     public function excel_download()
     {
         $var = Campus::all();
@@ -156,10 +152,10 @@ class CampusController extends Controller
             $excel->sheet('Sheetname',function($sheet) use ($var)
             {
                 $data=[];
-                array_push($data, array('NOMBRE','DIRECCION','DESCRIPCION','RUT_ENCARGADO'));
+                array_push($data, array('ID','NOMBRE','DIRECCION','DESCRIPCION','RUT_ENCARGADO'));
                 foreach($var as $key => $v)
                 {
-                    array_push($data, array($v->nombre,$v->direccion,$v->descripcion,$v->rut_encargado));
+                    array_push($data, array($v->id,$v->nombre,$v->direccion,$v->descripcion,$v->rut_encargado));
                 }       
                 $sheet->fromArray($data,null, 'A1', false,false);
             

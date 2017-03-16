@@ -14,11 +14,7 @@ use App\TipoSala;
 
 class TipoSalaController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
         $rol = $this->getRol();
@@ -28,11 +24,7 @@ class TipoSalaController extends Controller
         return view('administrador/tipo_sala/index',compact('tipos','rol'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function create()
     {
         $rol = $this->getRol();
@@ -40,12 +32,7 @@ class TipoSalaController extends Controller
         return view('administrador/tipo_sala/create',compact('rol'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+
     public function store(Request $request)
     {
         TipoSala::create([
@@ -53,26 +40,17 @@ class TipoSalaController extends Controller
             'descripcion' => $request->get('descripcion')
             ]);
 
+        Session::flash('message', 'El Tipo de Sala ' .$request->get('nombre').' ha sido creado');
+
         return redirect()->route('administrador.tipo_sala.index');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function edit($id)
     {
         $rol = $this->getRol();
@@ -82,13 +60,7 @@ class TipoSalaController extends Controller
         return view('administrador/tipo_sala/edit',compact('tipo','rol'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function update(Request $request, $id)
     {
         $tipo = TipoSala::find($id);
@@ -103,12 +75,7 @@ class TipoSalaController extends Controller
         return redirect()->route('administrador.tipo_sala.index');       
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function destroy(Request $request,$id)
     {
         if($request->ajax()){
@@ -144,6 +111,7 @@ class TipoSalaController extends Controller
             foreach($result as $key => $value)
             {
                 TipoSala::create([
+                    'id' => $value->id,
                     'nombre' => $value->nombre,
                     'descripcion' => $value->descripcion
                     ]);
@@ -163,10 +131,10 @@ class TipoSalaController extends Controller
             $excel->sheet('Sheetname',function($sheet) use ($var)
             {
                 $data=[];
-                array_push($data, array('NOMBRE','DESCRIPCION'));
+                array_push($data, array('ID','NOMBRE','DESCRIPCION'));
                 foreach($var as $key => $v)
                 {
-                    array_push($data, array($v->nombre,$v->descripcion));
+                    array_push($data, array($v->id, $v->nombre,$v->descripcion));
                 }       
                 $sheet->fromArray($data,null, 'A1', false,false);
             

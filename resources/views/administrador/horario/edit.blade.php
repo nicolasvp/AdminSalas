@@ -29,29 +29,32 @@
                                 
                                 <div class="form-group" id="form-fecha">
                                     <label>Fecha</label>
-                                    <input type="text" class="form-control" id="fecha" name="fecha">
+                                    <input type="text" class="form-control" id="fecha" name="fecha" required>
                                 </div> 
                                 <div class="form-group">
                                     <label>Curso - Docente - Sección</label>
-                                    <select name="curso" id="curso" class="form-control">
+                                    <select name="curso" id="curso" class="form-control" required>
+                                      <option value="">Seleccione</option>
                                     @foreach($cursos as $curso)
-                                        <option name="curso" id="curso_{{ $curso->id }}" value="{{ $curso->id }}">{{ $curso->asignatura }} - {{ $curso->docente_nombres }} {{ $curso->docente_apellidos }} - {{ $curso->seccion }}</option>
+                                      <option name="curso" id="curso_{{ $curso->id }}" value="{{ $curso->id }}">{{ $curso->asignatura }} - {{ $curso->docente_nombres }} {{ $curso->docente_apellidos }} - {{ $curso->seccion }}</option>
                                     @endforeach
                                     </select>
                                 </div>                                      
                                 <div class="form-group">
                                     <label>Sala</label>
-                                   <select name="sala" id="sala" class="form-control">
+                                   <select name="sala" id="sala" class="form-control" required>
+                                      <option value="">Seleccione</option>
                                     @foreach($salas as $sala)
-                                        <option name="sala" id="sala_{{ $sala->id }}" value="{{ $sala->id }}">{{ $sala->nombre }}</option>
+                                      <option name="sala" id="sala_{{ $sala->id }}" value="{{ $sala->id }}">{{ $sala->nombre }}</option>
                                     @endforeach
                                     </select>
                                 </div>                                        
                                 <div class="form-group">
                                     <label>Período</label>
-                                   <select name="periodo" id="periodo" class="form-control">
+                                   <select name="periodo" id="periodo" class="form-control" required>
+                                      <option value="">Seleccione</option>
                                     @foreach($periodos as $periodo)
-                                        <option name="periodo" id="periodo_{{ $periodo->id }}" value="{{ $periodo->id }}">{{ $periodo->bloque }}</option>
+                                      <option name="periodo" id="periodo_{{ $periodo->id }}" value="{{ $periodo->id }}">{{ $periodo->bloque }}</option>
                                     @endforeach
                                     </select>
                                 </div> 
@@ -66,7 +69,7 @@
                                 </div> 
                                 <label>Cantidad de Alumnos</label>
                                 <div class="form-group">
-                                    <input type="text" class="form-control" id="cantidad_alumnos" name="cantidad_alumnos" placeholder="Ej: 20">
+                                    <input type="number" class="form-control" id="cantidad_alumnos" name="cantidad_alumnos" placeholder="Ej: 20">
                                 </div>                                                                                 
                                 <input type="hidden" id="fecha_id" value="{{ $horario->fecha }}">
                                 <input type="hidden" id="fecha_inicio" value="{{ $fecha_inicio }}">
@@ -77,6 +80,7 @@
                                 <input type="hidden" id="comentario_horario" value="{{ $horario->comentario }}">
 
                               <button type="submit" class="btn btn-success">Aceptar</button>
+                              <a href="{{ URL::previous() }}" class="btn btn-default" role="button">Cancelar</a>
                             {!! Form::close() !!}
                         </div>
                     </div>

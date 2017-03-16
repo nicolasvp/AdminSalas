@@ -125,27 +125,15 @@ class AuthController extends Controller
      */
     public function login(Request $request)
     {
-        $this->validateLogin($request);
+
+        $credentials = $this->getCredentials($request);
 
         // If the class is using the ThrottlesLogins trait, we can automatically throttle
         // the login attempts for this application. We'll key this by the username and
         // the IP address of the client making these requests into this application.
         $throttles = $this->isUsingThrottlesLoginsTrait();
 
-        if ($throttles && $lockedOut = $this->hasTooManyLoginAttempts($request)) {
-            $this->fireLockoutEvent($request);
-
-            return $this->sendLockoutResponse($request);
-        }
-
-        $credentials = $this->getCredentials($request);
-
-        if (Auth::guard($this->getGuard())->attempt($credentials, $request->has('remember'))) {
-
-            return $this->handleUserWasAuthenticated($request, $throttles);
-        }
-
-        /*----------------------------------- Si no está en la bdd entonces pregunta en el rest ----------------------*/
+        /*----------------------------------- Consulta primero en el servicio REST ----------------------*/
         $client = new Client();
 
         //Calcula el dv para preguntar en el rest
@@ -178,23 +166,33 @@ class AuthController extends Controller
                 //Si es estudiante
                 if($info_alumno)
                 {
-                    // dd($info_alumno);
-                    //Inserta en la base de datos al usuario
-                    User::create([
-                        'rut' => $credentials['rut'],
-                        'email' => $info_alumno->email,
-                        'nombres' => $info_alumno->nombres,
-                        'apellidos' => $info_alumno->apellidos,
-                        'password' => bcrypt($credentials['password'])
-                        ]);
+                    $usuario = User::where('rut',$credentials['rut'])->first();
 
-                    //Consulta por el id del rol estudiante
-                    $id_rol_estudiante = Roles::where('nombre','Estudiante')->select('id')->first();
+                    //Si está el usuario en la bdd entonces actualiza el password
+                    if($usuario)
+                    {
+                        $usuario->password = bcrypt($credentials['password']);
+                        $usuario->save();
+                    }
+                    else
+                    {
+                        //Inserta en la base de datos al usuario
+                        User::create([
+                            'rut' => $credentials['rut'],
+                            'email' => $info_alumno->email,
+                            'nombres' => $info_alumno->nombres,
+                            'apellidos' => $info_alumno->apellidos,
+                            'password' => bcrypt($credentials['password'])
+                            ]);
 
-                    Rol_usuario::create([
-                        'rut' => $credentials['rut'],
-                        'rol_id' => $id_rol_estudiante->id
-                        ]);
+                        //Consulta por el id del rol estudiante
+                        $id_rol_estudiante = Roles::where('nombre','Estudiante')->select('id')->first();
+
+                        Rol_usuario::create([
+                            'rut' => $credentials['rut'],
+                            'rol_id' => $id_rol_estudiante->id
+                            ]);                        
+                    }
 
                     if (Auth::guard($this->getGuard())->attempt($credentials, $request->has('remember'))) {
 
@@ -205,7 +203,7 @@ class AuthController extends Controller
             catch (RequestException $e)
             {
                 $var = $e->getResponse();
-                //dd($e->getStatusCode());
+
                     //Consulta si es docente
                     try
                     {
@@ -218,48 +216,84 @@ class AuthController extends Controller
                         //Si es docente
                         if($info_docente)
                         {
-                            //dd($info_docente);
-                            User::create([
-                                'rut' => $credentials['rut'],
-                                'email' => $info_docente->email,
-                                'nombres' => $info_docente->nombres,
-                                'apellidos' => $info_docente->apellidos,
-                                'password' => bcrypt($credentials['password'])
-                                ]);
 
-                            $id_rol_docente = Roles::where('nombre','Docente')->select('id')->first();
+                            $usuario = User::where('rut',$credentials['rut'])->first();
 
-                            Rol_usuario::create([
-                                'rut' => $credentials['rut'],
-                                'rol_id' => $id_rol_docente
-                                ]);
+                            //Si está el usuario en la bdd entonces actualiza el password
+                            if($usuario)
+                            {
+                                $usuario->password = bcrypt($credentials['password']);
+                                $usuario->save();
+                            }   
+                            else
+                            {
+                                User::create([
+                                    'rut' => $credentials['rut'],
+                                    'email' => $info_docente->email,
+                                    'nombres' => $info_docente->nombres,
+                                    'apellidos' => $info_docente->apellidos,
+                                    'password' => bcrypt($credentials['password'])
+                                    ]);
+
+                                $id_rol_docente = Roles::where('nombre','Docente')->select('id')->first();
+
+                                Rol_usuario::create([
+                                    'rut' => $credentials['rut'],
+                                    'rol_id' => $id_rol_docente->id
+                                    ]);                                
+                            }
 
                             if (Auth::guard($this->getGuard())->attempt($credentials, $request->has('remember'))) {
 
                                 return $this->handleUserWasAuthenticated($request, $throttles);
-                            }
+                            }                                
+                         
+
                         }   
                     }
-                    //Si no es docente
+                    //Si no es docente ni estudiante
                     catch(RequestException $e)
                     {
+                        /*--------------------- Consulta en la bdd -------------------------------*/
+                        $this->validateLogin($request);
+
+                        if ($throttles && $lockedOut = $this->hasTooManyLoginAttempts($request)) {
+                            $this->fireLockoutEvent($request);
+
+                            return $this->sendLockoutResponse($request);
+                        }
+
+
+                        if (Auth::guard($this->getGuard())->attempt($credentials, $request->has('remember'))) {
+
+                            return $this->handleUserWasAuthenticated($request, $throttles);
+                        }  
+
                         if ($throttles && ! $lockedOut) {
                             $this->incrementLoginAttempts($request);
                         }
                         //Retorna a login
                         return $this->sendFailedLoginResponse($request);
                     }                      
+            
             }
           
         }
-        else
-        {
-            if ($throttles && ! $lockedOut) {
-                $this->incrementLoginAttempts($request);
-            }
-            //Si no hay servicio entonces devuelve a login
-            return $this->sendFailedLoginResponse($request);
-        }        
+     
+        /*--------------------- Consulta en la bdd -------------------------------*/
+        $this->validateLogin($request);
+
+
+        if ($throttles && $lockedOut = $this->hasTooManyLoginAttempts($request)) {
+            $this->fireLockoutEvent($request);
+
+            return $this->sendLockoutResponse($request);
+        }
+
+        if (Auth::guard($this->getGuard())->attempt($credentials, $request->has('remember'))) {
+
+            return $this->handleUserWasAuthenticated($request, $throttles);
+        }
 
         // If the login attempt was unsuccessful we will increment the number of attempts
         // to login and redirect the user back to the login form. Of course, when this

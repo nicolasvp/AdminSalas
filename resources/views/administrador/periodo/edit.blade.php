@@ -24,17 +24,18 @@
                             <input type="hidden" name="_token" value="{{ csrf_token() }}" id="token">
                             <div class="form-group">
                              {!! Form::label('bloque', 'Bloque') !!}
-                             {!! Form::text('bloque', null,['class' => 'form-control', 'placeholder' => 'Ej: I']) !!}
+                             {!! Form::text('bloque', null,['class' => 'form-control', 'placeholder' => 'Ej: I', 'required']) !!}
                             </div>                                                                  
                             <div class="form-group">
                              {!! Form::label('inicio', 'Inicio') !!}
-                             {!! Form::text('inicio', null,['class' => 'form-control']) !!}
+                             {!! Form::time('inicio', null,['class' => 'form-control', 'required']) !!}
                             </div>
                             <div class="form-group">
                              {!! Form::label('fin', 'Fin') !!}
-                             {!! Form::text('fin', null,['class' => 'form-control']) !!}
+                             {!! Form::time('fin', null,['class' => 'form-control', 'required']) !!}
                             </div>                                      
                             <button type="submit" class="btn btn-success">Aceptar</button>
+                            <a href="{{ URL::previous() }}" class="btn btn-default" role="button">Cancelar</a>
                         	{!! Form::close() !!}
                       </div>
                   </div>

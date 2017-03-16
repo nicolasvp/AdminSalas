@@ -8,5 +8,5 @@ class Campus extends Model
 {
     protected $table = 'campus';
 
-    protected $fillable = ['nombre','direccion','descripcion','rut_encargado'];
+    protected $fillable = ['id','nombre','direccion','descripcion','rut_encargado'];
 }

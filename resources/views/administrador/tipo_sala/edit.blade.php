@@ -24,13 +24,14 @@
                           <input type="hidden" name="_token" value="{{ csrf_token() }}" id="token">
                           <div class="form-group">
                            {!! Form::label('nombre', 'Nombre') !!}
-                           {!! Form::text('nombre', null,['class' => 'form-control', 'placeholder' => 'Ej: m1-201']) !!}
+                           {!! Form::text('nombre', null,['class' => 'form-control', 'placeholder' => 'Ej: m1-201', 'required']) !!}
                           </div>                                                                  
                           <div class="form-group">
                            {!! Form::label('descripcion', 'Descripción') !!}
-                           {!! Form::text('descripcion', null,['class' => 'form-control', 'placeholder' => 'Ej: Sala del Edificio m1']) !!}
+                           {!! Form::text('descripcion', null,['class' => 'form-control', 'placeholder' => 'Ej: Sala del edificio m1']) !!}
                           </div>
                           <button type="submit" class="btn btn-success">Aceptar</button>
+                          <a href="{{ URL::previous() }}" class="btn btn-default" role="button">Cancelar</a>
                       	{!! Form::close() !!}
                     </div>
                 </div>

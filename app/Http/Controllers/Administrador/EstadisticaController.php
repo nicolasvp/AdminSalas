@@ -277,7 +277,7 @@ class EstadisticaController extends Controller
     	{
     		$fecha_inicio = date_format(date_create($request->get('fecha_inicio')),"Y-m-d");
     		$fecha_termino = date_format(date_create($request->get('fecha_termino')),"Y-m-d");
-            $condicion .= " and a.updated_at between to_date('".$fecha_inicio."','YYYY-MM-DD HH24:MI:SS') and to_date('".$fecha_termino."','YYYY-MM-DD HH24:MI:SS')";  
+            $condicion .= " and a.updated_at between to_timestamp('".$fecha_inicio." 00:00:00','YYYY-MM-DD HH24:MI:SS') and to_timestamp('".$fecha_termino." 23:59:59','YYYY-MM-DD HH24:MI:SS')";  
     	}
 
 

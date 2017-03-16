@@ -19,7 +19,7 @@
             <div class="panel-heading">
                 <div class="row">
                     <div class="col-md-6 col-lg-6">
-                        <h2> Periodos </h2>
+                        <h2> Períodos </h2>
                         @if(Session::has('message'))
                             <div class="alert alert-success alert-dismissable">
                                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>

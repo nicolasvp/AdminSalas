@@ -24,14 +24,15 @@
                           <input type="hidden" name="_token" value="{{ csrf_token() }}" id="token">
                           <div class="form-group">
                            {!! Form::label('nombre', 'Nombre') !!}
-                           {!! Form::text('nombre', null,['class' => 'form-control', 'placeholder' => 'Ej: Ingeniería']) !!}
+                           {!! Form::text('nombre', null,['class' => 'form-control', 'placeholder' => 'Ej: Ingeniería', 'required']) !!}
                           </div>
 
                           <div class="form-group">
                               <label>Departamento</label>
-                              <select name="departamento" id="departamento" class="form-control">
+                              <select name="departamento" id="departamento" class="form-control" required>
+                                <option value="">Seleccione</option>
                               @foreach($departamentos as $departamento)
-                                  <option name="departamento" id="departamento_{{ $departamento->id }}" value="{{ $departamento->id }}">{{ $departamento->nombre }}</option>
+                                <option id="departamento_{{ $departamento->id }}" value="{{ $departamento->id }}">{{ $departamento->nombre }}</option>
                               @endforeach
                               </select>
                           </div>
@@ -44,6 +45,7 @@
                           <input type="hidden" id="departamento_id" value="{{ $escuela->departamento_id }}">
 
                           <button type="submit" class="btn btn-success">Aceptar</button>
+                          <a href="{{ URL::previous() }}" class="btn btn-default" role="button">Cancelar</a>
                       	{!! Form::close() !!}
                     </div>
                 </div>

@@ -23,12 +23,12 @@
                         {!! Form::model($campus, ['route' => ['administrador.campus.update', $campus], 'method' => 'PUT']) !!}
                           <div class="form-group">
                            {!! Form::label('nombre', 'Nombre') !!}
-                           {!! Form::text('nombre', null,['class' => 'form-control', 'placeholder' => 'Ej: Macul']) !!}
+                           {!! Form::text('nombre', null,['class' => 'form-control', 'placeholder' => 'Ej: Macul', 'required']) !!}
                           </div>
 
                           <div class="form-group">
                            {!! Form::label('direccion', 'Dirección') !!}
-                           {!! Form::text('direccion', null,['class' => 'form-control', 'placeholder' => 'Ej: Jose Pedro Alessandri #123']) !!}
+                           {!! Form::text('direccion', null,['class' => 'form-control', 'placeholder' => 'Ej: Jose Pedro Alessandri #123', 'required']) !!}
                           </div>
 
                           <div class="form-group">
@@ -38,7 +38,7 @@
 
                           <div class="form-group">
                            {!! Form::label('encargado', 'Encargado') !!}
-                            <select class="form-control" name="encargado" id="encargado">
+                            <select class="form-control" name="encargado" id="encargado" required>
                             @foreach($encargados as $encargado)
                               <option name="encargado" id="encargado_{{ $encargado->rut }}" value="{{ $encargado->rut }}">{{ $encargado->rut }}</option>
                             @endforeach
@@ -46,6 +46,7 @@
                           </div>
 
                             <button type="submit" class="btn btn-success">Aceptar</button>
+                            <a href="{{ URL::previous() }}" class="btn btn-default" role="button">Cancelar</a>
                       	{!! Form::close() !!}
                     </div>
                 </div>

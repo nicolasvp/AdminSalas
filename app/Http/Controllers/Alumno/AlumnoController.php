@@ -22,6 +22,8 @@ use App\Docente;
 
 use App\Campus;
 
+use DB;
+
 use Carbon\Carbon;
 
 class AlumnoController extends Controller
@@ -45,111 +47,55 @@ class AlumnoController extends Controller
      */
     public function horario(Request $request)
     {
+
       $rol = $this->getRol();
-      
-      $fecha_seleccionada = $request->get('fecha');
-      $dia = $request->get('dia');
-      $bloque = $request->get('bloque');
       $campus = Campus::select('id','nombre')->get();
+      $bloques = Periodo::select('id','bloque')->get();
+      $fecha_seleccionada = $request->get('fecha');
+      $bloque_seleccionado = "";
+      $campus_seleccionado = "";
+      $dia_seleccionado = "";
 
-      if($fecha_seleccionada && $bloque)
-      {
-
-        $horarios = Horario::join('cursos','horarios.curso_id','=','cursos.id')
-                           ->join('salas','salas.id','=','horarios.sala_id')
-                           ->join('periodos','periodos.id','=','horarios.periodo_id')
-                           ->join('asignaturas','asignaturas.id','=','cursos.asignatura_id')
-                           ->join('docentes','docentes.id','=','cursos.docente_id')
-                           ->where('horarios.fecha',$fecha_seleccionada)
-                           ->where('periodos.bloque',$bloque)
-                           ->where('salas.campus_id',$request->get('campus'))
-                           ->select('horarios.*','salas.nombre as sala','periodos.bloque as bloque','cursos.seccion as seccion','asignaturas.nombre as asignatura','docentes.nombres as nombres_docente','docentes.apellidos as apellidos_docente')
-                           ->get();     
-
-        return view('alumno/horario',compact('horarios','rol','fecha_seleccionada','dia','bloque','campus')); 
-      }
+      $condicion = '0 = 0';
 
       if($fecha_seleccionada)
       {
+        $fecha_formateada = date_format(date_create($fecha_seleccionada),"Y-m-d"); 
+        $condicion .= " and a.fecha = to_date('".$fecha_formateada."','YYYY-MM-DD')"; 
+      }    
 
-        $horarios = Horario::join('cursos','horarios.curso_id','=','cursos.id')
-                           ->join('salas','salas.id','=','horarios.sala_id')
-                           ->join('periodos','periodos.id','=','horarios.periodo_id')
-                           ->join('asignaturas','asignaturas.id','=','cursos.asignatura_id')
-                           ->join('docentes','docentes.id','=','cursos.docente_id')
-                           ->where('horarios.fecha',$fecha_seleccionada)
-                           ->where('salas.campus_id',$request->get('campus'))
-                           ->select('horarios.*','salas.nombre as sala','periodos.bloque as bloque','cursos.seccion as seccion','asignaturas.nombre as asignatura','docentes.nombres as nombres_docente','docentes.apellidos as apellidos_docente')
-                           ->get();     
-
-        return view('alumno/horario',compact('horarios','rol','fecha_seleccionada','dia','bloque','campus')); 
-      }
-
-      if($dia && $bloque)
+      if($request->get('campus'))
       {
-
-        $horarios = Horario::join('cursos','horarios.curso_id','=','cursos.id')
-                           ->join('salas','salas.id','=','horarios.sala_id')
-                           ->join('periodos','periodos.id','=','horarios.periodo_id')
-                           ->join('asignaturas','asignaturas.id','=','cursos.asignatura_id')
-                           ->join('docentes','docentes.id','=','cursos.docente_id')
-                           ->where('horarios.dia',$dia)
-                           ->where('periodos.bloque',$bloque)
-                           ->where('salas.campus_id',$request->get('campus'))
-                           ->select('horarios.*','salas.nombre as sala','periodos.bloque as bloque','cursos.seccion as seccion','asignaturas.nombre as asignatura','docentes.nombres as nombres_docente','docentes.apellidos as apellidos_docente')
-                           ->get();     
-
-        return view('alumno/horario',compact('horarios','rol','fecha_seleccionada','dia','bloque','campus')); 
+        $condicion .= " and c.campus_id = ".$request->get('campus');
+        $campus_seleccionado = $request->get('campus');
       }
 
-      if($dia)
+      if($request->get('bloque'))
       {
-
-        $horarios = Horario::join('cursos','horarios.curso_id','=','cursos.id')
-                           ->join('salas','salas.id','=','horarios.sala_id')
-                           ->join('periodos','periodos.id','=','horarios.periodo_id')
-                           ->join('asignaturas','asignaturas.id','=','cursos.asignatura_id')
-                           ->join('docentes','docentes.id','=','cursos.docente_id')
-                           ->where('horarios.dia',$dia)
-                           ->where('salas.campus_id',$request->get('campus'))
-                           ->select('horarios.*','salas.nombre as sala','periodos.bloque as bloque','cursos.seccion as seccion','asignaturas.nombre as asignatura','docentes.nombres as nombres_docente','docentes.apellidos as apellidos_docente')
-                           ->get();     
-
-        return view('alumno/horario',compact('horarios','rol','fecha_seleccionada','dia','bloque','campus')); 
+        $condicion .= " and a.periodo_id = ".$request->get('bloque');
+        $bloque_seleccionado = $request->get('bloque');
       }
 
-      if($bloque)
+      if($request->get('dia'))
       {
-
-        $horarios = Horario::join('cursos','horarios.curso_id','=','cursos.id')
-                           ->join('salas','salas.id','=','horarios.sala_id')
-                           ->join('periodos','periodos.id','=','horarios.periodo_id')
-                           ->join('asignaturas','asignaturas.id','=','cursos.asignatura_id')
-                           ->join('docentes','docentes.id','=','cursos.docente_id')
-                           ->where('periodos.bloque',$bloque)
-                           ->where('salas.campus_id',$request->get('campus'))
-                           ->select('horarios.*','salas.nombre as sala','periodos.bloque as bloque','cursos.seccion as seccion','asignaturas.nombre as asignatura','docentes.nombres as nombres_docente','docentes.apellidos as apellidos_docente')
-                           ->get();     
-
-        return view('alumno/horario',compact('horarios','rol','fecha_seleccionada','dia','bloque','campus')); 
+        $condicion .= " and a.dia = '".$request->get('dia')."'";
+        $dia_seleccionado = $request->get('dia');
       }
 
-      $fecha_actual = Carbon::now();
-      $fecha = $fecha_actual->format('Y-m-d');
-
-      $horarios = Horario::join('cursos','horarios.curso_id','=','cursos.id')
-                         ->join('salas','salas.id','=','horarios.sala_id')
-                         ->join('periodos','periodos.id','=','horarios.periodo_id')
-                         ->join('asignaturas','asignaturas.id','=','cursos.asignatura_id')
-                         ->join('docentes','docentes.id','=','cursos.docente_id')
-                         ->where('horarios.fecha',$fecha)
-                         ->where('salas.campus_id',$request->get('campus'))
-                         ->select('horarios.*','salas.nombre as sala','periodos.bloque as bloque','cursos.seccion as seccion','asignaturas.nombre as asignatura','docentes.nombres as nombres_docente','docentes.apellidos as apellidos_docente')
-                         ->orderBy('periodos.bloque','asc')
-                         ->get(); 
+      $horarios = DB::select("select a.*, c.nombre as sala, d.bloque, b.seccion, e.nombre as asignatura, 
+                              f.nombres as nombres_docente, f.apellidos as apellidos_docente
+                              from horarios a
+                              join cursos b on a.curso_id = b.id
+                              join salas c on c.id = a.sala_id
+                              join periodos d on d.id = a.periodo_id
+                              join asignaturas e on e.id = b.asignatura_id
+                              join docentes f on f.id = b.docente_id
+                              where ".$condicion."
+                              order by a.fecha desc
+                              ");   
 
 
-      return view('alumno/horario',compact('horarios','rol','fecha_seleccionada','dia','bloque','campus'));      
+      return view('alumno/horario',compact('horarios','rol','fecha_seleccionada','bloques','campus','campus_seleccionado','bloque_seleccionado','dia_seleccionado'));      
     }
 
     public function create()

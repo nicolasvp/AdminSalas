@@ -18,11 +18,7 @@ use App\Docente;
 
 class CursoController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
         $rol = $this->getRol();
@@ -36,11 +32,7 @@ class CursoController extends Controller
         return view('administrador/curso/index',compact('cursos','rol'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function create()
     {
         $rol = $this->getRol();
@@ -52,12 +44,7 @@ class CursoController extends Controller
         return view('administrador/curso/create',compact('docentes','asignaturas','rol'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+
     public function store(Request $request)
     {
         Curso::create([
@@ -68,26 +55,21 @@ class CursoController extends Controller
             'seccion' => $request->get('seccion')
             ]);
 
+
+        $curso_nombre = Asignatura::where('id',$request->get('asignatura'))->select('nombre')->first();
+
+        Session::flash('message', 'El curso ' .$curso_nombre->nombre.' ha sido creado');
+
         return redirect()->route('administrador.curso.index');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function show($id)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function edit($id)
     {
         $rol = $this->getRol();
@@ -100,16 +82,12 @@ class CursoController extends Controller
 
         $asignaturas = Asignatura::all();
 
-        return view('administrador/curso/edit',compact('curso','docentes','asignaturas','rol','nombre_curso'));
+        $semestre = $curso->semestre;
+
+        return view('administrador/curso/edit',compact('curso','docentes','asignaturas','rol','nombre_curso','semestre'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function update(Request $request, $id)
     {
 
@@ -132,12 +110,6 @@ class CursoController extends Controller
         return redirect()->route('administrador.curso.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Request $request,$id)
     {
         if($request->ajax()){
@@ -157,6 +129,38 @@ class CursoController extends Controller
         }
     }
 
+    public function upload(Request $request)
+    {
+        
+        $file = $request->file('file');
+    
+        $nombre = $file->getClientOriginalName();
+
+        \Storage::disk('local')->put($nombre,  \File::get($file));
+        \Excel::load('/storage/app/'.$nombre,function($archivo)
+        {
+            $result = $archivo->get();
+            foreach($result as $key => $value)
+            {
+                Curso::create([
+                    'id' => $value->id,
+                    'asignatura_id' => $value->asignatura_id,
+                    'docente_id' => $value->docente_id,
+                    'semestre' => $value->semestre,
+                    'anio' => $value->anio,
+                    'seccion' => $value->seccion
+                    ]);
+                
+            }
+        })->get();
+        \Storage::delete($nombre);
+    
+        Session::flash('message', 'Los Cursos han sido subidos correctamente!');
+
+        return redirect()->route('administrador.curso.index');
+            
+    }
+
     public function excel_download()
     {
         $var = Curso::all();
@@ -165,11 +169,11 @@ class CursoController extends Controller
             $excel->sheet('Sheetname',function($sheet) use ($var)
             {
                 $data=[];
-                array_push($data, array('ASIGNATURA','DOCENTE','SEMESTRE','ANIO','SECCION'));
+                array_push($data, array('ID','ASIGNATURA_ID','DOCENTE_ID','SEMESTRE','ANIO','SECCION'));
                 foreach($var as $key => $v)
                 {
                     
-                    array_push($data, array($v->asignatura_id,$v->docente_id,$v->semestre,$v->anio,$v->seccion));
+                    array_push($data, array($v->id, $v->asignatura_id,$v->docente_id,$v->semestre,$v->anio,$v->seccion));
                 }       
                 $sheet->fromArray($data,null, 'A1', false,false);
             

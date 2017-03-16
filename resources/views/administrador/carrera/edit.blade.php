@@ -24,11 +24,11 @@
                           <input type="hidden" name="_token" value="{{ csrf_token() }}" id="token">
                           <div class="form-group">
                            {!! Form::label('nombre', 'Nombre') !!}
-                           {!! Form::text('nombre', null,['class' => 'form-control', 'placeholder' => 'Ej: Ingeniería en Informática']) !!}
+                           {!! Form::text('nombre', null,['class' => 'form-control', 'placeholder' => 'Ej: Ingeniería en Informática', 'required']) !!}
                           </div>
                            <div class="form-group">
                            {!! Form::label('codigo', 'Codigo') !!}
-                           {!! Form::text('codigo', null,['class' => 'form-control', 'placeholder' => 'Ej: 21030']) !!}
+                           {!! Form::number('codigo', null,['class' => 'form-control', 'placeholder' => 'Ej: 21030', 'required']) !!}
                           </div>                                                                        
                           <div class="form-group">
                            {!! Form::label('descripcion', 'Descripción') !!}
@@ -36,9 +36,10 @@
                           </div>
                           <div class="form-group">
                               <label>Escuela</label>
-                              <select name="escuela" id="escuela" class="form-control">
+                              <select name="escuela" id="escuela" class="form-control" required>
+                                <option value="">Seleccione</option>
                               @foreach($escuelas as $escuela)
-                                  <option name="escuela" id="escuela_{{ $escuela->id }}" value="{{ $escuela->id }}">{{ $escuela->nombre }}</option>
+                                <option id="escuela_{{ $escuela->id }}" value="{{ $escuela->id }}">{{ $escuela->nombre }}</option>
                               @endforeach
                               </select>
                           </div>
@@ -46,6 +47,7 @@
                           <input type="hidden" id="escuela_id" value="{{ $carrera->escuela_id }}">
 
                           <button type="submit" class="btn btn-success">Aceptar</button>
+                          <a href="{{ URL::previous() }}" class="btn btn-default" role="button">Cancelar</a>
                       	{!! Form::close() !!}
                     </div>
                 </div>

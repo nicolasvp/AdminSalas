@@ -16,13 +16,13 @@ use App\Roles;
 
 use App\Rol_usuario;
 
+use App\Departamento;
+
+use App\Docente;
+
 class UsuarioController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
         $rol = $this->getRol();
@@ -35,29 +35,21 @@ class UsuarioController extends Controller
         return view('administrador/usuario/index',compact('usuarios','rol'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         $rol = $this->getRol();
 
         $roles = Roles::all();
 
-        return view('administrador/usuario/create',compact('roles','rol'));
+        $departamentos = Departamento::all();
+
+        return view('administrador/usuario/create',compact('roles','rol','departamentos'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+
     public function store(Request $request)
     {
-        
+
         User::create([
             'rut' => $request->get('rut'),
             'email' => $request->get('email'),
@@ -65,102 +57,105 @@ class UsuarioController extends Controller
             'apellidos' => $request->get('apellidos'),
             'password' => bcrypt($request->get('rut'))
             ]);
+        
+        $rol_docente = Roles::find($request->get('rol'));
 
+        if($rol_docente->nombre == 'Docente')
+        {
+            Docente::create([
+                'rut' => $request->get('rut'),
+                'nombres' => $request->get('nombres'),
+                'apellidos' => $request->get('apellidos'),
+                'departamento_id' => $request->get('departamento')             
+                ]);
+        }
+        
         Rol_usuario::create([
             'rut' => $request->get('rut'),
             'rol_id' => $request->get('rol')
             ]);
 
-        return redirect()->route('administrador.usuario.index');
+        Session::flash('message', 'El usuario ' .$request->get('nombres').' '.$request->get('apellidos').' ha sido creado');
+
+        return redirect()->route('administrador.usuario.index');            
+        
+
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function show($id)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Request $request,$id)
     {
         $rol = $this->getRol();
 
-        if($request->ajax()){
+        $usuario = User::find($id);
 
-            $usuario = User::find($request->get('id'));
+        $roles = Roles::all();
 
-            $roles = Rol_usuario::where('rut',$usuario->rut)->select('rut','rol_id')->get();
-            $rolesTotales = Roles::select('id','nombre')->get();
-            $respuesta = ['roles' => $rolesTotales, 'roles_usuario' => $roles];
-     
-            return response()->json($respuesta);
-        }
-        else
-        {
-            
-            $usuario = User::find($id);
+        $rol_usuario = Rol_usuario::where('rut',$usuario->rut)->select('rol_id')->first();
 
-            return view('administrador/usuario/edit',compact('usuario','roles','rol'));
-        }
+        $departamentos = Departamento::all();
+
+        return view('administrador/usuario/edit',compact('usuario','roles','rol','rol_usuario','departamentos'));
+        
 
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
 
-        
         $usuario = User::find($id);
-
         $usuario->rut = $request->get('rut');
         $usuario->email = $request->get('email');
         $usuario->nombres = $request->get('nombres');
         $usuario->apellidos = $request->get('apellidos');
-
         $usuario->save();
 
-        //Busca en la tabla rol_usuario el rut que sea igual al rut que viene de la vista(request->get('rutUsuario')) y con el get lo toma
-        $roles_usuario = Rol_usuario::where('rut',$request->get('rut'))->get();
-
-        foreach($roles_usuario as $ru)
+        $usuario_docente = Docente::where('rut',$request->get('rut'))->first();
+        
+        if($request->get('rol') == '3')
         {
-            $ru->delete();
+            if($usuario_docente)
+            {
+                $usuario_docente->rut = $request->get('rut');
+                $usuario_docente->nombres = $request->get('nombres');
+                $usuario_docente->apellidos = $request->get('apellidos');
+                $usuario_docente->save();                
+            }
+            else
+            {
+                Docente::create([
+                    'nombres' => $request->get('nombres'),
+                    'apellidos' => $request->get('apellidos'),
+                    'rut' => $request->get('rut'),
+                    'departamento_id' => $request->get('departamento')
+                    ]);
+            }
         }
-        foreach($request->get('roles') as $rol)
+
+        if($request->get('rol') != '3')
         {
-            Rol_usuario::create([
-                'rut' =>$request->get('rut'),
-                'rol_id' => $rol
-                ]);
-        }   
+            if($usuario_docente)
+            {
+                $docente = Docente::where('rut',$request->get('rut'))->first();
+                $docente->delete();                
+            }
+        }
+
+        $rol_usuario = Rol_usuario::where('rut',$request->get('rut'))->first();
+        $rol_usuario->rol_id = $request->get('rol');
+        $rol_usuario->save();
 
         Session::flash('message', 'El usuario ' .$usuario->nombres.' '.$usuario->apellidos.' ha sido actualizado');
 
         return redirect()->route('administrador.usuario.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function destroy(Request $request,$id)
     {
         if($request->ajax()){
@@ -171,7 +166,6 @@ class UsuarioController extends Controller
             {
                 //$rol = Rol_usuario::where('rut')
                 $usuario->delete();
-
               
                 return response()->json('ok');
             }

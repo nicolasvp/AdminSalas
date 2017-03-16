@@ -8,5 +8,5 @@ class Periodo extends Model
 {
     protected $table = 'periodos';
 
-    protected $fillable = ['bloque','inicio','fin'];
+    protected $fillable = ['id','bloque','inicio','fin'];
 }

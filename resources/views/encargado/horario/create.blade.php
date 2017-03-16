@@ -28,10 +28,10 @@
                              <input type="hidden" name="_token" value="{{ csrf_token() }}" id="token">
                                 <div class="form-group">
                                     <label>Duración</label>
-                                    <select name="duracion" id="duracion" class="form-control">
-                                        <option name="duracion" value="0">Seleccione</option>
-                                        <option name="duracion" value="semestral">Semestral</option>
-                                        <option name="duracion" value="dia">Día</option>
+                                    <select name="duracion" id="duracion" class="form-control" required>
+                                        <option value="">Seleccione</option>
+                                        <option value="semestral">Semestral</option>
+                                        <option value="dia">Día</option>
                                     </select>
                                 </div>                                        
                                 <div class="form-group" id="form-fecha" style="display: none;">
@@ -63,25 +63,28 @@
                                 </div>                                                                                                                     
                                 <div class="form-group">
                                     <label>Curso - Docente - Sección</label>
-                                    <select name="curso" class="form-control">
+                                    <select name="curso" class="form-control" required>
+                                        <option value="">Seleccione</option>
                                     @foreach($cursos as $curso)
-                                        <option name="curso" value="{{ $curso->id }}">{{ $curso->asignatura }} - {{ $curso->docente_nombres }} {{ $curso->docente_apellidos }} - {{ $curso->seccion }}</option>
+                                        <option value="{{ $curso->id }}">{{ $curso->asignatura }} - {{ $curso->docente_nombres }} {{ $curso->docente_apellidos }} - {{ $curso->seccion }}</option>
                                     @endforeach
                                     </select>
                                 </div>                                    
                                 <div class="form-group">
                                     <label>Sala</label>
-                                   <select name="sala" class="form-control">
+                                   <select name="sala" class="form-control" required>
+                                        <option value="">Seleccione</option>
                                     @foreach($salas as $sala)
-                                        <option name="sala" value="{{ $sala->id }}">{{ $sala->nombre }}</option>
+                                        <option value="{{ $sala->id }}">{{ $sala->nombre }}</option>
                                     @endforeach
                                     </select>
                                 </div>                                        
                                 <div class="form-group">
                                     <label>Período</label>
-                                   <select name="periodo" class="form-control">
+                                   <select name="periodo" class="form-control" required>
+                                        <option value="">Seleccione</option>
                                     @foreach($periodos as $periodo)
-                                        <option name="periodo" value="{{ $periodo->id }}">{{ $periodo->bloque }}</option>
+                                        <option value="{{ $periodo->id }}">{{ $periodo->bloque }}</option>
                                     @endforeach
                                     </select>
                                 </div>   

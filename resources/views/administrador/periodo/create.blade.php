@@ -40,7 +40,7 @@
                             {!! Form::open(['route' => ['administrador.periodo.store'], 'method' => 'POST']) !!}
                                 <div class="form-group">
                                     <label>Bloque</label>
-                                    <input class="form-control" name="bloque" placeholder="Ej: I">
+                                    <input class="form-control" name="bloque" placeholder="Ej: I" required>
                                 </div>
                                 <div class="form-group">
                                     <label>Inicio</label>
@@ -51,6 +51,7 @@
                                     <input class="form-control" type="time" id="fin" name="fin" required>
                                 </div>                                                                                                                    
                                 <button role="button" type="submit" class="btn btn-success">Aceptar</button>
+                                <a href="{{ URL::previous() }}" class="btn btn-default" role="button">Cancelar</a>
                           	{!! Form::close() !!}
                         </div>
                     </div>

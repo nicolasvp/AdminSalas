@@ -16,11 +16,7 @@ use App\Departamento;
 
 class AsignaturaController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
         $rol = $this->getRol();
@@ -32,11 +28,6 @@ class AsignaturaController extends Controller
         return view('administrador/asignatura/index',compact('asignaturas','rol'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         $rol = $this->getRol();
@@ -46,41 +37,29 @@ class AsignaturaController extends Controller
         return view('administrador/asignatura/create',compact('departamentos','rol'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
+
+        $last_id = Asignatura::select('id')->orderBy('id','desc')->first();
+
         Asignatura::create([
+                'id' => $last_id->id + 1,
                 'departamento_id' => $request->get('departamento'),
                 'codigo' => $request->get('codigo'),
                 'nombre' => $request->get('nombre'),
                 'descripcion' => $request->get('descripcion')
             ]);
 
+         Session::flash('message', 'La Asignatura ' .$request->get('nombre').' ha sido creada');
+
         return redirect()->route('administrador.asignatura.index');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
         $rol = $this->getRol();
@@ -92,13 +71,6 @@ class AsignaturaController extends Controller
         return view('administrador/asignatura/edit',compact('asignatura','departamentos','rol'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
         $asignatura = Asignatura::find($id);
@@ -115,12 +87,6 @@ class AsignaturaController extends Controller
         return redirect()->route('administrador.asignatura.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Request $request,$id)
     {
         if($request->ajax()){
@@ -140,6 +106,37 @@ class AsignaturaController extends Controller
         }
     }
 
+    public function upload(Request $request)
+    {
+        
+        $file = $request->file('file');
+    
+        $nombre = $file->getClientOriginalName();
+
+        \Storage::disk('local')->put($nombre,  \File::get($file));
+        \Excel::load('/storage/app/'.$nombre,function($archivo)
+        {
+            $result = $archivo->get();
+            foreach($result as $key => $value)
+            {
+                Asignatura::create([
+                    'id' => $value->id,
+                    'departamento_id' => $value->departamento_id,
+                    'nombre' => $value->nombre,
+                    'codigo' => $value->codigo,
+                    'descripcion' => $value->descripcion
+                    ]);
+                
+            }
+        })->get();
+        \Storage::delete($nombre);
+    
+        Session::flash('message', 'Las Asignaturas han sido subidas correctamente!');
+
+        return redirect()->route('administrador.asignatura.index');
+            
+    }
+
     public function excel_download()
     {
         $var = Asignatura::all();
@@ -148,11 +145,11 @@ class AsignaturaController extends Controller
             $excel->sheet('Sheetname',function($sheet) use ($var)
             {
                 $data=[];
-                array_push($data, array('DEPARTAMENTO','CODIGO','NOMBRE','DESCRIPCION'));
+                array_push($data, array('ID','NOMBRE','CODIGO','DESCRIPCION','DEPARTAMENTO_ID'));
                 foreach($var as $key => $v)
                 {
                     
-                    array_push($data, array($v->departamento_id,$v->codigo,$v->nombre,$v->descripcion));
+                    array_push($data, array($v->id,$v->nombre,$v->codigo,$v->descripcion, $v->departamento_id));
                 }       
                 $sheet->fromArray($data,null, 'A1', false,false);
             

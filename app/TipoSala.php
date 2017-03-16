@@ -8,5 +8,5 @@ class TipoSala extends Model
 {
     protected $table = 'tipos_salas';
 
-    protected $fillable = ['nombre','descripcion'];
+    protected $fillable = ['id','nombre','descripcion'];
 }

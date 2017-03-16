@@ -24,21 +24,22 @@
                           <input type="hidden" name="_token" value="{{ csrf_token() }}" id="token">
                           <div class="form-group">
                            {!! Form::label('nombre', 'Nombre') !!}
-                           {!! Form::text('nombre', null,['class' => 'form-control', 'placeholder' => 'Ej: Ingeniería de Software']) !!}
+                           {!! Form::text('nombre', null,['class' => 'form-control', 'placeholder' => 'Ej: Ingeniería de Software', 'required']) !!}
                           </div>
                            <div class="form-group">
                            {!! Form::label('codigo', 'Codigo') !!}
-                           {!! Form::text('codigo', null,['class' => 'form-control', 'placeholder' => 'Ej: INF-2314']) !!}
+                           {!! Form::text('codigo', null,['class' => 'form-control', 'placeholder' => 'Ej: INF-2314', 'required']) !!}
                           </div>                                                                        
                           <div class="form-group">
                            {!! Form::label('descripcion', 'Descripción') !!}
-                           {!! Form::text('descripcion', null,['class' => 'form-control', 'placeholder' => 'Ej: asignatura orientada a..']) !!}
+                           {!! Form::text('descripcion', null,['class' => 'form-control', 'placeholder' => 'Ej: Asignatura orientada a..']) !!}
                           </div>
                           <div class="form-group">
                               <label>Departamento</label>
-                              <select name="departamento" id="departamento" class="form-control">
+                              <select name="departamento" id="departamento" class="form-control" required>
+                                <option value="">Seleccione</option>
                               @foreach($departamentos as $departamento)
-                                  <option name="departamento" id="departamento_{{ $departamento->id }}" value="{{ $departamento->id }}">{{ $departamento->nombre }}</option>
+                                <option id="departamento_{{ $departamento->id }}" value="{{ $departamento->id }}">{{ $departamento->nombre }}</option>
                               @endforeach
                               </select>
                           </div>
@@ -46,6 +47,7 @@
                           <input type="hidden" id="departamento_id" value="{{ $asignatura->departamento_id }}">
 
                           <button type="submit" class="btn btn-success">Aceptar</button>
+                          <a href="{{ URL::previous() }}" class="btn btn-default" role="button">Cancelar</a>
                       	{!! Form::close() !!}
                     </div>
                 </div>

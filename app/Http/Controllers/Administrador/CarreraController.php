@@ -16,11 +16,7 @@ use App\Escuela;
 
 class CarreraController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
         $rol = $this->getRol();
@@ -32,11 +28,6 @@ class CarreraController extends Controller
         return view('administrador/carrera/index',compact('carreras','rol'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         $rol = $this->getRol();
@@ -46,41 +37,29 @@ class CarreraController extends Controller
         return view('administrador/carrera/create',compact('escuelas','rol'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
+
+        $last_id = Carrera::select('id')->orderBy('id', 'desc')->first();
+
         Carrera::create([
+                'id' => $last_id->id + 1,
                 'escuela_id' => $request->get('escuela'),
                 'codigo' => $request->get('codigo'),
                 'nombre' => $request->get('nombre'),
                 'descripcion' => $request->get('descripcion')
             ]);
 
+        Session::flash('message', 'La Carrera ' .$request->get('nombre').' ha sido creada');
+
         return redirect()->route('administrador.carrera.index');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
         $rol = $this->getRol();
@@ -92,13 +71,6 @@ class CarreraController extends Controller
         return view('administrador/carrera/edit',compact('carrera','escuelas','rol'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
         $carrera = Carrera::find($id);
@@ -115,12 +87,6 @@ class CarreraController extends Controller
         return redirect()->route('administrador.carrera.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Request $request,$id)
     {
         if($request->ajax()){
@@ -140,6 +106,37 @@ class CarreraController extends Controller
         }
     }
 
+    public function upload(Request $request)
+    {
+        
+        $file = $request->file('file');
+    
+        $nombre = $file->getClientOriginalName();
+
+        \Storage::disk('local')->put($nombre,  \File::get($file));
+        \Excel::load('/storage/app/'.$nombre,function($archivo)
+        {
+            $result = $archivo->get();
+            foreach($result as $key => $value)
+            {
+                Carrera::create([
+                    'id' => $value->id,
+                    'escuela_id' => $value->escuela_id,
+                    'nombre' => $value->nombre,
+                    'codigo' => $value->codigo,
+                    'descripcion' => $value->descripcion
+                    ]);
+                
+            }
+        })->get();
+        \Storage::delete($nombre);
+    
+        Session::flash('message', 'Las Carreras han sido subidas correctamente!');
+
+        return redirect()->route('administrador.carrera.index');
+            
+    }
+
     public function excel_download()
     {
         $var = Carrera::all();
@@ -148,11 +145,11 @@ class CarreraController extends Controller
             $excel->sheet('Sheetname',function($sheet) use ($var)
             {
                 $data=[];
-                array_push($data, array('ESCUELA','CODIGO','NOMBRE','DESCRIPCION'));
+                array_push($data, array('ID','NOMBRE','ESCUELA_ID','CODIGO','DESCRIPCION'));
                 foreach($var as $key => $v)
                 {
                     
-                    array_push($data, array($v->escuela_id,$v->codigo,$v->nombre,$v->descripcion));
+                    array_push($data, array($v->id,$v->nombre,$v->escuela_id,$v->codigo,$v->descripcion));
                 }       
                 $sheet->fromArray($data,null, 'A1', false,false);
             

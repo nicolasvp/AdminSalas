@@ -111,6 +111,7 @@ $(document).ready(function() {
     });
 
     $('.btn-delete').click(function(e){
+        console.log('sa');
         // e.preventDefault(); para evitar que recargue la pagina
         var row = $(this).parents('tr');
         var id = row.data('id');

@@ -56,8 +56,8 @@
                     @foreach($usuarios as $usuario)
                         <tr class="text-center" data-id="{{ $usuario->rut }}">
                             <td class="center">{{ $usuario->rut }}</td>
-                            <td class="center">{{ $usuario->apellidos }}</td>
                             <td class="center">{{ $usuario->nombres }}</td>
+                            <td class="center">{{ $usuario->apellidos }}</td>
                             <td class="center">{{ $usuario->email }}</td>
                             <td class="center">{{ $usuario->rol }}</td>
                             <td class="center"><a href="{{ route('administrador.usuario.edit',$usuario->id)}}"><i class="fa fa-edit"></i></a></td>

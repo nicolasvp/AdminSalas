@@ -25,52 +25,58 @@
 
                           <div class="form-group">
                               <label>Campus</label>
-                              <select name="campus" id="campus" class="form-control">
+                              <select name="campus" id="campus" class="form-control" required>
+                                <option value="">Seleccione</option>
                               @foreach($campus as $campus)
-                                  <option name="campus" id="campus_{{ $campus->id }}" value="{{ $campus->id }}">{{ $campus->nombre }}</option>
+                                <option id="campus_{{ $campus->id }}" value="{{ $campus->id }}">{{ $campus->nombre }}</option>
                               @endforeach
                               </select>
                           </div>
                           <div class="form-group">
                               <label>Tipos</label>
-                              <select name="tipo" id="tipo" class="form-control">
+                              <select name="tipo" id="tipo" class="form-control" required>
+                                <option value="">Seleccione</option>
                               @foreach($tipos as $tipo)
-                                  <option name="tipo" id="tipo_{{ $tipo->id }}" value="{{ $tipo->id }}">{{ $tipo->nombre }}</option>
+                                <option id="tipo_{{ $tipo->id }}" value="{{ $tipo->id }}">{{ $tipo->nombre }}</option>
                               @endforeach
                               </select>
                           </div>
                           <div class="form-group">
                            {!! Form::label('nombre', 'Nombre') !!}
-                           {!! Form::text('nombre', null,['class' => 'form-control', 'placeholder' => 'Ej: m1-201']) !!}
+                           {!! Form::text('nombre', null,['class' => 'form-control', 'placeholder' => 'Ej: m1-201', 'required']) !!}
                           </div>
                           <div class="form-group">
                            {!! Form::label('descripcion', 'Descripcion') !!}
-                           {!! Form::text('descripcion', null,['class' => 'form-control', 'placeholder' => 'Ej: 2']) !!}
+                           {!! Form::text('descripcion', null,['class' => 'form-control', 'placeholder' => 'Ej: Sala del edificio m1']) !!}
                           </div>
                           <div class="form-group">
                            {!! Form::label('capacidad', 'Capacidad') !!}
-                           {!! Form::text('capacidad', null,['class' => 'form-control', 'placeholder' => 'Ej: 3']) !!}
+                           {!! Form::number('capacidad', null,['class' => 'form-control', 'placeholder' => 'Ej: 3', 'required']) !!}
                           </div>
                           <div class="form-group">
-                            <select class="form-control" name="estado" id="estado">
+                            <label>Disponibilidad</label>
+                            <select class="form-control" name="estado" id="estado" required>
+                                <option value="">Selecione</option>
                                 <option value="Disponible">Disponible</option>
                                 <option value="No Disponible">No Disponible</option>
                             </select>
                           </div>
                           <div class="form-group">
-                            <select class="form-control" name="semestre" id="semestre">
+                            <select class="form-control" name="semestre" id="semestre" required>
+                              <option value="">Seleccione</option>
                               <option value="1">1</option>
                               <option value="2">2</option>
                             </select>
                           </div>
                           <div class="form-group">
                            {!! Form::label('anio', 'Año') !!}
-                           {!! Form::text('anio', null,['class' => 'form-control', 'placeholder' => 'Ej: 2017']) !!}
+                           {!! Form::number('anio', null,['class' => 'form-control', 'placeholder' => 'Ej: 2017', 'required']) !!}
                           </div>
                           <input type="hidden" id="campus_id" value="{{ $sala->campus_id }}">
                           <input type="hidden" id="tipo_sala_id" value="{{ $sala->tipo_sala_id }}">
 
                           <button type="submit" class="btn btn-success">Aceptar</button>
+                          <a href="{{ URL::previous() }}" class="btn btn-default" role="button">Cancelar</a>
                       	{!! Form::close() !!}
                     </div>
                 </div>

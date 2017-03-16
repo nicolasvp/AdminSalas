@@ -25,29 +25,42 @@
 
                             <div class="form-group">
                              {!! Form::label('rut', 'Rut') !!}
-                             {!! Form::text('rut', null,['class' => 'form-control', 'placeholder' => 'Ej: 18117925']) !!}
+                             {!! Form::number('rut', null,['class' => 'form-control', 'placeholder' => 'Ej: 18117925', 'required']) !!}
                             </div>
 
                             <div class="form-group">
                              {!! Form::label('email', 'Email') !!}
-                             {!! Form::text('email', null,['class' => 'form-control', 'placeholder' => 'Ej: nicolas.vera@ceinf.cl']) !!}
+                             {!! Form::email('email', null,['class' => 'form-control', 'placeholder' => 'Ej: nicolas.vera@ceinf.cl']) !!}
                             </div>
 
                             <div class="form-group">
                              {!! Form::label('nombres', 'Nombre') !!}
-                             {!! Form::text('nombres', null,['class' => 'form-control', 'placeholder' => 'Ej: Nicolás']) !!}
+                             {!! Form::text('nombres', null,['class' => 'form-control', 'placeholder' => 'Ej: Nicolás', 'required']) !!}
                             </div>
 
                             <div class="form-group">
                              {!! Form::label('apellidos', 'Apellido') !!}
-                             {!! Form::text('apellidos', null,['class' => 'form-control', 'placeholder' => 'Ej: Vera']) !!}
+                             {!! Form::text('apellidos', null,['class' => 'form-control', 'placeholder' => 'Ej: Vera', 'required']) !!}
                             </div>
                            <label>Roles</label>
                            <div class="form-group" id="roles">
-
-                           </div>  
+                                @foreach($roles as $rol_u)
+                                    <input type="radio" class="rol" id="{{ $rol_u->id }}" value="{{ $rol_u->id }}" name="rol">
+                                        {{ $rol_u->nombre }}
+                                @endforeach
+                           </div>
+                            <div class="form-group" id="departamentos" style="display:none">
+                                <label>Departamentos</label>
+                                <select class="form-control" name="departamento">
+                                    <option value="">Seleccione</option>
+                                    @foreach($departamentos as $departamento)
+                                        <option value="{{ $departamento->id }}">{{ $departamento->nombre }}</option>
+                                    @endforeach
+                                </select>
+                            </div>                              
                             <input type="hidden" id="usuario_id" value="{{ $usuario->id }}">
                            <button type="submit" class="btn btn-success">Aceptar</button>
+                           <a href="{{ URL::previous() }}" class="btn btn-default" role="button">Cancelar</a>
                         	{!! Form::close() !!}
                       </div>
                   </div>
@@ -61,28 +74,17 @@
 @section('scripts')
 <script>
 $(document).ready(function(){
+	
+  $("#"+{{ $rol_usuario->rol_id }}).attr('checked','checked');
 
-  var id = $("#usuario_id").val();
+  $(".rol").click(function(){
+    if($(this).val() == '3')
+        $("#departamentos").css('display','block');
+    else
+        $("#departamentos").css('display','none');
+  });
 
-  $.ajax({
-     
-    // con .val saco el valor del value
-        data:  {'id': id},
-        url:   '/~nvera/administrador/usuario/'+id+'/edit',
-        type:  'get',
-        dataType: 'json',
-        success:  function(respuesta) {  
-        console.log(respuesta);        
-          $.each(respuesta['roles'], function(k,v){
 
-            $("#roles").append("<input id='"+v.id+"' type='checkbox' value='"+v.id+"' name='roles[]'>"+v.nombre);
-            $.each(respuesta['roles_usuario'], function(key,value){
-              if(value.rol_id == v.id)
-                $("#"+v.id).prop("checked",true);
-            });
-          });
-        }
-    });
 
 });
 </script>

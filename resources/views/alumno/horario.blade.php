@@ -38,16 +38,10 @@
                                         <div class="form-group">
                                             <label>Bloque</label>
                                             <select class="form-control" name="bloque" id="bloque">
-                                                <option name="bloque" id="bloque_0" value="0">Seleccione</option>
-                                                <option name="bloque" id="bloque_I" value="I">I</option>
-                                                <option name="bloque" id="bloque_II" value="II">II</option>
-                                                <option name="bloque" id="bloque_III" value="III">III</option>
-                                                <option name="bloque" id="bloque_IV" value="IV">IV</option>
-                                                <option name="bloque" id="bloque_V" value="V">V</option>
-                                                <option name="bloque" id="bloque_VI" value="VI">VI</option>
-                                                <option name="bloque" id="bloque_VII" value="VII">VII</option>
-                                                <option name="bloque" id="bloque_VIII" value="VIII">VIII</option>  
-                                                <option name="bloque" id="bloque_IX" value="IX">IX</option> 
+                                                <option name="bloque" id="bloque_" value="0">Seleccione</option>
+                                                @foreach($bloques as $bloque)
+                                                <option id="bloque_{{ $bloque->id}}" value="{{ $bloque->id }}">{{ $bloque->bloque }}</option>
+                                                @endforeach
                                             </select>
                                         </div> 
                                     </div>
@@ -75,8 +69,9 @@
                                         <div class="form-group" id="form-fecha">
                                             <label>Campus</label>
                                             <select class="form-control" name="campus" id="campus">
+                                            	<option class="form-control" value="">Seleccione</option>
                                                 @foreach($campus as $camp)
-                                                    <option class="form-control" id="campus_{{ $camp->nombre }}" name="campus" value="{{ $camp->id }}"> {{ $camp->nombre }}</option>
+                                                    <option class="form-control" id="campus_{{ $camp->id }}" value="{{ $camp->id }}"> {{ $camp->nombre }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -120,8 +115,9 @@
                         </div>
                         <!-- /.panel-body -->
                         <input type="hidden" id="fecha_seleccionada" value="{{ $fecha_seleccionada }}">
-                        <input type="hidden" id="dia_seleccionado" value="{{ $dia }}">
-                        <input type="hidden" id="bloque_seleccionado" value="{{ $bloque }}">
+                        <input type="hidden" id="dia_seleccionado" value="{{ $dia_seleccionado }}">
+                        <input type="hidden" id="bloque_seleccionado" value="{{ $bloque_seleccionado }}">
+                        <input type="hidden" id="campus_seleccionado" value="{{ $campus_seleccionado }}">
                     </div>
                     <!-- /.panel -->
                 </div>
@@ -164,19 +160,26 @@ $(document).ready(function() {
                 }
             }
     });
+
     $("#fecha").datepicker();
     $("#fecha").datepicker('option', {dateFormat: 'dd-mm-yy'});
-   
+
     var fecha_seleccionada = $("#fecha_seleccionada").val();
     var dia_seleccionado = $("#dia_seleccionado").val();
     var bloque_seleccionado = $("#bloque_seleccionado").val();
+    var campus_seleccionado = $("#campus_seleccionado").val();
 
-    if(dia_seleccionado != 0)
-        $("#dia option[id='dia_"+dia_seleccionado+"']").attr('selected','selected');        
-    if(bloque_seleccionado != 0)
+    if(dia_seleccionado)
+        $("#dia option[id='dia_"+dia_seleccionado+"']").attr('selected','selected');
+
+    if(bloque_seleccionado)
         $("#bloque option[id='bloque_"+bloque_seleccionado+"']").attr('selected','selected'); 
+
+    if(campus_seleccionado)
+        $("#campus option[id='campus_"+campus_seleccionado+"']").attr('selected','selected'); 
+
     if($("#fecha").val() != null)
-    $("#fecha").val(fecha_seleccionada);    
+    	$("#fecha").val(fecha_seleccionada);    
 
 });
 

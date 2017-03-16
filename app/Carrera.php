@@ -8,5 +8,5 @@ class Carrera extends Model
 {
     protected $table = 'carreras';
 
-    protected $fillable = ['escuela_id','codigo','nombre','descripcion'];
+    protected $fillable = ['id','escuela_id','codigo','nombre','descripcion'];
 }

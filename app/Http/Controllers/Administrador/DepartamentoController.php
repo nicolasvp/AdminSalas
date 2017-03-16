@@ -16,11 +16,7 @@ use App\Facultad;
 
 class DepartamentoController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
         $rol = $this->getRol();
@@ -32,11 +28,6 @@ class DepartamentoController extends Controller
         return view('administrador/departamento/index',compact('departamentos','rol'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         $rol = $this->getRol();
@@ -46,12 +37,6 @@ class DepartamentoController extends Controller
         return view('administrador/departamento/create',compact('facultades','rol'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         Departamento::create([
@@ -60,26 +45,16 @@ class DepartamentoController extends Controller
             'descripcion' => $request->get('descripcion')
             ]);
 
+        Session::flash('message', 'El Departamento ' .$request->get('nombre').' ha sido creado');
+
         return redirect()->route('administrador.departamento.index');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
         $rol = $this->getRol();
@@ -91,13 +66,6 @@ class DepartamentoController extends Controller
         return view('administrador/departamento/edit',compact('facultades','departamento','rol'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
         $departamento = Departamento::find($id);
@@ -113,12 +81,6 @@ class DepartamentoController extends Controller
         return redirect()->route('administrador.departamento.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Request $request, $id)
     {
         if($request->ajax()){
@@ -138,6 +100,36 @@ class DepartamentoController extends Controller
         }
     }
 
+    public function upload(Request $request)
+    {
+        
+        $file = $request->file('file');
+    
+        $nombre = $file->getClientOriginalName();
+
+        \Storage::disk('local')->put($nombre,  \File::get($file));
+        \Excel::load('/storage/app/'.$nombre,function($archivo)
+        {
+            $result = $archivo->get();
+            foreach($result as $key => $value)
+            {
+                Departamento::create([
+                    'id' => $value->id,
+                    'nombre' => $value->nombre,
+                    'facultad_id' => $value->facultad_id,
+                    'descripcion' => $value->descripcion
+                    ]);
+                
+            }
+        })->get();
+        \Storage::delete($nombre);
+    
+        Session::flash('message', 'Los Departamentos han sido subidos correctamente!');
+
+        return redirect()->route('administrador.departamento.index');
+            
+    }
+
     public function excel_download()
     {
         $var = Departamento::all();
@@ -146,11 +138,11 @@ class DepartamentoController extends Controller
             $excel->sheet('Sheetname',function($sheet) use ($var)
             {
                 $data=[];
-                array_push($data, array('NOMBRE','FACULTAD','DESCRIPCION'));
+                array_push($data, array('ID','NOMBRE','FACULTAD_ID','DESCRIPCION'));
                 foreach($var as $key => $v)
                 {
                     
-                    array_push($data, array($v->nombre,$v->facultad_id,$v->descripcion));
+                    array_push($data, array($v->id,$v->nombre,$v->facultad_id,$v->descripcion));
                 }       
                 $sheet->fromArray($data,null, 'A1', false,false);
             

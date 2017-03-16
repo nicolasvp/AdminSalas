@@ -8,5 +8,5 @@ class Asignatura extends Model
 {
     protected $table = 'asignaturas';
 
-    protected $fillable = ['departamento_id','codigo','nombre','descripcion'];
+    protected $fillable = ['id','departamento_id','codigo','nombre','descripcion'];
 }

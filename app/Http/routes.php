@@ -69,6 +69,16 @@ Route::group(['middleware' => ['web']], function () {
 		Route::resource('/estadistica','EstadisticaController');
 		Route::post('/tipo_sala/create/upload',['uses' => 'TipoSalaController@upload', 'as' => 'administrador.tipo_sala.upload']);
 		Route::post('/periodo/create/upload',['uses' => 'PeriodoController@upload', 'as' => 'administrador.periodo.upload']);
+		Route::post('/facultad/create/upload',['uses' => 'FacultadController@upload', 'as' => 'administrador.facultad.upload']);
+		Route::post('/departamento/create/upload',['uses' => 'DepartamentoController@upload', 'as' => 'administrador.departamento.upload']);
+		Route::post('/escuela/create/upload',['uses' => 'EscuelaController@upload', 'as' => 'administrador.escuela.upload']);
+		Route::post('/carrera/create/upload',['uses' => 'CarreraController@upload', 'as' => 'administrador.carrera.upload']);
+		Route::post('/asignatura/create/upload',['uses' => 'AsignaturaController@upload', 'as' => 'administrador.asignatura.upload']);
+		Route::post('/docente/create/upload',['uses' => 'DocenteController@upload', 'as' => 'administrador.docente.upload']);
+		Route::post('/sala/create/upload',['uses' => 'SalaController@upload', 'as' => 'administrador.sala.upload']);
+		Route::post('/curso/create/upload',['uses' => 'CursoController@upload', 'as' => 'administrador.curso.upload']);
+		Route::post('/campus/create/upload',['uses' => 'CampusController@upload', 'as' => 'administrador.campus.upload']);
+
 		Route::get('/horario/display/diario',['uses' => 'HorarioController@display_horario', 'as' => 'administrador.horario.display']);
 		Route::get('/campus_download',['uses' => 'CampusController@excel_download','as' => 'administrador.campus.download']);
 		Route::get('/facultad_download',['uses' => 'FacultadController@excel_download','as' => 'administrador.facultad.download']);
@@ -78,7 +88,7 @@ Route::group(['middleware' => ['web']], function () {
 		Route::get('/asignatura_download',['uses' => 'AsignaturaController@excel_download','as' => 'administrador.asignatura.download']);
 		Route::get('/docente_download',['uses' => 'DocenteController@excel_download','as' => 'administrador.docente.download']);
 		Route::get('/curso_download',['uses' => 'CursoController@excel_download','as' => 'administrador.curso.download']);
-		Route::get('/rol_download',['uses' => 'RolController@excel_download','as' => 'administrador.rol.download']);
+		//Route::get('/rol_download',['uses' => 'RolController@excel_download','as' => 'administrador.rol.download']);
 		Route::get('/tipo_sala_download',['uses' => 'TipoSalaController@excel_download','as' => 'administrador.tipo_sala.download']);	
 		Route::get('/sala_download',['uses' => 'SalaController@excel_download','as' => 'administrador.sala.download']);	
 		Route::get('/periodo_download',['uses' => 'PeriodoController@excel_download','as' => 'administrador.periodo.download']);	
@@ -144,7 +154,7 @@ Route::group(['middleware' => ['web']], function () {
 
 Route::get('/rest',function(){
 
-	dd(bcrypt('1234'));
+	dd(bcrypt('12345678'));
 	$client = new GuzzleHttp\Client();
 
 	$res = $client->request('GET', 'https://sepa.utem.cl/rest/api/v1/sepa/autenticar/181179252/116fc7635034c3310f21d95e5ca48ea1f59d58296b074e4740b6003b8edc6182', [

@@ -27,13 +27,13 @@
                           {!! Form::model($horario, ['route' => ['encargado.horario.update', $horario], 'method' => 'PUT']) !!}
                             <input type="hidden" name="_token" value="{{ csrf_token() }}" id="token">
                               
-                              <div class="form-group" id="form-fecha">
+                              <div class="form-group" id="form-fecha" required>
                                   <label>Fecha</label>
                                   <input type="text" class="form-control" id="fecha" name="fecha">
                               </div> 
                               <div class="form-group">
                                   <label>Curso - Docente - Sección</label>
-                                  <select name="curso" id="curso" class="form-control">
+                                  <select name="curso" id="curso" class="form-control" required>
                                   @foreach($cursos as $curso)
                                       <option name="curso" id="curso_{{ $curso->id }}" value="{{ $curso->id }}">{{ $curso->asignatura }} - {{ $curso->docente_nombres }} {{ $curso->docente_apellidos }} - {{ $curso->seccion }}</option>
                                   @endforeach
@@ -41,17 +41,19 @@
                               </div>                                      
                               <div class="form-group">
                                   <label>Sala</label>
-                                 <select name="sala" id="sala" class="form-control">
+                                 <select name="sala" id="sala" class="form-control" required>
+                                      <option value="">Seleccione</option>
                                   @foreach($salas as $sala)
-                                      <option name="sala" id="sala_{{ $sala->id }}" value="{{ $sala->id }}">{{ $sala->nombre }}</option>
+                                      <option id="sala_{{ $sala->id }}" value="{{ $sala->id }}">{{ $sala->nombre }}</option>
                                   @endforeach
                                   </select>
                               </div>                                        
                               <div class="form-group">
                                   <label>Período</label>
-                                 <select name="periodo" id="periodo" class="form-control">
+                                 <select name="periodo" id="periodo" class="form-control" required>
+                                      <option value="">Seleccione</option>
                                   @foreach($periodos as $periodo)
-                                      <option name="periodo" id="periodo_{{ $periodo->id }}" value="{{ $periodo->id }}">{{ $periodo->bloque }}</option>
+                                      <option id="periodo_{{ $periodo->id }}" value="{{ $periodo->id }}">{{ $periodo->bloque }}</option>
                                   @endforeach
                                   </select>
                               </div> 
@@ -66,7 +68,7 @@
                               </div> 
                               <label>Cantidad de Alumnos</label>
                               <div class="form-group">
-                                  <input type="text" class="form-control" name="cantidad_alumnos" id="cantidad_alumnos" placeholder="Ej: 20">
+                                  <input type="number" class="form-control" name="cantidad_alumnos" id="cantidad_alumnos" placeholder="Ej: 20">
                               </div>                                                                                 
                               <input type="hidden" id="fecha_id" value="{{ $horario->fecha }}">
                               <input type="hidden" id="fecha_inicio" value="{{ $fecha_inicio }}">
