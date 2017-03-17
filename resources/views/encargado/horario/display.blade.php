@@ -21,7 +21,7 @@
             <div class="panel-heading">
                 <div class="row">
                     <div class="col-md-4 col-lg-4" id="horario-title">
-                        <h2> Horarios </h2>
+                        <h2> Ver Horarios </h2>
                         @if(Session::has('message'))
                             <div class="alert alert-success alert-dismissable">
                                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
@@ -38,16 +38,10 @@
                             <div class="form-group">
                                 <label>Bloque</label>
                                 <select class="form-control" name="bloque" id="bloque">
-                                    <option name="bloque" id="bloque_0" value="0">Seleccione</option>
-                                    <option name="bloque" id="bloque_I" value="I">I</option>
-                                    <option name="bloque" id="bloque_II" value="II">II</option>
-                                    <option name="bloque" id="bloque_III" value="III">III</option>
-                                    <option name="bloque" id="bloque_IV" value="IV">IV</option>
-                                    <option name="bloque" id="bloque_V" value="V">V</option>
-                                    <option name="bloque" id="bloque_VI" value="VI">VI</option>
-                                    <option name="bloque" id="bloque_VII" value="VII">VII</option>
-                                    <option name="bloque" id="bloque_VIII" value="VIII">VIII</option>  
-                                    <option name="bloque" id="bloque_IX" value="IX">IX</option> 
+                                    <option name="bloque" id="bloque_" value="0">Seleccione</option>
+                                    @foreach($bloques as $bloque)
+                                    <option id="bloque_{{ $bloque->id}}" value="{{ $bloque->id }}">{{ $bloque->bloque }}</option>
+                                    @endforeach
                                 </select>
                             </div> 
                         </div>
@@ -98,7 +92,7 @@
                     <tbody>
                     @foreach($horarios as $horario)
                         <tr class="text-center" data-id="{{ $horario->id }}">
-                            <td class="center">{{ $horario->fecha }}</td>
+                            <td class="center">{{ Carbon\Carbon::parse($horario->fecha)->format('d-m-Y') }}</td>
                             <td class="center">{{ $horario->bloque }}</td>
                             <td class="center">{{ $horario->asignatura }}</td>
                             <td class="center">{{ $horario->nombres_docente }} {{ $horario->apellidos_docente }}</td>
@@ -107,7 +101,7 @@
                             <td class="center">{{ $horario->comentario }}</td>
                             <td class="center">{{ $horario->asistencia_docente }}</td>
                             <td class="center">{{ $horario->cantidad_alumnos }}</td>
-                            <td class="center"><a href="{{ route('administrador.horario.edit',$horario->id)}}"><i class="fa fa-edit"></i></a></td>
+                            <td class="center"><a href="{{ route('encargado.horario.edit',$horario->id)}}"><i class="fa fa-edit"></i></a></td>
                         </tr>
                     @endforeach
                     </tbody>
@@ -116,8 +110,8 @@
             </div>
             <!-- /.panel-body -->
             <input type="hidden" id="fecha_seleccionada" value="{{ $fecha_seleccionada }}">
-            <input type="hidden" id="dia_seleccionado" value="{{ $dia }}">
-            <input type="hidden" id="bloque_seleccionado" value="{{ $bloque }}">
+            <input type="hidden" id="dia_seleccionado" value="{{ $dia_seleccionado }}">
+            <input type="hidden" id="bloque_seleccionado" value="{{ $bloque_seleccionado }}">
         </div>
         <!-- /.panel -->
     </div>
@@ -131,7 +125,7 @@
 <script src="{{ asset('vendor/datatables/js/jquery.dataTables.min.js') }}"></script>
 <script src="{{ asset('vendor/datatables-plugins/dataTables.bootstrap.min.js') }}"></script>
 <script src="{{ asset('vendor/datatables-responsive/dataTables.responsive.js') }}"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.js"></script>
+<script src="{{ asset('dist/js/jquery-ui.js') }}"></script>
 
 <script>
 $(document).ready(function() {

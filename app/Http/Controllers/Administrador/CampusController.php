@@ -84,7 +84,7 @@ class CampusController extends Controller
         $campus->nombre = $request->get('nombre');
         $campus->direccion = $request->get('direccion');
         $campus->descripcion = $request->get('descripcion');
-        $campus->rut_encargado = $request->get('rut_encargado');
+        $campus->rut_encargado = $request->get('encargado');
 
         $campus->save();
 

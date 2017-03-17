@@ -128,7 +128,7 @@ a {
                             <a href="{{ asset('/encargado/inicio') }}"><i class="fa fa-home"></i> Inicio</a>
                         </li>
                         <li>
-                            <a href="{{ route('encargado.horario.index') }}"><i class="fa fa-calendar-o"></i> Horarios</a>
+                            <a href="{{ route('encargado.horario.index') }}"><i class="fa fa-calendar-o"></i> Ingresar Horarios</a>
                         </li>   
                         <li>
                             <a href="{{ route('encargado.horario.display') }}"><i class="fa fa-eye"></i> Ver Horarios</a>

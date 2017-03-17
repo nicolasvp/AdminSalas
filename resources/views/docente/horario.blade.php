@@ -100,7 +100,7 @@
                     <tbody>
                     @foreach($horarios as $horario)
                         <tr class="text-center" data-id="{{ $horario->id }}">
-                            <td class="center">{{ $horario->fecha }}</td>
+                            <td class="center">{{ Carbon\Carbon::parse($horario->fecha)->format('d-m-Y') }}</td>
                             <td class="center">{{ $horario->bloque }}</td>
                             <td class="center">{{ $horario->asignatura }}</td>
                             <td class="center">{{ $horario->nombres_docente }} {{ $horario->apellidos_docente }}</td>
@@ -132,7 +132,7 @@
 <script src="{{ asset('vendor/datatables/js/jquery.dataTables.min.js') }}"></script>
 <script src="{{ asset('vendor/datatables-plugins/dataTables.bootstrap.min.js') }}"></script>
 <script src="{{ asset('vendor/datatables-responsive/dataTables.responsive.js') }}"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.js"></script>
+<script src="{{ asset('dist/js/jquery-ui.js') }}"></script>
 
 <script>
 $(document).ready(function() {

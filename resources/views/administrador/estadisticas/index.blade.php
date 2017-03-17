@@ -161,7 +161,7 @@
 @stop
 
 @section('scripts')
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.js"></script>
+<script src="{{ asset('dist/js/jquery-ui.js') }}"></script>
 <script type="text/javascript">
 
 $(document).ready(function(){

@@ -381,8 +381,16 @@ class HorarioController extends Controller
       $horario->curso_id = $request->get('curso');
       $horario->dia = $dia;
       $horario->comentario = $request->get('comentario'); 
-      $horario->asistencia_docente = $request->get('asistencia_docente');
-      $horario->cantidad_alumnos = $request->get('cantidad_alumnos');
+
+      if($request->get('asistencia_docente'))
+      {
+        $horario->asistencia_docente = $request->get('asistencia_docente');
+      }
+      
+      if($request->get('cantidad_alumnos'))
+      {
+        $horario->cantidad_alumnos = $request->get('cantidad_alumnos');
+      }
 
       $horario->save();
           

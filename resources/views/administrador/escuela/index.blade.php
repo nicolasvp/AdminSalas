@@ -109,28 +109,30 @@ $(document).ready(function() {
                 }
             }
     });
-    $('.btn-delete').click(function(e){
-    	//alert('asda');
-        // e.preventDefault(); para evitar que recargue la pagina
-        var row = $(this).parents('tr');
-        var id = row.data('id');
-        var form = $('#form-delete');
-        var url = form.attr('action').replace(':ESCUELA_ID', id);
-        var data = form.serialize();
-
-        $.post(url, data, function(result){
-        // alert(result.message);
-          if(result == 'ok')
-            row.fadeOut();
-          if(result == 'fail')
-           console.log('El registro no fue eliminado');
-        }).fail(function(){
-           console("fail: El registro no fue eliminado");
-           row.show();
-        });
-
-    });      
+   
 });
+
+$(document).on('click','.btn-delete',function(e){
+    //alert('asda');
+    // e.preventDefault(); para evitar que recargue la pagina
+    var row = $(this).parents('tr');
+    var id = row.data('id');
+    var form = $('#form-delete');
+    var url = form.attr('action').replace(':ESCUELA_ID', id);
+    var data = form.serialize();
+
+    $.post(url, data, function(result){
+    // alert(result.message);
+      if(result == 'ok')
+        row.fadeOut();
+      if(result == 'fail')
+       console.log('El registro no fue eliminado');
+    }).fail(function(){
+       console("fail: El registro no fue eliminado");
+       row.show();
+    });
+
+});   
 </script>
 
 @stop

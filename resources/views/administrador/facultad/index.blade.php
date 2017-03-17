@@ -110,7 +110,9 @@ $(document).ready(function() {
             }
     });
 
-    $('.btn-delete').click(function(e){
+});
+
+$(document).on('click','.btn-delete',function(e){
         //  e.preventDefault(); para evitar que recargue la pagina
         var row = $(this).parents('tr');
         var id = row.data('id');
@@ -129,9 +131,8 @@ $(document).ready(function() {
           row.show();
         });
 
-    });
-
 });
+
 </script>
 
 @stop

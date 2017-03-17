@@ -10,7 +10,7 @@
 @stop
 
 @section('option')
-    <li class="active">Horarios</li>
+    <li class="active"> Ingresar Horarios</li>
 @stop
 
 @section('container')
@@ -20,7 +20,7 @@
             <div class="panel-heading">
                 <div class="row">
                     <div class="col-xs-4 col-md-6 col-lg-6">
-                        <h2> Horarios </h2>
+                        <h2> Ingresar Horarios </h2>
                         @if(Session::has('message'))
                             <div class="alert alert-success alert-dismissable">
                                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
@@ -65,7 +65,7 @@
                             <td class="center">{{ $horario->seccion }}</td>
                             <td class="center">{{ $horario->sala }}</td>
                             <td class="center">{{ $horario->bloque }}</td>
-                            <td class="center">{{ $horario->fecha }}</td>
+                            <td class="center">{{ Carbon\Carbon::parse($horario->fecha)->format('d-m-Y') }}</td>
                             <td class="center">{{ $horario->dia }}</td>
                             <td class="center"><a href="{{ route('encargado.horario.edit',$horario->id)}}"><i class="fa fa-edit"></i></a></td>
                             <td class="center"><a href="#!" class="btn-delete"><i class="fa fa-trash"></i></a>
@@ -119,27 +119,30 @@ $(document).ready(function() {
                 }
             }
     });
-    $('.btn-delete').click(function(e){
-        // e.preventDefault(); para evitar que recargue la pagina
-        var row = $(this).parents('tr');
-        var id = row.data('id');
-        var form = $('#form-delete');
-        var url = form.attr('action').replace(':HORARIO_ID', id);
-        var data = form.serialize();
-
-        $.post(url, data, function(result){
-        // alert(result.message);
-          if(result == 'ok')
-            row.fadeOut();
-          if(result == 'fail')
-           console.log('El registro no fue eliminado');
-        }).fail(function(){
-           console("fail: El registro no fue eliminado");
-           row.show();
-        });
-
-    });    
+   
 });
+
+$(document).on('click','.btn-delete',function(e){
+    // e.preventDefault(); para evitar que recargue la pagina
+    var row = $(this).parents('tr');
+    var id = row.data('id');
+    var form = $('#form-delete');
+    var url = form.attr('action').replace(':HORARIO_ID', id);
+    var data = form.serialize();
+
+    $.post(url, data, function(result){
+    // alert(result.message);
+      if(result == 'ok')
+        row.fadeOut();
+      if(result == 'fail')
+       console.log('El registro no fue eliminado');
+    }).fail(function(){
+       console("fail: El registro no fue eliminado");
+       row.show();
+    });
+
+}); 
+
 </script>
 
 @stop

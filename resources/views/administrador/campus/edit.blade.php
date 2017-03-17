@@ -39,6 +39,7 @@
                           <div class="form-group">
                            {!! Form::label('encargado', 'Encargado') !!}
                             <select class="form-control" name="encargado" id="encargado" required>
+                              <option value="">Seleccione</option>
                             @foreach($encargados as $encargado)
                               <option name="encargado" id="encargado_{{ $encargado->rut }}" value="{{ $encargado->rut }}">{{ $encargado->rut }}</option>
                             @endforeach

@@ -44,7 +44,20 @@ class HomeController extends Controller
         }
         if($rol == 'Encargado')
         {
-            return redirect()->route('encargado.horario.index',compact('rol'));
+            $campus = \App\Campus::where('rut_encargado',Auth::user()->rut)
+                            ->select('nombre')
+                            ->get();
+
+            if($campus->isEmpty()){
+                $campus = '';
+            }
+            else
+            {
+                $campus = $campus->first()->nombre;
+            }
+                            
+            return view('encargado/index',compact('rol','campus'));
+            
         }        
         if($rol == 'Estudiante')
         {

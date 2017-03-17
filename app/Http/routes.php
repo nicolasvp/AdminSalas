@@ -127,7 +127,7 @@ Route::group(['middleware' => ['web']], function () {
 					    	
 			return view('encargado/index',compact('rol','campus'));
 		});
-
+		
 		Route::resource('/horario','HorarioController');
 		Route::resource('/contacto','ContactoController');
 		Route::get('/horario/display/diario',['uses' => 'HorarioController@display_horario', 'as' => 'encargado.horario.display']);
