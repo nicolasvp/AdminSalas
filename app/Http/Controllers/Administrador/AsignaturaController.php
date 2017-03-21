@@ -157,6 +157,6 @@ class AsignaturaController extends Controller
             
         })->download('xlsx');
             
-           return redirect()->route('administrador.asignatura.index');
+        return redirect()->route('administrador.asignatura.index');
     }
 }

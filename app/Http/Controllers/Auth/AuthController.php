@@ -134,7 +134,7 @@ class AuthController extends Controller
         $throttles = $this->isUsingThrottlesLoginsTrait();
 
         /*----------------------------------- Consulta primero en el servicio REST ----------------------*/
-        $client = new Client();
+     /*   $client = new Client();
 
         //Calcula el dv para preguntar en el rest
         $dv = RutUtils::dv($credentials['rut']);
@@ -254,7 +254,7 @@ class AuthController extends Controller
                     //Si no es docente ni estudiante
                     catch(RequestException $e)
                     {
-                        /*--------------------- Consulta en la bdd -------------------------------*/
+                        //--------------------- Consulta en la bdd -------------------------------
                         $this->validateLogin($request);
 
                         if ($throttles && $lockedOut = $this->hasTooManyLoginAttempts($request)) {
@@ -279,7 +279,7 @@ class AuthController extends Controller
             }
           
         }
-     
+     */
         /*--------------------- Consulta en la bdd -------------------------------*/
         $this->validateLogin($request);
 

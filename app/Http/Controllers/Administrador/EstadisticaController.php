@@ -20,6 +20,7 @@ use App\Carrera;
 
 use DB;
 
+
 class EstadisticaController extends Controller
 {
 
@@ -37,6 +38,7 @@ class EstadisticaController extends Controller
     /*===================================== ESTADÍSTICAS POR SALAS ==============================================*/
     public function salas(Request $request)
 	{
+       
     	$condicion = '0 = 0';
 
     	if($request->get('fecha_inicio') != '' && $request->get('fecha_termino') != '')
@@ -75,7 +77,6 @@ class EstadisticaController extends Controller
 				                where ".$condicion."
 				                group by b.nombre order by cantidad desc");
 
-
         $arreglo = [];
 
         foreach ($horarios as $key => $value) {
@@ -84,7 +85,8 @@ class EstadisticaController extends Controller
 
         }
            
-    
+
+
         return response()->json($arreglo);       
 
     }
@@ -314,7 +316,8 @@ class EstadisticaController extends Controller
             $arreglo[] = [$value->estado,$value->cantidad];
 
         }
-           
+
+         
     
         return response()->json($arreglo);
     }
@@ -407,6 +410,44 @@ class EstadisticaController extends Controller
 
     }
     /*============================================ FIN BUSCADOR DE ELEMENTOS ====================================================*/
+
+
+    public function excel_download(Request $request)
+    {
+    
+        $separador = explode(',',$request->get('parametros'));
+
+        $parametros = ['campus' => $separador[0],'tipo' => $separador[1],'fecha_inicio' => $separador[2], 'fecha_termino' => $separador[3], 'semestre' => $separador[4], 'anio' => $separador[5], 'elemento' => $separador[6]];
+        
+        $request->request->add($parametros);
+
+        $consulta = $this->$parametros['tipo']($request);
+
+        $var = $consulta->getData();
+
+        $tipo_reporte = $parametros['tipo'];
+
+        \Excel::create('Reporte-'.ucfirst($parametros['tipo']),function($excel) use ($var,$tipo_reporte)
+        {
+
+            $excel->sheet('Sheetname',function($sheet) use ($var,$tipo_reporte)
+            {
+                $data=[];
+                array_push($data, array(ucfirst($tipo_reporte),'Cantidad'));
+                foreach($var as $key => $v)
+                {
+                    array_push($data, array($v[0],$v[1]));
+                }       
+                $sheet->fromArray($data,null, 'A1', false,false);
+            
+            });
+            
+        })->download('xlsx');
+         
+
+        return redirect()->route('administrador.estadistica.index');
+    }
+
 
     public function create()
     {

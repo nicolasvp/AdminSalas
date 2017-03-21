@@ -88,6 +88,7 @@ Route::group(['middleware' => ['web']], function () {
 		Route::get('/asignatura_download',['uses' => 'AsignaturaController@excel_download','as' => 'administrador.asignatura.download']);
 		Route::get('/docente_download',['uses' => 'DocenteController@excel_download','as' => 'administrador.docente.download']);
 		Route::get('/curso_download',['uses' => 'CursoController@excel_download','as' => 'administrador.curso.download']);
+		Route::get('/estadistica_download',['uses' => 'EstadisticaController@excel_download','as' => 'administrador.estadistica.download']);
 		//Route::get('/rol_download',['uses' => 'RolController@excel_download','as' => 'administrador.rol.download']);
 		Route::get('/tipo_sala_download',['uses' => 'TipoSalaController@excel_download','as' => 'administrador.tipo_sala.download']);	
 		Route::get('/sala_download',['uses' => 'SalaController@excel_download','as' => 'administrador.sala.download']);	
@@ -154,7 +155,7 @@ Route::group(['middleware' => ['web']], function () {
 
 Route::get('/rest',function(){
 
-	dd(bcrypt('12345678'));
+	//dd(bcrypt('12345678'));
 	$client = new GuzzleHttp\Client();
 
 	$res = $client->request('GET', 'https://sepa.utem.cl/rest/api/v1/sepa/autenticar/181179252/116fc7635034c3310f21d95e5ca48ea1f59d58296b074e4740b6003b8edc6182', [

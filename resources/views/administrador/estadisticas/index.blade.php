@@ -72,9 +72,15 @@
                                         <option value="cursos">Cursos</option>
                                         <option value="carreras">Carreras</option>
                                         <option value="asistencia">Asistencia</option>
-                                        <option value="estado salas">Estado de Salas</option>
+                                        <option value="estado_salas">Estado de Salas</option>
                                     </select>
                                 </div>                                
+                            </div>
+                            <div class="col-lg-2" style="text-align: left;">
+                            {!! Form::open([ 'route' => 'administrador.estadistica.download', 'method' => 'GET']) !!}
+                                <input type="hidden" id="parametros" name="parametros" value=""></input>
+                                <button id="descargar" class="btn btn-info" style="margin-top: 25px;">Descargar</button>
+                            {!! Form::close() !!}
                             </div>
                         </div>
                         <div class="row">                        
@@ -94,7 +100,7 @@
                                 <div class="form-group" id="form-fecha-term">
                                     <label>Semestre</label>
                                     <select class="form-control" id="semestre" name="semestre">
-                                        <option value="0">Seleccione</option>
+                                        <option value="">Seleccione</option>
                                         <option value="1">1</option>
                                         <option value="2">2</option>
                                     </select>
@@ -120,7 +126,7 @@
                                     </select>
                                 </div>
                             </div>                                                                                
-                            <div class="col-lg-2" style="text-align: center;">
+                            <div class="col-lg-2" style="text-align: left;">
                                 <button id="buscar" class="btn btn-success" onClick="search_results()" style="">Aceptar</button>
                             </div>
                         </div>
@@ -173,6 +179,22 @@ $(document).ready(function(){
 
 });  
 
+$("#descargar").click(function(){
+
+    var fecha_inicio = $("#fecha_inicio").val();
+    var fecha_termino = $("#fecha_termino").val();
+    var semestre = $("#semestre").val();
+    var tipo = $("#tipos").val();
+    var campus = $("#campus").val();
+    var anio = $("#anio").val();
+    var elemento = $("#elemento").val();
+
+    var array = [];
+    array.push(campus,tipo,fecha_inicio,fecha_termino,semestre,anio,elemento);
+    $("#parametros").val(array);
+
+})
+
 
 function search_elements()
 {
@@ -195,7 +217,7 @@ function search_elements()
 }
 
 
-function search_results(){
+function search_results(opcion){
 
     var fecha_inicio = $("#fecha_inicio").val();
     var fecha_termino = $("#fecha_termino").val();
@@ -227,7 +249,7 @@ function search_results(){
             ruta = "{{ route('administrador.estadistica.asistencia') }}";
         break;
 
-        case "estado salas":
+        case "estado_salas":
             $(".estadisticas").text(tipo);
             ruta = "{{ route('administrador.estadistica.estado_salas') }}";
         break;
@@ -236,6 +258,7 @@ function search_results(){
             ruta = "";
     }
 
+console.log(semestre);
     column_chart(campus,tipo,fecha_inicio,fecha_termino,semestre,anio,elemento,ruta);
     pie_chart(campus,tipo,fecha_inicio,fecha_termino,semestre,anio,elemento,ruta);
 
